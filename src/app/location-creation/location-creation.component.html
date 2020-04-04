@@ -1,0 +1,43 @@
+<ActionBar title="Create Location" class="action-bar">
+  <NavigationButton visibility="collapsed"></NavigationButton>
+  <ActionItem position="left" icon="font://&#xf0a8;" class="fas" (tap)="goBack()"></ActionItem>
+  <ActionItem
+    ios.position="right"
+    icon="font://&#xf067;"
+    text="Create"
+    class="fas actionitem"
+    (tap)="create()"
+    ></ActionItem>
+</ActionBar>
+
+<RadDataForm
+  [source]="grocyLocation"
+  validationMode="immediate"
+  #locationCreate
+  >
+  <TKEntityProperty
+    tkDataFormProperty
+    name="name"
+    displayName="Name"
+    index="0"
+    required="true"
+    >
+    <TKNonEmptyValidator
+      tkEntityPropertyValidators
+      errorMessage="Location name can't be empty."
+      ></TKNonEmptyValidator>
+  </TKEntityProperty>
+  <TKEntityProperty
+    tkDataFormProperty
+    name="description"
+    displayName="Description"
+    index="1"
+    ></TKEntityProperty>
+  <TKEntityProperty
+    tkDataFormProperty
+    name="isFreezer"
+    displayName="This is a freezer"
+    index="2">
+    <TKPropertyEditor tkEntityPropertyEditor type="Switch"></TKPropertyEditor>
+  </TKEntityProperty>
+</RadDataForm>

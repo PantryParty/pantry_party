@@ -9,7 +9,8 @@
     "node_modules/codelyzer"
   ],
   "rules": {
-    "array-type": [true, "generic"],
+    "arrow-parens": [true, "as-needed"],
+    "array-type": [true, "array"],
     "arrow-return-shorthand": true,
     "component-class-suffix": true,
     "deprecation": true,

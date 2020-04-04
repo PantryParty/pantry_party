@@ -1,0 +1,46 @@
+<StackLayout>
+ <GridLayout columns="40, *,40">
+   <ng-container [ngSwitch]="status">
+     <Image src='font://&#xf071;' col="0"
+       *ngSwitchCase="'needs_product'"
+       class='fas'></Image>
+
+     <Image src='font://&#xf28b;' col="0"
+       (tap)="pausedToggled.emit(true)"
+       *ngSwitchCase="'save_paused'"
+       class='fas'></Image>
+
+     <Image src='font://&#xf00c;' col="0"
+       *ngSwitchCase="'saved'"
+       class='fas'></Image>
+
+     <ActivityIndicator
+       [busy]="true"
+       *ngSwitchCase="'working'"
+       ></ActivityIndicator>
+
+     <StackLayout col="0" *ngSwitchCase="'pending_save'">
+       <Image
+         src='font://&#xf017;'
+         (tap)="pausedToggled.emit(true)"
+         *ngSwitchCase="'pending_save'"
+         class='fas'></Image>
+       <Label
+         (tap)="pausedToggled.emit(true)"
+         [text]='scannedItem.saveCoutdown'
+         col="2"></Label>
+     </StackLayout>
+   </ng-container>
+
+   <StackLayout col="1">
+     <Label [text]='entryName' class="entryName"></Label>
+
+     <GridLayout columns="5,*" class="entryDetails">
+       <Label [text]='barcodeEntry' col="1"></Label>
+     </GridLayout>
+   </StackLayout>
+
+   <Label [text]='scannedItem.quantity' col="2"></Label>
+ </GridLayout>
+
+</StackLayout>

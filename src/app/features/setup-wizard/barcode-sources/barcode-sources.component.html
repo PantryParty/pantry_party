@@ -1,0 +1,14 @@
+<ActionBar title="Barcode Data">
+  <NavigationButton></NavigationButton>
+  <ActionItem
+    ios.position="right"
+    [nsRouterLink]="['../privacy']"
+    >
+    <StackLayout orientation="horizontal">
+      <Label text="Next" ></Label>
+      <Image src='font://&#xf054;' class='fas'></Image>
+    </StackLayout>
+  </ActionItem>
+</ActionBar>
+
+<ns-barcode-sources></ns-barcode-sources>

@@ -1,0 +1,13 @@
+/* Add mobile styles for the component here.  */
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/blue";
+
+GridLayout {
+  background-color: $grey-background;
+  margin-left: 15;
+  margin-right: 15;
+  color: $charcoal;
+  border-top-left-radius: 20;
+  border-top-right-radius: 20;
+}
+

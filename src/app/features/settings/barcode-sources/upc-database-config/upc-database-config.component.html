@@ -1,0 +1,17 @@
+<ActionBar title="UPC Database">
+  <NavigationButton></NavigationButton>
+</ActionBar>
+
+<StackLayout>
+  <Label
+    class="body m-x-15"
+    text="API Key"
+    ></Label>
+  <TextField
+           [text]='currentAPIKey'
+           returnKeyType="done"
+           autocorrect="false"
+           (blur)="onBlur($event)">
+  </TextField>
+</StackLayout>
+

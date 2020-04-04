@@ -2,36 +2,29 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NSEmptyOutletComponent } from "nativescript-angular";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { ApplicationIsSetup } from "./guards/appIsSetup";
 
 const routes: Routes = [
-    {
-        path: "",
-        redirectTo: "/(homeTab:home/default//browseTab:browse/default//searchTab:search/default)",
-        pathMatch: "full"
-    },
-
-    {
-        path: "home",
-        component: NSEmptyOutletComponent,
-        loadChildren: () => import("~/app/home/home.module").then((m) => m.HomeModule),
-        outlet: "homeTab"
-    },
-    {
-        path: "browse",
-        component: NSEmptyOutletComponent,
-        loadChildren: () => import("~/app/browse/browse.module").then((m) => m.BrowseModule),
-        outlet: "browseTab"
-    },
-    {
-        path: "search",
-        component: NSEmptyOutletComponent,
-        loadChildren: () => import("~/app/search/search.module").then((m) => m.SearchModule),
-        outlet: "searchTab"
-    }
+  {
+    path: "",
+    redirectTo: "/scan/purchase",
+    pathMatch: "full"
+  },
+  {
+    path: "scan",
+    loadChildren: () => import("~/app/features/scan/scan.module").then((m) => m.ScanModule),
+    canActivate: [ApplicationIsSetup]
+  },
+  {
+    path: "initialSetup",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import("~/app/features/setup-wizard/setup-wizard.module").then((m) => m.SetupWizardModule)
+  }
 ];
 
 @NgModule({
     imports: [NativeScriptRouterModule.forRoot(routes)],
-    exports: [NativeScriptRouterModule]
+    exports: [NativeScriptRouterModule],
+    providers: [ApplicationIsSetup]
 })
 export class AppRoutingModule { }

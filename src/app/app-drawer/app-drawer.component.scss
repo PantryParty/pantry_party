@@ -1,0 +1,64 @@
+/* Add mobile styles for the component here.  */
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/blue";
+
+.sideStackLayout {
+  font-size: 15em;
+
+  .item {
+    padding: 10em;
+    border-bottom-color: #CCC;
+    border-bottom-width: 1px;
+  }
+
+  .subitem {
+    background: #EFEFEF;
+    padding-left: 25em;
+  }
+
+  .heading {
+    padding-left: 10em;
+    GridLayout {
+      Image {
+        padding-right: 10em;
+      }
+    }
+  }
+
+  GridLayout {
+    Image {
+      width: 15em;
+      padding-right: 30em;
+    }
+    Label {
+      padding-left: 10em;
+    }
+  }
+
+}
+
+.sideTitleStackLayout {
+    text-align: center;
+    // vertical-align: center;
+    background: $complementary;
+    color: $complementary-color;
+    height: 100em;
+
+    .logo {
+      height: 80em;
+    }
+    .grocyConnectionStatus {
+      color: #CCC;
+      height: 15em;
+    }
+}
+
+
+.sideLabel {
+    padding: 10;
+}
+
+.sideLabel_header {
+    background-color: $secondary;
+}
+

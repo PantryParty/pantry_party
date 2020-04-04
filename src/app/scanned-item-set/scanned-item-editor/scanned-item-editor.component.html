@@ -1,0 +1,62 @@
+<ActionBar title="Edit" class="action-bar">
+  <NavigationButton visibility="collapsed"></NavigationButton>
+  <ActionItem position="left" icon="font://&#xf0a8;" class="fas" (tap)="goBack()"></ActionItem>
+  <ActionItem
+    ios.position="right"
+    icon="font://&#xf0c7;"
+    text="Save"
+    class="fas"
+    (tap)="save()"
+    ></ActionItem>
+  <ActionItem
+    ios.position="right"
+    android.position="actionBarIfRoom"
+    icon="font://&#xf1f8;"
+    text="Remove"
+    class="fas"
+    (tap)="remove()"
+    ></ActionItem>
+</ActionBar>
+
+<RadDataForm
+  (editorUpdate)="onEditorUpdate($event)"
+  [source]="scannedItem"
+  validationMode="immediate"
+  >
+  <TKEntityProperty
+    tkDataFormProperty
+    name="quantity"
+    displayName="Quantity"
+    index="0">
+    <TKPropertyEditor tkEntityPropertyEditor type="Stepper"></TKPropertyEditor>
+  </TKEntityProperty>
+  <TKEntityProperty
+    tkDataFormProperty
+    name="bestBeforeDate"
+    displayName="Best Before Date"
+    index="1">
+    <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+  </TKEntityProperty>
+  <TKEntityProperty
+    tkDataFormProperty
+    name="location"
+    displayName="Location"
+    index="2">
+    <TKCustomPropertyEditor
+      tkEntityPropertyEditor
+      (editorNeedsView)="locationSelector.editorNeedsView($event)"
+      (editorHasToApplyValue)="locationSelector.editorHasToApplyValue($event)"
+      (editorNeedsValue)="locationSelector.editorNeedsValue($event)"></TKCustomPropertyEditor>
+  </TKEntityProperty>
+  <TKEntityProperty
+    tkDataFormProperty
+    name="grocyProduct"
+    displayName="Product"
+    index="3">
+    <TKCustomPropertyEditor
+      tkEntityPropertyEditor
+      (editorNeedsView)="productSelector.editorNeedsView($event)"
+      (editorHasToApplyValue)="productSelector.editorHasToApplyValue($event)"
+      (editorNeedsValue)="productSelector.editorNeedsValue($event)"></TKCustomPropertyEditor>
+  </TKEntityProperty>
+</RadDataForm>

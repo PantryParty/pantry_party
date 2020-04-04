@@ -3,7 +3,10 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { HttpClientModule } from "@angular/common/http";
+import { NativeScriptHttpClientModule } from "nativescript-angular";
+import { SettingsModule } from "./features/settings/settings.module";
+import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
+import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
 
 @NgModule({
     bootstrap: [
@@ -11,11 +14,14 @@ import { HttpClientModule } from "@angular/common/http";
     ],
     imports: [
         NativeScriptModule,
+        SettingsModule,
         AppRoutingModule,
-        HttpClientModule
+        NativeScriptUISideDrawerModule,
+        NativeScriptHttpClientModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        AppDrawerComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

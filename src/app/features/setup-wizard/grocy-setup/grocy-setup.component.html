@@ -1,0 +1,16 @@
+<ActionBar title="Grocy API">
+  <NavigationButton></NavigationButton>
+  <ActionItem
+    ios.position="right"
+    (tap)="saveAndContinue()"
+    *ngIf="isValid"
+    >
+    <StackLayout orientation="horizontal">
+      <Label text="Next" ></Label>
+      <Image src='font://&#xf054;' class='fas'></Image>
+    </StackLayout>
+  </ActionItem>
+</ActionBar>
+
+<ns-grocy-api (configValid)="isValid = $event")></ns-grocy-api>
+

@@ -1,0 +1,34 @@
+<StackLayout>
+  <DockLayout class="sideTitleStackLayout">
+      <Label dock="top" text="Grocy Quick Scan" class="logo"></Label>
+  </DockLayout>
+  <ScrollView row="1">
+      <StackLayout class="sideStackLayout">
+
+          <GridLayout class="item heading" columns="15, *">
+            <Image col="0" src="font://&#xf02a;" class="fas"></Image>
+            <Label col="1" text="Scan"></Label>
+          </GridLayout>
+          <GridLayout (tap)="navigateTo(['/scan/purchase'])" class="item subitem" columns="15, *">
+            <Image col="0" src="font://&#xf155;" class="fas"></Image>
+            <Label col="1" text="Purchase"></Label>
+          </GridLayout>
+          <GridLayout (tap)="navigateTo(['/scan/consume'])" class="item subitem" columns="15, *">
+            <Image col="0" src="font://&#xf564;" class="fas"></Image>
+            <Label col="1" text="Consume"></Label>
+          </GridLayout>
+          <GridLayout (tap)="navigateTo(['/scan/open'])" class="item subitem" columns="15, *">
+            <Image col="0" src="font://&#xf49e;" class="fas"></Image>
+            <Label col="1" text="Open"></Label>
+          </GridLayout>
+          <GridLayout (tap)="navigateTo(['/scan/spoiled'])" class="item subitem" columns="15, *">
+            <Image col="0" src="font://&#xf2ed;" class="fas"></Image>
+            <Label col="1" text="Spoil"></Label>
+          </GridLayout>
+          <GridLayout class="item" columns="15, *">
+            <Image col="0" src="font://&#xf013;" class="fas"></Image>
+            <Label col="1" text="Settings"></Label>
+          </GridLayout>
+      </StackLayout>
+  </ScrollView>
+</StackLayout>

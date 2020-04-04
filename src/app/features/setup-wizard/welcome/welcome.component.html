@@ -1,0 +1,30 @@
+<ActionBar title="Welcome"> </ActionBar>
+
+<StackLayout>
+  <Label
+    class="h1 m-y-30"
+    text="Welcome to Grocy Quick Scan!"
+    textWrap="true"
+    textAlignment="center"
+    ></Label>
+
+  <Label
+    class="body m-x-10 m-y-30"
+    text="Setting up this app requires an running and accessible Grocy instance"
+    textWrap="true"
+    ></Label>
+
+  <Button
+    class="-primary m-y-30"
+    text="Ready to go?"
+    [nsRouterLink]="['../grocy']"
+    ></Button>
+
+  <Label
+    class="body m-x-10"
+    text="Need to get Grocy? Visit https://grocy.info/"
+    textAlignment="center"
+    textWrap="true"
+    (tap)="openGrocy()"
+    ></Label>
+</StackLayout>

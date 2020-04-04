@@ -1,0 +1,42 @@
+<GridLayout>
+    <RadListView
+      [items]="orderedItems"
+      itemReorder="true"
+       reorderMode="Drag"
+      (itemReordered)="onItemReordered($event)"
+      >
+        <ng-template let-i="index" let-item="item">
+          <GridLayout height="150" columns="60,*,20">
+            <Switch
+              [checked]="item.service.enabled"
+              (checkedChange)="enabledSwitchChanged($event, item)"
+              col="0"
+              horizontalAlignment="center"></Switch>
+            <StackLayout (tap)="sourceTapped(item)" col="1">
+              <Label
+                class="h2"
+                [text]="item.name" ></Label>
+              <Label
+                class="subtitle"
+                [text]="item.url"
+                (tap)="openUrl(item.url)"
+                ></Label>
+              <Label
+                [text]="item.description"
+                textWrap="true"
+                ></Label>
+              <Label
+                text="Configuration Required"
+                class="text-danger"
+                *ngIf="item.service.configurationRequired"
+                ></Label>
+            </StackLayout>
+            <ReorderHandle col="2" verticalAlignment="center">
+              <Image *ngIf="i === 0" src="font://&#xf0dd;" class="fas"></Image>
+              <Image *ngIf="i !== 0 && i !== orderedItems.length - 1"src="font://&#xf0dc;" class="fas"></Image>
+              <Image *ngIf="i === orderedItems.length - 1" src="font://&#xf0de;" class="fas"></Image>
+            </ReorderHandle>
+          </GridLayout>
+        </ng-template>
+    </RadListView>
+</GridLayout>

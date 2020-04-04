@@ -1,0 +1,14 @@
+<ListView
+  [items]="items"
+  (itemTap)="onItemTap($event)"
+  >
+  <ng-template let-item="item" let-i="index">
+    <ns-scanned-item-display
+      [scannedItem]="item"
+      [savePaused]="pausedItems[item.barcode]"
+      [working]="workingItems[item.barcode]"
+      (pausedToggled)="itemPauseToggled.emit(item)"
+      (swipe)="onSwipe($event, item)"
+      ></ns-scanned-item-display>
+  </ng-template>
+</ListView>

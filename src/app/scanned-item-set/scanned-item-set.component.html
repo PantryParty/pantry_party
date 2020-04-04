@@ -1,0 +1,8 @@
+<ns-scanned-item-list
+  [items]="scannedItemManager.updatedScannedItems | async"
+  [pausedItems]="scannedItemManager.pausedItemBarcodes"
+  [workingItems]="scannedItemManager.workingBarcodes"
+  (itemPauseToggled)="handlePausedItem($event)"
+  (itemTapped)="itemTapped($event)"
+  (swipeOnItem)="swipeOnItem($event)"
+  ></ns-scanned-item-list>

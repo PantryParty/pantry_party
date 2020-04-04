@@ -1,0 +1,17 @@
+<ActionBar title="Spoil Product" class="action-bar">
+  <ActionItem drawerToggle> </ActionItem>
+</ActionBar>
+
+<GridLayout rows="*,60,50">
+      <StackLayout row="0">
+        <ns-scanned-item-set
+          [scannedItemManager]="scannedItemManager"
+          ></ns-scanned-item-set>
+      </StackLayout>
+    <ns-scan-selector
+      row="1"
+      (scanResults)="scanResults($event)"
+      (scannerClosed)="updateView()"
+      ></ns-scan-selector>>
+</GridLayout>
+
