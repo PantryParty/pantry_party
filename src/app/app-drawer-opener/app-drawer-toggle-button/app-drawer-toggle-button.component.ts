@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit, HostBinding, HostListener } from "@angular/core";
 import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
 
 @Component({
@@ -6,20 +6,26 @@ import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-
   templateUrl: "./app-drawer-toggle-button.component.html",
   styleUrls: ["./app-drawer-toggle-button.component.css"]
 })
-export class AppDrawerToggleButtonComponent implements OnInit {
+export class AppDrawerToggleButtonComponent {
 
-   @HostBinding("ios.position") get position() {
-     return "right";
-   }
+  @HostBinding("ios.position") get position() {
+    return "right";
+  }
 
-   constructor(
+  @HostBinding("class.fas") get faClass() {
+    return true;
+  }
+
+  @HostBinding("icon") get icon() {
+    return "font://\uf0c9";
+  }
+
+  constructor(
     private drawer: RadSideDrawerComponent
   ) { }
 
-   ngOnInit(): void {
-  }
-
-   toggle() {
+  @HostListener("tap")
+  toggle() {
     this.drawer.sideDrawer.toggleDrawerState();
   }
 
