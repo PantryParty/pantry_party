@@ -1,7 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
-import { NativeScriptRouterModule } from "nativescript-angular";
+import { NativeScriptRouterModule, ModalDialogService } from "nativescript-angular";
 
 import { LocationSelectionComponent } from "~/app/location-selection/location-selection.component";
 import { LocationSelectorComponent } from "~/app/location-selection/location-selector.component";
