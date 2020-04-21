@@ -7,7 +7,8 @@ import { ApplicationIsSetup } from "./guards/appIsSetup";
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/scan/purchase",
+//    redirectTo: "/scan/purchase",
+    redirectTo: "/settings",
     pathMatch: "full"
   },
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
     path: "initialSetup",
     component: NSEmptyOutletComponent,
     loadChildren: () => import("~/app/features/setup-wizard/setup-wizard.module").then((m) => m.SetupWizardModule)
+  },
+  {
+    path: "settings",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import("~/app/features/settings/settings.module").then((m) => m.SettingsModule)
   }
 ];
 
