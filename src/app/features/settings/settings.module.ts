@@ -8,19 +8,29 @@ import { BarcodeSourcesComponent } from "./barcode-sources/barcode-sources.compo
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { UpcDatabaseConfigComponent } from "./barcode-sources/upc-database-config/upc-database-config.component";
 import { PrivacySettingsComponent } from "./privacy-settings/privacy-settings.component";
+import { SettingListComponent } from "./setting-list/setting-list.component";
+import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
+import { GrocyApiWrapperComponent } from "./grocy-api/grocy-api-wrapper.component";
+import { BarcodeSourcesWrapperComponent } from "./barcode-sources/barcode-sources-wrapper.component";
+import { PrivacySettingsWrapperComponent } from "./privacy-settings/privacy-settings-wrapper.component";
 
 @NgModule({
   declarations: [
     GrocyApiComponent,
     BarcodeSourcesComponent,
     UpcDatabaseConfigComponent,
-    PrivacySettingsComponent
+    PrivacySettingsComponent,
+    SettingListComponent,
+    GrocyApiWrapperComponent,
+    BarcodeSourcesWrapperComponent,
+    PrivacySettingsWrapperComponent
   ],
   imports: [
     SettingsRoutingModule,
     NativeScriptCommonModule,
     NativeScriptUIDataFormModule,
-    NativeScriptUIListViewModule
+    NativeScriptUIListViewModule,
+    AppDrawerOpenerModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   exports: [

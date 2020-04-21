@@ -4,7 +4,6 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NativeScriptHttpClientModule } from "nativescript-angular";
-import { SettingsModule } from "./features/settings/settings.module";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
 
@@ -14,7 +13,6 @@ import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
     ],
     imports: [
         NativeScriptModule,
-        SettingsModule,
         AppRoutingModule,
         NativeScriptUISideDrawerModule,
         NativeScriptHttpClientModule

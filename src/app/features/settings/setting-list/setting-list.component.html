@@ -1,0 +1,22 @@
+<ActionBar title="Settings" class="action-bar">
+  <ActionItem drawerToggle> </ActionItem>
+</ActionBar>
+
+<GridLayout>
+  <RadListView
+    [items]="settings"
+    >
+    <ng-template let-item="item">
+      <StackLayout [nsRouterLink]="item.link">
+        <Label
+          class="h2"
+          [text]="item.title" ></Label>
+        <Label
+          class="description"
+          [text]="item.description"
+          textWrap="true"
+          ></Label>
+      </StackLayout>
+    </ng-template>
+  </RadListView>
+</GridLayout>

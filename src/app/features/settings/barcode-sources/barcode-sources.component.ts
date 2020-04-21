@@ -1,5 +1,3 @@
-import { Component, OnInit } from "@angular/core";
-import { openUrl } from "@nativescript/core/utils/utils";
 import { UPCItemDbService } from "~/app/services/upcitemdb.service";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
@@ -8,6 +6,8 @@ import { ScannedItemExernalLookupService } from "~/app/services/scanned-item-exe
 import { EventData } from "tns-core-modules/ui/page/page";
 import { Switch } from "tns-core-modules/ui/switch/switch";
 import { ActivatedRoute, Router } from "@angular/router";
+import { openUrl } from "@nativescript/core/utils/utils";
+import { Component } from "@angular/core";
 
 interface BarcodeServiceDef {
   name: string;
@@ -59,8 +59,7 @@ export class BarcodeSourcesComponent {
     public upcItemDb: UPCItemDbService,
     public upcDatabase: UPCDatabaseService,
     public scannedItemExternalLookupService: ScannedItemExernalLookupService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) { }
 
   enabledSwitchChanged(evt: EventData, item: BarcodeServiceDef) {
@@ -82,10 +81,8 @@ export class BarcodeSourcesComponent {
 
   sourceTapped(item: BarcodeServiceDef) {
     if (item.configurationPath) {
-      this.router.navigate(
-        item.configurationPath,
-        {relativeTo: this.route}
-      );
+      console.log("naving to config path", item.configurationPath);
+      this.router.navigate(item.configurationPath);
     }
   }
 

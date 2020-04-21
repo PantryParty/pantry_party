@@ -16,7 +16,6 @@ export class PurchaseComponent {
     public scannedItemManager: ScannedItemManagerService,
     public grocyService: GrocyService
   ) {
-    setTimeout(() => this.scanResults({text: "asdf", format: "UPC_A"}));
     scannedItemManager.undoCallback = (i) => this.grocyService.undoBooking(i);
 
     scannedItemManager.saveCallback = (i) => {
