@@ -1,8 +1,6 @@
-import { Component, OnInit, Input, ViewContainerRef } from "@angular/core";
+import { Component, Input, ViewContainerRef } from "@angular/core";
 import { ScannedItemManagerService, ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { ModalDialogOptions, ModalDialogService } from "nativescript-angular";
-import { LocationSelectionComponent } from "~/app/location-selection/location-selection.component";
-import { LocationSelectorComponent } from "~/app/location-selection/location-selector.component";
 import { ScannedItemEditorEntryComponent } from "./scanned-item-editor/scanned-item-editor-entry.component";
 import { ScannedItemEditorOutput } from "./scanned-item-editor/scanned-item-editor.component";
 import { SwipeOnItemData } from "./scanned-item-list/scanned-item-list.component";

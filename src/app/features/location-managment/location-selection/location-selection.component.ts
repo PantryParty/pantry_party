@@ -4,7 +4,6 @@ import { GrocyLocation } from "~/app/services/grocy.interfaces";
 import { SearchBar } from "tns-core-modules/ui/search-bar";
 import { ModalDialogParams, ModalDialogService, ModalDialogOptions } from "nativescript-angular";
 import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
-import { LocationCreatorComponent } from "~/app/location-creation/location-creator.component";
 
 export type LocationSelectorDismiss = GrocyLocation;
 
@@ -26,7 +25,7 @@ export class LocationSelectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.grocyService.locations().subscribe((r) => {
+    this.grocyService.locations().subscribe(r => {
       this.locations = r;
       this.filterLocations();
     });
@@ -50,7 +49,7 @@ export class LocationSelectionComponent implements OnInit {
   }
 
   filterLocations() {
-    this.filteredLocations = this.locations.filter((i) => {
+    this.filteredLocations = this.locations.filter(i => {
       return i.name.toLowerCase().indexOf(this.lastSearch.toLowerCase()) > -1;
     });
   }
@@ -63,11 +62,11 @@ export class LocationSelectionComponent implements OnInit {
       animated: true
     };
 
-    this._modalService.showModal(LocationCreatorComponent, options)
-    .then((r: LocationSelectorDismiss) => {
-      if (r) {
-        this.selectLocation(r);
-      }
-    });
+    //  this._modalService.showModal(LocationCreatorComponent, options)
+    // .then((r: LocationSelectorDismiss) => {
+    //   if (r) {
+    //     this.selectLocation(r);
+    //   }
+    // });
   }
 }

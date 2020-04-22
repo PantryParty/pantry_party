@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, EventEmitter } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyLocation } from "~/app/services/grocy.interfaces";
 import { SearchBar } from "tns-core-modules/ui/search-bar";
-import { ModalDialogParams } from "nativescript-angular";
+import { ModalDialogParams, RouterExtensions } from "nativescript-angular";
 import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
 import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 
@@ -29,23 +29,17 @@ export class LocationCreationComponent {
 
   constructor(
     private grocyService: GrocyService,
-    private modalParams: ModalDialogParams
+    private routerExtensions: RouterExtensions
   ) { }
 
-  goBack() {
-    this.modalParams.closeCallback(null);
-  }
-
   create() {
-    this.locationForm.dataForm.validateAll().then((r) => {
+    this.locationForm.nativeElement.validateAll().then(r => {
       if (r) {
         this.grocyService.createLocation(
           this.grocyLocation.name,
           this.grocyLocation.description,
           this.grocyLocation.isFreezer
-        ).subscribe((loc) => {
-          this.modalParams.closeCallback(loc);
-        });
+        ).subscribe(_ => this.routerExtensions.back());
       }
     });
   }

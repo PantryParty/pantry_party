@@ -5,7 +5,7 @@ import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { NamedThingSelectorButton } from "../scanned-item-set/named-thing-selector-button";
-import { LocationSelectorComponent } from "../location-selection/location-selector.component";
+import { LocationSelectorComponent } from "../features/location-managment/location-modal/location-selector.component";
 
 export type ProductSelectorDismiss  = GrocyProduct | null;
 
@@ -57,8 +57,8 @@ export class ProductCreationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.grocyService.quantityUnits().subscribe((u) => {
-      this.quantityUnits = new Map(u.map((i) => [i.id, i.name]));
+    this.grocyService.quantityUnits().subscribe(u => {
+      this.quantityUnits = new Map(u.map(i => [i.id, i.name]));
     });
   }
 
@@ -67,7 +67,7 @@ export class ProductCreationComponent implements OnInit {
   }
 
   create() {
-    this.productForm.dataForm.validateAll().then((r) => {
+    this.productForm.dataForm.validateAll().then(r => {
       if (r) {
         this.grocyService.createProduct({
           name: this.grocyProduct.name,
@@ -82,7 +82,7 @@ export class ProductCreationComponent implements OnInit {
           default_best_before_days_after_open: this.grocyProduct.bestBeforeDaysAfterOpen,
           default_best_before_days_after_thawing: this.grocyProduct.bestBeforeDaysAfterThawing,
           default_best_before_days_after_freezing: this.grocyProduct.bestBeforeDaysAfterFreezing
-        }).subscribe((newProduct) => this.modalParams.closeCallback(newProduct));
+        }).subscribe(newProduct => this.modalParams.closeCallback(newProduct));
       }
     });
   }
