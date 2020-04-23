@@ -6,6 +6,7 @@ import { ModalDialogParams, ModalDialogService, ModalDialogOptions, RouterExtens
 import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
 import { ListViewEventData } from "nativescript-ui-listview";
 import { StateTransferService } from "~/app/services/state-transfer.service";
+import { ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 
 export interface ProductSelectionResults {
   created: boolean;
@@ -29,6 +30,7 @@ export class ProductListComponent implements OnInit {
   filteredProducts: GrocyProduct[] = [];
   lastSearch = "";
   selectionCallback: null | ((x: ProductSelectionResults) => any)  = null;
+  baseScannedItem?: ScannedItem;
 
   private _products: GrocyProduct[] = [];
 
@@ -40,6 +42,7 @@ export class ProductListComponent implements OnInit {
     const passedState = stateTransfer.readAndClearState();
     if (passedState && passedState.type === "productSelection") {
       this.selectionCallback = passedState.callback;
+      this.baseScannedItem = passedState.forScannedItem;
     }
   }
 
@@ -93,6 +96,7 @@ export class ProductListComponent implements OnInit {
   createNewProduct() {
     this.stateTransfer.setState({
       type: "productCreation",
+      forScannedItem: this.baseScannedItem,
       callback: p => this.productCreated(p)
     });
     this.routerExtensions.navigate(["/products/create"]);

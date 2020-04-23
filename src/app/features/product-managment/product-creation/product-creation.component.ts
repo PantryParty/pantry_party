@@ -55,12 +55,11 @@ export class ProductCreationComponent implements OnInit {
 
     if (passedState && passedState.type === "productCreation") {
       this.selectionCallback = passedState.callback;
+      const scannedItem = passedState.forScannedItem;
+      if (scannedItem && scannedItem.externalProduct) {
+        this.grocyProduct.name = scannedItem.externalProduct.name;
+      }
     }
-
-    // const scannedItem = this.modalParams.context.scannedItem;
-    // if (scannedItem && scannedItem.externalProduct) {
-    //   this.grocyProduct.name = scannedItem.externalProduct.name;
-    // }
   }
 
   ngOnInit() {

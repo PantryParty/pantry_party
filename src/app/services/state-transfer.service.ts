@@ -17,11 +17,13 @@ interface LocationCreation {
 
 interface ProductCreation {
   type: "productCreation";
+  forScannedItem?: ScannedItem;
   callback: (x: GrocyProduct) => any;
 }
 
 interface ProductSelection {
   type: "productSelection";
+  forScannedItem?: ScannedItem;
   callback: (x: ProductSelectionResults) => any;
 }
 

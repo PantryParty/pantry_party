@@ -50,6 +50,7 @@ export class ScannedItemEditorComponent {
       this.ngZone.run(() => {
         this.stateTransfer.setState({
           type: "productSelection",
+          forScannedItem: this.originalScannedItem,
           callback: r => resolve(r.product)
         });
         this.routedExtensions.navigate(["/products"]);
