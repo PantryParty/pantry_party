@@ -1,0 +1,30 @@
+<ActionBar title="Products">
+  <NavigationButton ></NavigationButton>
+  <ActionItem
+    ios.position="right"
+    text="New"
+    icon="font://&#xf067;"
+    class="fas"
+    [nsRouterLink]="['./create']"
+    ></ActionItem>
+</ActionBar>
+
+<StackLayout >
+  <SearchBar
+    hint="Filter products"
+    (textChange)="searchUpdated($event)">
+  </SearchBar>
+
+<GridLayout>
+  <RadListView
+    [items]="filteredProducts"
+    (itemTap)="selectListEntry($event)"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="listPulled($event)"
+  >
+      <ng-template let-item="item" let-i="index">
+        <Label [text]='item.name'></Label>
+      </ng-template>
+  </RadListView>
+  </GridLayout>
+</StackLayout>

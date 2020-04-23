@@ -157,6 +157,7 @@ export class GrocyService {
     ).pipe(
       map(r => ({
         ...productParams,
+        location_id: Number(productParams.location_id),
         id: r.created_object_id
       }))
     );
