@@ -16,9 +16,10 @@ export class PurchaseComponent {
     public scannedItemManager: ScannedItemManagerService,
     public grocyService: GrocyService
   ) {
-    scannedItemManager.undoCallback = (i) => this.grocyService.undoBooking(i);
+    setTimeout(() => this.scanResults({text: "014100085508", format: "UPC_A"}), 1000);
+    scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
-    scannedItemManager.saveCallback = (i) => {
+    scannedItemManager.saveCallback = i => {
       const purchaseProductProps: PurchaseProductsParams = {
         productId: i.grocyProduct.id,
         quantity: i.quantity,
@@ -32,7 +33,7 @@ export class PurchaseComponent {
         switchMap(
           () => this.grocyService.purchaseProduct(purchaseProductProps)
         ),
-        map((r) => r.id)
+        map(r => r.id)
       );
     };
   }
