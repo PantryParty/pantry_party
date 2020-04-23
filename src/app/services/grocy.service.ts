@@ -22,7 +22,7 @@ export interface ConsumeProductsParams {
 interface CreateProductParams {
   name: string;
   description: string;
-  location_id: number;
+  location_id: string | number;
   quantity_unit_id_purchase: number;
   quantity_unit_id_stock: number;
   quantity_unit_factor_purchase_to_stock: number;

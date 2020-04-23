@@ -84,7 +84,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   handleTap(editorView, editor) {
-    this.valueGetter().then((r) => {
+    this.valueGetter().then(r => {
       this.updateEditorValue(editorView, r);
       editor.notifyValueChanged();
       this.editor.notifyValueChanged();
@@ -92,7 +92,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   iosHandleTap(sender) {
-    this.valueGetter().then((r) => {
+    this.valueGetter().then(r => {
       this.updateEditorValue(sender, r);
       this.editor.notifyValueChanged();
     });
