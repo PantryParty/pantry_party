@@ -4,12 +4,12 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { ScannedItemSetComponent } from "~/app/scanned-item-set/scanned-item-set.component";
 import { ScannedItemListComponent } from "./scanned-item-list/scanned-item-list.component";
 import { ScannedItemDisplayComponent } from "./scanned-item-display/scanned-item-display.component";
-import { ProductSelectorModule } from "../product-selection/product-selector.module";
+import { ScannedItemSetRoutingModule } from "./scanned-item-set.routing";
 
 @NgModule({
   imports: [
     NativeScriptCommonModule,
-    ProductSelectorModule
+    ScannedItemSetRoutingModule
   ],
   declarations: [
     ScannedItemSetComponent,
