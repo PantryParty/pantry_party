@@ -2,10 +2,15 @@ import { Component, OnInit, ViewContainerRef, Output, EventEmitter } from "@angu
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct } from "~/app/services/grocy.interfaces";
 import { SearchBar } from "tns-core-modules/ui/search-bar";
-import { ModalDialogParams, ModalDialogService, ModalDialogOptions } from "nativescript-angular";
+import { ModalDialogParams, ModalDialogService, ModalDialogOptions, RouterExtensions } from "nativescript-angular";
 import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
 import { ListViewEventData } from "nativescript-ui-listview";
-import { Page } from "tns-core-modules/ui/page/page";
+import { StateTransferService } from "~/app/services/state-transfer.service";
+
+export interface ProductSelectionResults {
+  created: boolean;
+  product: GrocyProduct;
+}
 
 @Component({
   selector: "ns-product-list",
@@ -13,30 +18,38 @@ import { Page } from "tns-core-modules/ui/page/page";
   styleUrls: ["./product-list.component.css"]
 })
 export class ProductListComponent implements OnInit {
-  @Output() productSelected = new EventEmitter<GrocyProduct>();
-  @Output() productCreated = new EventEmitter<GrocyProduct>();
+  get products(): GrocyProduct[] {
+    return this._products;
+  }
+  set products(value: GrocyProduct[]) {
+    this._products = value;
+    this.filterProducts();
+  }
 
-  products: GrocyProduct[] = [];
   filteredProducts: GrocyProduct[] = [];
   lastSearch = "";
+  selectionCallback: null | ((x: ProductSelectionResults) => any)  = null;
+
+  private _products: GrocyProduct[] = [];
 
   constructor(
     private grocyService: GrocyService,
-    private _modalService: ModalDialogService,
-    private _vcRef: ViewContainerRef,
-    private page: Page
-  ) { }
+    private stateTransfer: StateTransferService,
+    private routerExtensions: RouterExtensions
+  ) {
+    const passedState = stateTransfer.readAndClearState();
+    if (passedState && passedState.type === "productSelection") {
+      this.selectionCallback = passedState.callback;
+    }
+  }
 
   ngOnInit(): void {
-    this.page.on("navigatedTo", () => {
-      this.fetchProducts();
-    });
+    this.fetchProducts();
   }
 
   fetchProducts() {
     return this.grocyService.allProducts().subscribe(r => {
       this.products = r;
-      this.filterProducts();
     });
   }
 
@@ -55,8 +68,20 @@ export class ProductListComponent implements OnInit {
     this.selectProduct(this.filteredProducts[$event.index]);
   }
 
-  selectProduct(loc: GrocyProduct) {
-    this.productSelected.emit(loc);
+  selectProduct(product: GrocyProduct) {
+    if (this.selectionCallback) {
+      this.selectionCallback({created: false, product});
+      this.routerExtensions.back();
+    }
+  }
+
+  productCreated(product: GrocyProduct) {
+    this.products = [product, ...this.products];
+
+    if (this.selectionCallback) {
+      this.selectionCallback({created: true, product});
+      this.routerExtensions.back();
+    }
   }
 
   filterProducts() {
@@ -66,18 +91,10 @@ export class ProductListComponent implements OnInit {
   }
 
   createNewProduct() {
-    const options: ModalDialogOptions = {
-      viewContainerRef: this._vcRef,
-      context: {},
-      fullscreen: true,
-      animated: true
-    };
-
-    // this._modalService.showModal(ProductCreatorComponent, options)
-    // .then((r: GrocyProduct) => {
-    //   if (r) {
-    //     this.productCreated.emit(r);
-    //   }
-    // });
+    this.stateTransfer.setState({
+      type: "productCreation",
+      callback: p => this.productCreated(p)
+    });
+    this.routerExtensions.navigate(["/products/create"]);
   }
 }

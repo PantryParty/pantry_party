@@ -1,4 +1,4 @@
-import { Component, ViewChild, NgZone } from "@angular/core";
+import { Component, ViewChild, NgZone, OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { RouterExtensions, ModalDialogOptions, ModalDialogService } from "nativescript-angular";
@@ -12,10 +12,11 @@ export type ProductSelectorDismiss  = GrocyProduct | null;
   selector: "ns-product-creation",
   templateUrl: "./product-creation.component.html"
 })
-export class ProductCreationComponent {
+export class ProductCreationComponent implements OnInit {
   @ViewChild("productCreate", { static: false }) productForm: RadDataFormComponent;
 
   quantityUnits: Map<string, string> = new Map([]);
+  selectionCallback: null | ((x: GrocyProduct) => any)  = null;
 
   locationSelector = new NamedThingSelectorButton<GrocyLocation>(
     "Location",
@@ -50,6 +51,12 @@ export class ProductCreationComponent {
     private statePasser: StateTransferService
 
   ) {
+    const passedState = statePasser.readAndClearState();
+
+    if (passedState && passedState.type === "productCreation") {
+      this.selectionCallback = passedState.callback;
+    }
+
     // const scannedItem = this.modalParams.context.scannedItem;
     // if (scannedItem && scannedItem.externalProduct) {
     //   this.grocyProduct.name = scannedItem.externalProduct.name;
@@ -78,9 +85,16 @@ export class ProductCreationComponent {
           default_best_before_days_after_open: this.grocyProduct.bestBeforeDaysAfterOpen,
           default_best_before_days_after_thawing: this.grocyProduct.bestBeforeDaysAfterThawing,
           default_best_before_days_after_freezing: this.grocyProduct.bestBeforeDaysAfterFreezing
-        }).subscribe(_ => this.routedExtensions.back());
+        }).subscribe(p => this.productCreated(p));
       }
     });
+  }
+
+  productCreated(p: GrocyProduct) {
+    if (this.selectionCallback) {
+      this.selectionCallback(p);
+      this.routedExtensions.back();
+    }
   }
 
   private locationId() {

@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewContainerRef, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyLocation } from "~/app/services/grocy.interfaces";
 import { SearchBar } from "tns-core-modules/ui/search-bar";
-import { ModalDialogParams, ModalDialogService, ModalDialogOptions, RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "nativescript-angular";
 import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
 import { ListViewEventData } from "nativescript-ui-listview";
-import { Page } from "tns-core-modules/ui/page/page";
-import { Location } from "@angular/common";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 
 export interface LocationSelectionResults {
@@ -35,7 +33,6 @@ export class LocationListComponent implements OnInit {
 
   constructor(
     private grocyService: GrocyService,
-    private page: Page,
     private routedExtensions: RouterExtensions,
     private stateTransfer: StateTransferService
   ) {

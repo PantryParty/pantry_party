@@ -15,30 +15,21 @@ export class ScannedItemSetComponent {
   @Input() scannedItemManager: ScannedItemManagerService;
 
   constructor(
-    private _modalService: ModalDialogService,
-    private _vcRef: ViewContainerRef
   ) {}
 
   itemTapped(item: ScannedItem) {
-    const options: ModalDialogOptions = {
-      viewContainerRef: this._vcRef,
-      context: item,
-      fullscreen: true,
-      animated: true
-    };
-
-    this._modalService.showModal(ScannedItemEditorEntryComponent, options)
-    .then((result?: ScannedItemEditorOutput) => {
-      switch (result.action) {
-        case "update":
-          return this.scannedItemManager.updateScannedItem(
-            item.barcode,
-            result
-        );
-        case "remove":
-          return this.scannedItemManager.removeScannedItemByBarcode(item.barcode);
-      }
-    });
+    // this._modalService.showModal(ScannedItemEditorEntryComponent, options)
+    // .then((result?: ScannedItemEditorOutput) => {
+    //   switch (result.action) {
+    //     case "update":
+    //       return this.scannedItemManager.updateScannedItem(
+    //         item.barcode,
+    //         result
+    //     );
+    //     case "remove":
+    //       return this.scannedItemManager.removeScannedItemByBarcode(item.barcode);
+    //   }
+    // });
   }
 
   handlePausedItem(item: ScannedItem) {

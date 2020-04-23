@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
-import { GrocyLocation } from "./grocy.interfaces";
+import { GrocyLocation, GrocyProduct } from "./grocy.interfaces";
+import { ProductSelectionResults } from "../features/product-managment/product-list/product-list.component";
+import { LocationSelectionResults } from "../features/location-managment/location-list/location-list.component";
 
 interface LocationSelection {
   type: "locationSelection";
-  callback: (x: {created: boolean, location: GrocyLocation}) => any;
+  callback: (x: LocationSelectionResults) => any;
 }
 
 interface LocationCreation {
@@ -11,7 +13,22 @@ interface LocationCreation {
   callback: (x: GrocyLocation) => any;
 }
 
-type AvailableTypes = null | LocationSelection | LocationCreation;
+interface ProductCreation {
+  type: "productCreation";
+  callback: (x: GrocyProduct) => any;
+}
+
+interface ProductSelection {
+  type: "productSelection";
+  callback: (x: ProductSelectionResults) => any;
+}
+
+type AvailableTypes = null
+  | LocationSelection
+  | LocationCreation
+  | ProductCreation
+  | ProductSelection
+  ;
 
 @Injectable({
   providedIn: "root"
