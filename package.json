@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "org.nativescript.GrocyQuickScan",
+    "id": "org.nativescript.PantryParty",
     "tns-ios": {
       "version": "6.5.0"
     },

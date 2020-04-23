@@ -16,8 +16,17 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   editorNeedsView(args) {
+    this.editor = args.object;
+    this.editor = args.object;
+
+    this.updateButtonText(
+      this.buildNewPlatformView(args)
+    );
+
+  }
+
+  buildNewPlatformView(args) {
     if (androidApplication) {
-      this.editor = args.object;
       const androidEditorView: android.widget.Button = new android.widget.Button(args.context);
       androidEditorView.setOnClickListener(new android.view.View.OnClickListener({
         onClick: (view: android.view.View) => {
@@ -25,13 +34,13 @@ export class NamedThingSelectorButton<T extends {name: string}> {
         }
       }));
       args.view = androidEditorView;
-      this.updateButtonText(androidEditorView);
+
+      return androidEditorView;
     } else {
 
       this.redirector = new EventRedirector();
       this.redirector.receiver = this;
 
-      this.editor = args.object;
       const iosEditorView = UIButton.buttonWithType(UIButtonType.System);
       iosEditorView.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left;
       iosEditorView.addTargetActionForControlEvents(
@@ -41,7 +50,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
       );
       args.view = iosEditorView;
 
-      this.updateButtonText(iosEditorView);
+      return iosEditorView;
     }
   }
 
@@ -50,7 +59,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   editorNeedsValue(args) {
-    args.value = this.selectedValue;
+    args.value = JSON.stringify(this.selectedValue);
   }
 
   updateEditorValue(editorView, value?: T | string) {
@@ -84,7 +93,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   handleTap(editorView, editor) {
-    this.valueGetter().then((r) => {
+    this.valueGetter().then(r => {
       this.updateEditorValue(editorView, r);
       editor.notifyValueChanged();
       this.editor.notifyValueChanged();
@@ -92,7 +101,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   iosHandleTap(sender) {
-    this.valueGetter().then((r) => {
+    this.valueGetter().then(r => {
       this.updateEditorValue(sender, r);
       this.editor.notifyValueChanged();
     });

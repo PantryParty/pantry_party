@@ -1,27 +1,30 @@
-<ActionBar title="Locations">
-  <NavigationButton visibility="collapsed"></NavigationButton>
-  <ActionItem position="left" icon="font://&#xf0a8;" class="fas" (tap)="goBack()"></ActionItem>
+<ActionBar title="Products">
+  <NavigationButton ></NavigationButton>
   <ActionItem
     ios.position="right"
     text="New"
     icon="font://&#xf067;"
     class="fas"
-    (tap)="createNewLocation()"
+    (tap)="createNewProduct()"
     ></ActionItem>
 </ActionBar>
 
 <StackLayout >
   <SearchBar
-    hint="Filter locations"
+    hint="Filter products"
     (textChange)="searchUpdated($event)">
   </SearchBar>
 
-  <ListView
-    [items]="filteredLocations"
+<GridLayout>
+  <RadListView
+    [items]="filteredProducts"
     (itemTap)="selectListEntry($event)"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="listPulled($event)"
   >
       <ng-template let-item="item" let-i="index">
         <Label [text]='item.name'></Label>
       </ng-template>
-  </ListView>
+  </RadListView>
+  </GridLayout>
 </StackLayout>

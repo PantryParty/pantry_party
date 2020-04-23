@@ -3,16 +3,16 @@ import { RouterExtensions } from "nativescript-angular";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: "ns-location-selector",
+  selector: "ns-product-selector",
   template: "<page-router-outlet></page-router-outlet>"
 })
-export class LocationCreatorComponent implements OnInit {
+export class ProductSelectorComponent implements OnInit {
   constructor(
     private _routerExtensions: RouterExtensions,
     private _activeRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._routerExtensions.navigate(["locationCreation"], { relativeTo: this._activeRoute });
+    this._routerExtensions.navigate(["productSearch"], { relativeTo: this._activeRoute });
   }
 }

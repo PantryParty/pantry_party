@@ -1,0 +1,30 @@
+<ActionBar title="Locations">
+  <NavigationButton ></NavigationButton>
+  <ActionItem
+    ios.position="right"
+    text="New"
+    icon="font://&#xf067;"
+    class="fas"
+    (tap)="createNewLocation()"
+    ></ActionItem>
+</ActionBar>
+
+<StackLayout >
+  <SearchBar
+    hint="Filter locations"
+    (textChange)="searchUpdated($event)">
+  </SearchBar>
+
+<GridLayout>
+  <RadListView
+    [items]="filteredLocations"
+    (itemTap)="selectListEntry($event)"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="listPulled($event)"
+  >
+      <ng-template let-item="item" let-i="index">
+        <Label [text]='item.name'></Label>
+      </ng-template>
+  </RadListView>
+  </GridLayout>
+</StackLayout>

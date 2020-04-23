@@ -2,10 +2,10 @@ import { Component, ViewContainerRef } from "@angular/core";
 import { ModalDialogParams, ModalDialogService, ModalDialogOptions } from "nativescript-angular";
 import { ScannedItem } from "../services/scanned-item-manager.service";
 import { ios, android as androidApplication  } from "tns-core-modules/application";
-import { LocationSelectorComponent } from "~/app/location-selection/location-selector.component";
 import { NamedThingSelectorButton } from "../named-thing-selector-button";
 import { ProductSelectorComponent } from "~/app/product-selection/product-selector.component";
 import { GrocyLocation, GrocyProduct } from "~/app/services/grocy.interfaces";
+import { LocationSelectorComponent } from "~/app/features/location-managment/location-modal/location-selector.component";
 
 export type ScannedItemEditorOutput = ScannedItemUpdateOutput | RemoveScannedItemOutput;
 

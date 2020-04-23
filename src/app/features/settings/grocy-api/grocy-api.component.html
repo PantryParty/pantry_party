@@ -9,17 +9,12 @@
     <TKEntityProperty
       tkDataFormProperty
       name="url"
-      displayName="URL to Grocy Server"
+      displayName="URL to Grocy Server (including /api)"
       index="0"
       hintText="http://something.com/api"
       required="true"
       >
       <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
-      <TKRegExValidator
-        tkEntityPropertyValidators
-        regEx="[hH]ttps?://.+/api"
-        errorMessage="URL to Grocy should be http(s)://[host]/api"
-        ></TKRegExValidator>
     </TKEntityProperty>
 
     <TKEntityProperty
@@ -57,5 +52,6 @@
      class="text-primary"
      textWrap="true"
      ></Label>
+   <ActivityIndicator [busy]="working"></ActivityIndicator>
 </StackLayout>
 

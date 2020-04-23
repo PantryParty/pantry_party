@@ -12,18 +12,32 @@ const routes: Routes = [
   },
   {
     path: "scan",
-    loadChildren: () => import("~/app/features/scan/scan.module").then((m) => m.ScanModule),
+    loadChildren: () => import("~/app/features/scan/scan.module").then(m => m.ScanModule),
+    canActivate: [ApplicationIsSetup]
+  },
+  {
+    path: "locations",
+    loadChildren: () =>
+      import("~/app/features/location-managment/location-managment.module")
+      .then(m => m.LocationManagmentModule),
+    canActivate: [ApplicationIsSetup]
+  },
+  {
+    path: "products",
+    loadChildren: () =>
+      import("~/app/features/product-managment/product-managment.module")
+      .then(m => m.ProductManagmentModule),
     canActivate: [ApplicationIsSetup]
   },
   {
     path: "initialSetup",
     component: NSEmptyOutletComponent,
-    loadChildren: () => import("~/app/features/setup-wizard/setup-wizard.module").then((m) => m.SetupWizardModule)
+    loadChildren: () => import("~/app/features/setup-wizard/setup-wizard.module").then(m => m.SetupWizardModule)
   },
   {
     path: "settings",
     component: NSEmptyOutletComponent,
-    loadChildren: () => import("~/app/features/settings/settings.module").then((m) => m.SettingsModule)
+    loadChildren: () => import("~/app/features/settings/settings.module").then(m => m.SettingsModule)
   }
 ];
 

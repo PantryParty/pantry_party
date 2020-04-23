@@ -9,7 +9,7 @@
     "node_modules/codelyzer"
   ],
   "rules": {
-    "arrow-parens": [true, "as-needed"],
+    "arrow-parens": [true, "ban-single-arg-parens"],
     "array-type": [true, "array"],
     "arrow-return-shorthand": true,
     "component-class-suffix": true,

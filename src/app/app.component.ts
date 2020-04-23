@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import * as Admob from "nativescript-admob";
-import { Router, NavigationStart, NavigationEnd } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, RouterEvent } from "@angular/router";
 import { getBoolean } from "tns-core-modules/application-settings/application-settings";
 import { PrivacyService } from "./services/privacy.service";
 import { Frame } from "tns-core-modules/ui/frame/frame";
@@ -27,8 +27,8 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this._router.events.subscribe((event) => {
-            if (
+      this._router.events.subscribe(event => {
+        if (
               !this.privacyService.showAds ||
               event instanceof NavigationStart
             ) {
@@ -49,6 +49,6 @@ export class AppComponent implements OnInit {
           bottom: 0
         }
       }).then(() =>  console.log("admob createBanner donex"))
-      .catch((error) =>  console.log("admob createBanner error: " + error));
+      .catch(error =>  console.log("admob createBanner error: " + error));
     }
 }

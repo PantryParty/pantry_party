@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
-import { ModalDialogParams, ModalDialogOptions, ModalDialogService } from "nativescript-angular";
-import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
-
+import { Component, ViewChild, NgZone, OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
-import { NamedThingSelectorButton } from "../scanned-item-set/named-thing-selector-button";
-import { LocationSelectorComponent } from "../features/location-managment/location-modal/location-selector.component";
+import { RouterExtensions, ModalDialogOptions, ModalDialogService } from "nativescript-angular";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
+import { NamedThingSelectorButton } from "~/app/scanned-item-set/named-thing-selector-button";
+import { StateTransferService } from "~/app/services/state-transfer.service";
 
 export type ProductSelectorDismiss  = GrocyProduct | null;
 
@@ -17,19 +16,19 @@ export class ProductCreationComponent implements OnInit {
   @ViewChild("productCreate", { static: false }) productForm: RadDataFormComponent;
 
   quantityUnits: Map<string, string> = new Map([]);
+  selectionCallback: null | ((x: GrocyProduct) => any)  = null;
 
   locationSelector = new NamedThingSelectorButton<GrocyLocation>(
     "Location",
-    () => {
-      const options: ModalDialogOptions = {
-        viewContainerRef: this._vcRef,
-        context: {},
-        fullscreen: true,
-        animated: true
-      };
-
-      return this._modalService.showModal(LocationSelectorComponent, options);
-    }
+    () => new Promise<GrocyLocation>((resolve, _) => {
+      this.ngZone.run(() => {
+        this.statePasser.setState({
+          type: "locationSelection",
+          callback: r => resolve(r.location)
+        });
+        this.routedExtensions.navigate(["/locations"]);
+      });
+    })
   );
 
   grocyProduct = {
@@ -41,19 +40,27 @@ export class ProductCreationComponent implements OnInit {
     bestBeforeDaysAfterThawing: 0,
     quantityUnitPurchase: "",
     quantityUnitStock: "",
-    purchaseFator: 1
+    purchaseFator: 1,
+    location: 1
   };
 
   constructor(
     private grocyService: GrocyService,
-    private modalParams: ModalDialogParams,
-    private _modalService: ModalDialogService,
-    private _vcRef: ViewContainerRef
+    private routedExtensions: RouterExtensions,
+    private ngZone: NgZone,
+    private statePasser: StateTransferService
+
   ) {
-    const scannedItem = this.modalParams.context.scannedItem;
-    if (scannedItem && scannedItem.externalProduct) {
-      this.grocyProduct.name = scannedItem.externalProduct.name;
+    const passedState = statePasser.readAndClearState();
+
+    if (passedState && passedState.type === "productCreation") {
+      this.selectionCallback = passedState.callback;
     }
+
+    // const scannedItem = this.modalParams.context.scannedItem;
+    // if (scannedItem && scannedItem.externalProduct) {
+    //   this.grocyProduct.name = scannedItem.externalProduct.name;
+    // }
   }
 
   ngOnInit() {
@@ -62,17 +69,13 @@ export class ProductCreationComponent implements OnInit {
     });
   }
 
-  goBack() {
-    this.modalParams.closeCallback(null);
-  }
-
   create() {
     this.productForm.dataForm.validateAll().then(r => {
       if (r) {
         this.grocyService.createProduct({
           name: this.grocyProduct.name,
           description: "",
-          location_id: 1,
+          location_id: this.locationId(),
           quantity_unit_id_purchase: Number(this.grocyProduct.quantityUnitPurchase),
           quantity_unit_id_stock: Number(this.grocyProduct.quantityUnitStock),
           quantity_unit_factor_purchase_to_stock: this.grocyProduct.purchaseFator,
@@ -82,8 +85,27 @@ export class ProductCreationComponent implements OnInit {
           default_best_before_days_after_open: this.grocyProduct.bestBeforeDaysAfterOpen,
           default_best_before_days_after_thawing: this.grocyProduct.bestBeforeDaysAfterThawing,
           default_best_before_days_after_freezing: this.grocyProduct.bestBeforeDaysAfterFreezing
-        }).subscribe(newProduct => this.modalParams.closeCallback(newProduct));
+        }).subscribe(p => this.productCreated(p));
       }
     });
+  }
+
+  productCreated(p: GrocyProduct) {
+    if (this.selectionCallback) {
+      this.selectionCallback(p);
+      this.routedExtensions.back();
+    }
+  }
+
+  private locationId() {
+
+    const value = this.locationSelector.value;
+
+    if (value) {
+
+      return 1;
+    }
+
+    return null;
   }
 }
