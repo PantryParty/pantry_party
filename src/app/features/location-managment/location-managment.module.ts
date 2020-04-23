@@ -5,6 +5,7 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { LocationListComponent } from "./location-list/location-list.component";
 import { LocationCreationComponent } from "./location-creation/location-creation.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
+import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular/dataform-directives";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/l
   imports: [
     LocationManagmentRoutingModule,
     NativeScriptCommonModule,
-    NativeScriptUIListViewModule
+    NativeScriptUIListViewModule,
+    NativeScriptUIDataFormModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

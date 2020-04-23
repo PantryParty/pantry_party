@@ -113,7 +113,7 @@ export class GrocyService {
 
   addBarcodeToProduct(productId: string | number, newBarcode: string): Observable<boolean> {
     return this.getProduct(productId).pipe(
-      exhaustMap((product) => {
+      exhaustMap(product => {
         if (product.barcodes.indexOf(newBarcode) > -1) {
           return of(true);
         } else {
@@ -132,7 +132,7 @@ export class GrocyService {
       `${this.apiHost}/objects/products`,
       { headers: {"GROCY-API-KEY": this.apiKey} }
     ).pipe(
-      map((r) => r.map(this.convertProductApiToLocal))
+      map(r => r.map(this.convertProductApiToLocal))
     );
   }
 
@@ -155,7 +155,7 @@ export class GrocyService {
       },
       { headers: {"GROCY-API-KEY": this.apiKey} }
     ).pipe(
-      map((r) => ({
+      map(r => ({
         ...productParams,
         id: r.created_object_id
       }))
@@ -172,7 +172,7 @@ export class GrocyService {
       },
       { headers: {"GROCY-API-KEY": this.apiKey} }
     ).pipe(
-      map((r) => ({
+      map(r => ({
         id: r.created_object_id,
         name,
         description,

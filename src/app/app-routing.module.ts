@@ -23,6 +23,13 @@ const routes: Routes = [
     canActivate: [ApplicationIsSetup]
   },
   {
+    path: "products",
+    loadChildren: () =>
+      import("~/app/features/product-managment/product-managment.module")
+      .then(m => m.ProductManagmentModule),
+    canActivate: [ApplicationIsSetup]
+  },
+  {
     path: "initialSetup",
     component: NSEmptyOutletComponent,
     loadChildren: () => import("~/app/features/setup-wizard/setup-wizard.module").then(m => m.SetupWizardModule)
