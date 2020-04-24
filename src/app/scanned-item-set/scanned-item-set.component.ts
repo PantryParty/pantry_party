@@ -21,6 +21,19 @@ export class ScannedItemSetComponent {
     private stateTransfer: StateTransferService
   ) {}
 
+  quickCreateProducts() {
+    this.stateTransfer.setState({
+      type: "productQuickCreate",
+      scannedItems: this.scannedItemManager.allPendingScannedItems,
+      scannedItemManager: this.scannedItemManager
+    });
+
+    this.routerExtension.navigate(
+      ["../quickCreateProducts"],
+      { relativeTo:  this.route }
+    );
+  }
+
   itemTapped(item: ScannedItem) {
     this.stateTransfer.setState({
       type: "scannedItemEdit",

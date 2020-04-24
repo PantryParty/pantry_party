@@ -4,6 +4,7 @@
     height="40"
     [text]="pendingItemWarningText()"
     class="pendingItemsWarning"
+    (tap)="quickCreateProducts()"
     *ngIf="scannedItemManager.allPendingScannedItems.length"
     ></Label>
   <GridLayout>

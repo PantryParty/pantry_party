@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { GrocyLocation, GrocyProduct } from "./grocy.interfaces";
 import { ProductSelectionResults } from "../features/product-managment/product-list/product-list.component";
 import { LocationSelectionResults } from "../features/location-managment/location-list/location-list.component";
-import { ScannedItem } from "../scanned-item-set/services/scanned-item-manager.service";
+import { ScannedItem, ScannedItemManagerService } from "../scanned-item-set/services/scanned-item-manager.service";
 import { ScannedItemEditorCallback } from "../scanned-item-set/scanned-item-editor/scanned-item-editor.component";
 
 interface LocationSelection {
@@ -33,10 +33,17 @@ interface ScannedItemEditor {
   callback: ScannedItemEditorCallback;
 }
 
+interface ProductQuickCreate {
+  type: "productQuickCreate";
+  scannedItemManager: ScannedItemManagerService;
+  scannedItems: ScannedItem[];
+}
+
 type AvailableTypes = null
-  | LocationSelection
   | LocationCreation
+  | LocationSelection
   | ProductCreation
+  | ProductQuickCreate
   | ProductSelection
   | ScannedItemEditor
   ;
@@ -45,7 +52,7 @@ type AvailableTypes = null
   providedIn: "root"
 })
 export class StateTransferService {
-  passedData: AvailableTypes = null;
+  private passedData: AvailableTypes = null;
 
   setState(v: AvailableTypes) {
     this.passedData = v;
