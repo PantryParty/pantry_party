@@ -7,6 +7,7 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   private selectedValue: NSDictionary<string, string> | T | null;
   private editor: CustomPropertyEditor;
   private redirector: EventRedirector;
+  private lastView: any;
 
   constructor(public nounName: string, private valueGetter: () => Promise<T>) {
   }
@@ -16,7 +17,6 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   editorNeedsView(args) {
-    this.editor = args.object;
     this.editor = args.object;
 
     this.updateButtonText(
@@ -62,6 +62,11 @@ export class NamedThingSelectorButton<T extends {name: string}> {
     args.value = JSON.stringify(this.selectedValue);
   }
 
+  setValue(v: T) {
+    this.selectedValue = v;
+    this.updateButtonText(this.lastView);
+  }
+
   updateEditorValue(editorView, value?: T | string) {
     if (typeof value === "string") {
       this.selectedValue = JSON.parse(value);
@@ -72,6 +77,11 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   }
 
   updateButtonText(view) {
+    if (!view) {
+      return;
+    }
+
+    this.lastView = view;
     if (androidApplication) {
       view.setText(this.buttonText());
     } else {

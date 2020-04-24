@@ -32,7 +32,7 @@ export class ScannedItemManagerService implements OnDestroy {
   get workingBarcodes(): Record<string, boolean> {
     const working: Record<string, boolean> = {};
 
-    this._scannedItems.forEach((i) => {
+    this._scannedItems.forEach(i => {
       working[i.barcode] = this.isWorking(i.barcode) || i.saveInProgress;
     });
 
@@ -56,7 +56,7 @@ export class ScannedItemManagerService implements OnDestroy {
 
   private timerTick = interval(1000).pipe(
     takeUntil(this.ngUnsubscribe),
-    map((_) => this._scannedItems.forEach((i) => {
+    map(_ => this._scannedItems.forEach(i => {
       if (this.elgibleForSave(i) && i.saveCoutdown > 1) {
         this.updateScannedItemWithoutVersionBump(
           i.barcode,
@@ -75,8 +75,8 @@ export class ScannedItemManagerService implements OnDestroy {
     private externalLookupService: ScannedItemExernalLookupService
   ) {}
 
-  undoCallback: (s: string) => Observable<any> = (_) => of("");
-  saveCallback: (s: ReadyScannedItem) => Observable<string> = (_) => of("");
+  undoCallback: (s: string) => Observable<any> = _ => of("");
+  saveCallback: (s: ReadyScannedItem) => Observable<string> = _ => of("");
 
   perfomSave(item: ReadyScannedItem) {
     this.updateScannedItemWithoutVersionBump(
@@ -91,7 +91,7 @@ export class ScannedItemManagerService implements OnDestroy {
         map(() => delete this.pvtUndoKey[item.barcode])
       ),
       this.saveCallback(item).pipe(
-        map((r) => {
+        map(r => {
           this.pvtUndoKey[item.barcode] = r;
 
           this.updateScannedItemWithoutVersionBump(
@@ -202,14 +202,17 @@ export class ScannedItemManagerService implements OnDestroy {
     });
   }
 
-  private fetchDefaultLocation(item: ScannedItem) {
+  private fetchDefaultLocationForItem(item: ScannedItem) {
     this.setWorking(item.barcode, true);
 
     this.grocyService.getLocation(item.grocyProduct.location_id).pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(
-      (location) => this.updateScannedItem(item.barcode, { location })
+    ).subscribe(location => this.updateScannedItem(item.barcode, { location })
     );
+  }
+
+  private itemGrocyProductUpdated(item: ScannedItem) {
+
   }
 
   private findGrocyProduct(item: ScannedItem) {
@@ -219,8 +222,7 @@ export class ScannedItemManagerService implements OnDestroy {
       .searchForBarcode(item.barcode)
       .pipe(
         finalize(() => this.setWorking(item.barcode, false))
-      ).subscribe(
-        (r) => {
+      ).subscribe(r => {
           this.updateScannedItem(
             item.barcode,
             {
@@ -229,9 +231,8 @@ export class ScannedItemManagerService implements OnDestroy {
             }
           );
 
-          this.fetchDefaultLocation(this.itemByBarcode(item.barcode));
-        },
-        (e) => {
+          this.fetchDefaultLocationForItem(this.itemByBarcode(item.barcode));
+        }, e => {
           if (e.status === 400) {
             this.searchForItemExternally(item);
           } else {
@@ -246,7 +247,7 @@ export class ScannedItemManagerService implements OnDestroy {
     this.externalLookupService.search(item.barcode)
     .pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe((r) => {
+    ).subscribe(r => {
         this.updateScannedItem(
           item.barcode,
           { externalProduct: r }
@@ -259,7 +260,7 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   private indexOfBarcode(barcode: string) {
-    return this.scannedItems.findIndex((e) => e.barcode === barcode);
+    return this.scannedItems.findIndex(e => e.barcode === barcode);
   }
 
   private generateVersion() {
