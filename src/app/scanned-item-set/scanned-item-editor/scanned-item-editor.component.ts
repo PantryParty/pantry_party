@@ -92,7 +92,7 @@ export class ScannedItemEditorComponent {
   }
 
   productUpdated(prod: GrocyProduct) {
-    if (prod.location_id) {
+    if (prod.location_id && !this.locationSelector.value) {
       this.grocyService.getLocation(prod.location_id).subscribe(location => {
         this.locationSelector.setValue(location);
       });
