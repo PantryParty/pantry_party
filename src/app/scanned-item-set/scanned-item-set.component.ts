@@ -10,7 +10,7 @@ import { StateTransferService } from "../services/state-transfer.service";
 @Component({
   selector: "ns-scanned-item-set",
   templateUrl: "./scanned-item-set.component.html",
-  styleUrls: ["./scanned-item-set.component.css"]
+  styleUrls: ["./scanned-item-set.component.scss"]
 })
 export class ScannedItemSetComponent {
   @Input() scannedItemManager: ScannedItemManagerService;
@@ -54,5 +54,17 @@ export class ScannedItemSetComponent {
    if ($event.direction === SwipeDirection.left) {
      this.scannedItemManager.removeScannedItemByBarcode(item.barcode);
    }
+  }
+
+  completableItemWarningText() {
+    const total = this.scannedItemManager.creatableScannedItems.length;
+
+    return `Complete ${total} Product${total > 1 ? "s" : ""}`;
+  }
+
+  unfoundItemWarningText() {
+    const total = this.scannedItemManager.unfoundProducts.length;
+
+    return `${total} ${total > 1 ? "were" : "was"} not found`;
   }
 }
