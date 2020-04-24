@@ -1,23 +1,30 @@
-import { Component, ViewContainerRef } from "@angular/core";
-import { ModalDialogParams, ModalDialogService, ModalDialogOptions } from "nativescript-angular";
+import { Component, NgZone, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { ScannedItem } from "../services/scanned-item-manager.service";
-import { ios, android as androidApplication  } from "tns-core-modules/application";
+import { android as androidApplication  } from "tns-core-modules/application";
 import { NamedThingSelectorButton } from "../named-thing-selector-button";
-import { ProductSelectorComponent } from "~/app/product-selection/product-selector.component";
 import { GrocyLocation, GrocyProduct } from "~/app/services/grocy.interfaces";
-import { LocationSelectorComponent } from "~/app/features/location-managment/location-modal/location-selector.component";
+import { StateTransferService } from "~/app/services/state-transfer.service";
+import { RouterExtensions } from "nativescript-angular";
+import { GrocyService } from "~/app/services/grocy.service";
+import { dateString } from "~/app/utilities/dateString";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 
-export type ScannedItemEditorOutput = ScannedItemUpdateOutput | RemoveScannedItemOutput;
+export type ScannedItemUpdateOutput = Pick<
+  ScannedItem,
+  "quantity" | "location" | "bestBeforeDate" | "grocyProduct"
+>;
 
-export interface ScannedItemUpdateOutput
-extends Pick< ScannedItem, "quantity" | "location" | "bestBeforeDate" | "grocyProduct" > {
-  action: "update";
-}
-
-export interface RemoveScannedItemOutput {
+interface EditorCallbackRemove {
   action: "remove";
   barcode: string;
 }
+
+interface EditorCallbackUpdate {
+  action: "update";
+  scannedItem: ScannedItemUpdateOutput;
+}
+
+export type ScannedItemEditorCallback = (x: EditorCallbackRemove | EditorCallbackUpdate) => any;
 
 @Component({
   selector: "ns-scanned-item-editor",
@@ -26,49 +33,70 @@ export interface RemoveScannedItemOutput {
 export class ScannedItemEditorComponent {
   scannedItem: Pick< ScannedItem, "quantity" | "location" | "bestBeforeDate" | "grocyProduct" >;
   originalScannedItem: ScannedItem;
+  @ViewChild("configForm", { static: false }) configForm: RadDataFormComponent;
+
   locationSelector = new NamedThingSelectorButton<GrocyLocation>(
     "Location",
-    () => {
-      const options: ModalDialogOptions = {
-        viewContainerRef: this._vcRef,
-        context: {},
-        fullscreen: true,
-        animated: true
-      };
-
-      return this._modalService.showModal(LocationSelectorComponent, options);
-    }
+    () => new Promise<GrocyLocation>((resolve, _) => {
+      this.ngZone.run(() => {
+        this.stateTransfer.setState({
+          type: "locationSelection",
+          callback: r => resolve(r.location)
+        });
+        this.routedExtensions.navigate(["/locations"]);
+      });
+    })
   );
 
   productSelector = new NamedThingSelectorButton<GrocyProduct>(
     "Product",
-    () => {
-      const options: ModalDialogOptions = {
-        viewContainerRef: this._vcRef,
-        context: {
-          scannedItem: this.originalScannedItem
-        },
-        fullscreen: true,
-        animated: true
-      };
-
-      return this._modalService.showModal(ProductSelectorComponent, options);
-    }
+    () => new Promise<GrocyProduct>((resolve, _) => {
+      this.ngZone.run(() => {
+        this.stateTransfer.setState({
+          type: "productSelection",
+          forScannedItem: this.originalScannedItem,
+          callback: r => {
+            this.productUpdated(r.product);
+            resolve(r.product);
+          }
+        });
+        this.routedExtensions.navigate(["/products"]);
+      });
+    })
   );
 
-  constructor(
-    private params: ModalDialogParams,
-    private _modalService: ModalDialogService,
-    private _vcRef: ViewContainerRef
-  ) {
-    this.originalScannedItem = params.context;
+  selectionCallback: null | ScannedItemEditorCallback  = null;
 
-    this.scannedItem = {
-      quantity: this.originalScannedItem.quantity,
-      location: this.originalScannedItem.location || null,
-      bestBeforeDate: this.originalScannedItem.bestBeforeDate,
-      grocyProduct: this.originalScannedItem.grocyProduct || null
-    };
+  constructor(
+    private stateTransfer: StateTransferService,
+    private ngZone: NgZone,
+    private routedExtensions: RouterExtensions,
+    private grocyService: GrocyService,
+    private changeRef: ChangeDetectorRef
+  ) {
+    const state = this.stateTransfer.readAndClearState();
+
+    if (state && state.type === "scannedItemEdit") {
+      this.originalScannedItem = state.scannedItem;
+
+      this.scannedItem = {
+        quantity: this.originalScannedItem.quantity,
+        location: this.originalScannedItem.location || null,
+        bestBeforeDate: this.originalScannedItem.bestBeforeDate,
+        grocyProduct: this.originalScannedItem.grocyProduct || null
+      };
+
+      this.selectionCallback = state.callback;
+    }
+
+  }
+
+  productUpdated(prod: GrocyProduct) {
+    if (prod.location_id && !this.locationSelector.value) {
+      this.grocyService.getLocation(prod.location_id).subscribe(location => {
+        this.locationSelector.setValue(location);
+      });
+    }
   }
 
   onEditorUpdate(args: any) {
@@ -77,27 +105,30 @@ export class ScannedItemEditorComponent {
     }
   }
 
-  goBack() {
-    this.params.closeCallback();
-  }
-
   save() {
     const data: ScannedItemUpdateOutput = {
       ...this.scannedItem,
-      action: "update",
       location: this.locationSelector.value as GrocyLocation,
       grocyProduct: this.productSelector.value as GrocyProduct
     };
-    this.params.closeCallback(data);
+
+    if (this.selectionCallback) {
+      this.selectionCallback({
+        action: "update",
+        scannedItem: data
+      });
+      this.routedExtensions.back();
+    }
   }
 
   remove() {
-    const data: RemoveScannedItemOutput = {
-      action: "remove",
-      barcode: this.originalScannedItem.barcode
-    };
-
-    this.params.closeCallback(data);
+    if (this.selectionCallback) {
+      this.selectionCallback({
+        action: "remove",
+        barcode: this.originalScannedItem.barcode
+      });
+      this.routedExtensions.back();
+    }
   }
 
   // Location Updater
