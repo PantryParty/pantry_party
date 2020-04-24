@@ -2,16 +2,9 @@
   <Label
     textAlignment="center"
     height="40"
-    [text]="completableItemWarningText()"
-    class="completableItemsWarning"
-    *ngIf="scannedItemManager.creatableScannedItems.length"
-    ></Label>
-  <Label
-    textAlignment="center"
-    height="40"
-    [text]="unfoundItemWarningText()"
-    class="unfoundItemsWarning"
-    *ngIf="scannedItemManager.unfoundProducts.length"
+    [text]="pendingItemWarningText()"
+    class="pendingItemsWarning"
+    *ngIf="scannedItemManager.allPendingScannedItems.length"
     ></Label>
   <GridLayout>
   <ns-scanned-item-list

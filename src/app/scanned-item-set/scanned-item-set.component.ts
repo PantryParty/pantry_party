@@ -56,15 +56,9 @@ export class ScannedItemSetComponent {
    }
   }
 
-  completableItemWarningText() {
-    const total = this.scannedItemManager.creatableScannedItems.length;
+  pendingItemWarningText() {
+    const total = this.scannedItemManager.allPendingScannedItems.length;
 
-    return `Complete ${total} Product${total > 1 ? "s" : ""}`;
-  }
-
-  unfoundItemWarningText() {
-    const total = this.scannedItemManager.unfoundProducts.length;
-
-    return `${total} ${total > 1 ? "were" : "was"} not found`;
+    return `Complete ${total} Product${total > 1 ? "s" : ""} now`;
   }
 }

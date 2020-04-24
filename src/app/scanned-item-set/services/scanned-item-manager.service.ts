@@ -29,16 +29,8 @@ interface ReadyScannedItem extends BaseScannedItem {
 
 export class ScannedItemManagerService implements OnDestroy {
 
-  get creatableScannedItems() {
-    return this.scannedItems.filter(
-      i => !i.grocyProduct && i.externalProduct
-    );
-  }
-
-  get unfoundProducts() {
-    return this.scannedItems.filter(
-      i => !i.grocyProduct && !i.externalProduct
-    );
+  get allPendingScannedItems() {
+    return this.scannedItems.filter(i => !i.grocyProduct);
   }
 
   get workingBarcodes(): Record<string, boolean> {
