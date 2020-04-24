@@ -1,10 +1,13 @@
-import { Component, NgZone } from "@angular/core";
+import { Component, NgZone, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { ScannedItem } from "../services/scanned-item-manager.service";
 import { android as androidApplication  } from "tns-core-modules/application";
 import { NamedThingSelectorButton } from "../named-thing-selector-button";
 import { GrocyLocation, GrocyProduct } from "~/app/services/grocy.interfaces";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { RouterExtensions } from "nativescript-angular";
+import { GrocyService } from "~/app/services/grocy.service";
+import { dateString } from "~/app/utilities/dateString";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 
 export type ScannedItemUpdateOutput = Pick<
   ScannedItem,
@@ -30,6 +33,7 @@ export type ScannedItemEditorCallback = (x: EditorCallbackRemove | EditorCallbac
 export class ScannedItemEditorComponent {
   scannedItem: Pick< ScannedItem, "quantity" | "location" | "bestBeforeDate" | "grocyProduct" >;
   originalScannedItem: ScannedItem;
+  @ViewChild("configForm", { static: false }) configForm: RadDataFormComponent;
 
   locationSelector = new NamedThingSelectorButton<GrocyLocation>(
     "Location",
@@ -51,7 +55,10 @@ export class ScannedItemEditorComponent {
         this.stateTransfer.setState({
           type: "productSelection",
           forScannedItem: this.originalScannedItem,
-          callback: r => resolve(r.product)
+          callback: r => {
+            this.productUpdated(r.product);
+            resolve(r.product);
+          }
         });
         this.routedExtensions.navigate(["/products"]);
       });
@@ -63,7 +70,9 @@ export class ScannedItemEditorComponent {
   constructor(
     private stateTransfer: StateTransferService,
     private ngZone: NgZone,
-    private routedExtensions: RouterExtensions
+    private routedExtensions: RouterExtensions,
+    private grocyService: GrocyService,
+    private changeRef: ChangeDetectorRef
   ) {
     const state = this.stateTransfer.readAndClearState();
 
@@ -80,6 +89,14 @@ export class ScannedItemEditorComponent {
       this.selectionCallback = state.callback;
     }
 
+  }
+
+  productUpdated(prod: GrocyProduct) {
+    if (prod.location_id) {
+      this.grocyService.getLocation(prod.location_id).subscribe(location => {
+        this.locationSelector.setValue(location);
+      });
+    }
   }
 
   onEditorUpdate(args: any) {
