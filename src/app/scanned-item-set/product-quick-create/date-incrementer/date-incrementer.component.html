@@ -1,0 +1,12 @@
+<FlexboxLayout
+  flexDirection="row"
+  alignItems="flex-start"
+  flexWrap="wrap"
+  justifyContent="center"
+  >
+  <Button [isEnabled]="!disabled" (tap)="addedDays.emit(1)" text="+1 Day" class="-outline"></Button>
+  <Button [isEnabled]="!disabled" (tap)="addedDays.emit(7)" text="+1 Week" class="-outline"></Button>
+  <Button [isEnabled]="!disabled" (tap)="addedDays.emit(30)" text="+1 Month" class="-outline"></Button>
+  <Button [isEnabled]="!disabled" (tap)="addedDays.emit(180)" text="+6 Months" class="-outline"></Button>
+  <Button [isEnabled]="!disabled" (tap)="addedDays.emit(365)" text="+1 Year" class="-outline"></Button>
+</FlexboxLayout>

@@ -1,3 +1,407 @@
-<StackLayout>
+<GridLayout (swipe)="onSwipe($event)">
+  <ng-container [ngSwitch]="currentStep">
 
-</StackLayout>
+    <!-- Name -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'name'">
+      <Label
+       text="Item Name"
+       textAlignment="center"
+       class='h1'
+
+       ></Label>
+      <TextField
+        [(ngModel)]='product.name'
+        secure="false"
+        returnKeyType="next"
+        ></TextField>
+      <Label
+        [text]="'Enter Name for Barcode ' + product.barcode "
+       textAlignment="center"
+       class="body"
+       ></Label>
+      <Button
+        text="Next"
+        class="-primary"
+        [isEnabled]="isStepValid('name')"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Location Selection -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'location'">
+      <Label
+       text="Location Of Item"
+       textAlignment="center"
+       class='h1'
+
+       ></Label>
+      <Button
+        text="Create New Location"
+        class="-outline"
+        (tap)="createNewLocation()"
+        ></Button>
+      <ListPicker
+        [(ngModel)]="selectedLocationIdx"
+        [selectedIndex]="0"
+        [items]="locationNames"
+      ></ListPicker>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('location')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Quantity Unit for Purchase -->
+    <StackLayout
+      [@slideLeftOut]="'in'"
+      *ngSwitchCase="'purchase_quantity'"
+      >
+      <Label
+       text="What quantity do you buy in?"
+       textAlignment="center"
+       textWrap="true"
+       class="h1"
+       ></Label>
+      <ListPicker
+        [items]="quantityUnitNames"
+      (selectedIndexChange)="onSelectedPurchaseQUChanged($event)"
+      ></ListPicker>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('purchase_quantity')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Quantity Unit for Consumption -->
+    <StackLayout
+      [@slideLeftOut]="'in'"
+      *ngSwitchCase="'consume_quantity'"
+      >
+      <Label
+       text="What quantity do you consume in?"
+       textWrap="true"
+       textAlignment="center"
+       class='h1'
+       ></Label>
+      <ListPicker
+        [items]="quantityUnitNames"
+      (selectedIndexChange)="onSelectedConsumeQUChanged($event)"
+      ></ListPicker>
+      <Button
+        text="Next"
+        class="-primary"
+        [isEnabled]="isStepValid('consume_quantity')"
+        (tap)="conditionalConsume()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Quantity Unit Factor -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'quantity_unit_factor'">
+      <Label
+       [text]="quantityConversionText()"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <TextField
+        [(ngModel)]="product.quantityUnitFactor"
+        secure="false"
+        returnKeyType="next"
+        keyboardType="integer"
+        ></TextField>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('quantity_unit_factor')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+
+    <!-- Best Before Days -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'bestBeforeDays'">
+      <Label
+       text="Before it is opened how many days is this product good for?"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <TextField
+        hint="0 expires immediately"
+        [(ngModel)]="product.bestBeforeDays"
+        secure="false"
+        keyboardType="integer"
+        returnKeyType="next"
+        [isEnabled]="!product.goodForever"
+        ></TextField>
+      <ns-date-incrementer
+        (addedDays)="valueAdjuster('bestBeforeDays', $event)"
+        [disabled]="product.goodForever"
+        ></ns-date-incrementer>
+      <StackLayout class="m-x-10" orientation="horizontal">
+        <Label class="h2" text="Or Forever"></Label>
+        <Switch [(ngModel)]="product.goodForever"></Switch>
+      </StackLayout>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('bestBeforeDays')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Best Before Days After Open -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'bestBeforeDaysAfterOpen'">
+      <Label
+       text="After it is opened how many days is this product good for?"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <TextField
+        hint="0 expires immediately"
+        [(ngModel)]="product.bestBeforeDaysAfterOpen"
+        secure="false"
+        keyboardType="integer"
+        returnKeyType="next"
+        [isEnabled]="!product.goodForeverAfterOpen"
+        ></TextField>
+      <ns-date-incrementer
+        (addedDays)="valueAdjuster('bestBeforeDaysAfterOpen', $event)"
+        [disabled]="product.goodForeverAfterOpen"
+        ></ns-date-incrementer>
+      <StackLayout class="m-x-10" orientation="horizontal">
+        <Label class="h2" text="Or Forever"></Label>
+        <Switch [(ngModel)]="product.goodForeverAfterOpen"></Switch>
+      </StackLayout>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('bestBeforeDaysAfterOpen')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Best Before Days After Thawing -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'bestBeforeDaysAfterThawing'">
+      <Label
+       text="After it is thawed how many days is this product good for?"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <TextField
+        hint="0 expires immediately"
+        [(ngModel)]="product.bestBeforeDaysAfterThawing"
+        secure="false"
+        keyboardType="integer"
+        returnKeyType="next"
+        [isEnabled]="!product.goodForeverAfterThawing"
+        ></TextField>
+      <ns-date-incrementer
+        (addedDays)="valueAdjuster('bestBeforeDaysAfterThawing', $event)"
+        [disabled]="product.goodForeverAfterThawing"
+        ></ns-date-incrementer>
+      <StackLayout class="m-x-10" orientation="horizontal">
+        <Label class="h2" text="Or Forever"></Label>
+        <Switch [(ngModel)]="product.goodForeverAfterThawing"></Switch>
+      </StackLayout>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('bestBeforeDaysAfterThawing')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Best Before Days After Freezing -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'bestBeforeDaysAfterFreezing'">
+      <Label
+       text="After frozen how many days is this product good for?"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <TextField
+        hint="0 expires immediately"
+        [(ngModel)]="product.bestBeforeDaysAfterFreezing"
+        secure="false"
+        keyboardType="integer"
+        returnKeyType="next"
+        [isEnabled]="!product.goodForeverAfterFreezing"
+        ></TextField>
+      <ns-date-incrementer
+        (addedDays)="valueAdjuster('bestBeforeDaysAfterFreezing', $event)"
+        [disabled]="product.goodForeverAfterFreezing"
+        ></ns-date-incrementer>
+      <StackLayout class="m-x-10" orientation="horizontal">
+        <Label class="h2" text="Or Forever"></Label>
+        <Switch [(ngModel)]="product.goodForeverAfterFreezing"></Switch>
+      </StackLayout>
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('bestBeforeDaysAfterFreezing')"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- Done? or not? -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'earlySave'">
+      <Label
+       text="That is all that is required!"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+
+      <Button
+        text="Done! Save Product"
+        class="-primary"
+        (tap)="saveProduct()"
+        ></Button>
+
+      <Button
+        text="More Product Configuration"
+        class="-outline"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+
+    <!-- Parent Product Selection -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'parentProduct'">
+      <Label
+       text="Attach to Parent Product?"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <Label
+       text="Parent Products are good for tracking stock of generic items. For example the parent product of Walmart and Krogers diced tomatoes is simply, Diced Tomatoes"
+       textAlignment="left"
+       textWrap="true"
+       class='body'
+       ></Label>
+
+      <StackLayout class="m-x-10" orientation="horizontal">
+        <Label class="h2" text="Create New Parent Product"></Label>
+        <Switch [(ngModel)]="product.createNewParentProduct"></Switch>
+      </StackLayout>
+
+      <!-- Create New Product -->
+      <Label
+        text="New Product Name"
+        *ngIf="product.createNewParentProduct"
+        ></Label>
+      <TextField
+        [(ngModel)]="product.newParentProductName"
+        secure="false"
+        returnKeyType="next"
+        *ngIf="product.createNewParentProduct"
+        ></TextField>
+
+      <Label
+        text="Minimum Stock"
+        *ngIf="product.createNewParentProduct"
+        ></Label>
+      <TextField
+        hint="Minimum Stock"
+        [(ngModel)]="product.newParentProductMinimumStockAmount"
+        secure="false"
+        returnKeyType="next"
+        keyboardType="integer"
+        *ngIf="product.createNewParentProduct"
+        ></TextField>
+      <Label
+       text="The parent product will be created based on this product"
+       textAlignment="left"
+       textWrap="true"
+       class='body'
+        *ngIf="product.createNewParentProduct"
+       ></Label>
+
+      <!-- Attach to new Product -->
+      <SearchBar
+        hint="Search for Product"
+        *ngIf="!product.createNewParentProduct"
+        (textChange)="productFilterUpdated($event.object.text)">
+      </SearchBar>
+
+      <ListPicker
+        [items]="filteredProductNames"
+        [(ngModel)]="selectedProductIdx"
+        *ngIf="!product.createNewParentProduct"
+      ></ListPicker>
+
+      <Button
+        text="Next"
+        [isEnabled]="isStepValid('parentProduct')"
+        class="-primary"
+        (tap)="nextStepFromParentProduct()"
+        ></Button>
+    </StackLayout>
+
+    <!-- save confirmation -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'minimumStockAmount'">
+      <Label
+       text="How many would you like to keep in stock?"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+
+      <TextField
+        hint="Minimum Stock"
+        [(ngModel)]="product.minStockAmount"
+        secure="false"
+        returnKeyType="next"
+        keyboardType="integer"
+        ></TextField>
+
+      <Button
+        text="Next"
+        class="-primary"
+        (tap)="nextStep()"
+        ></Button>
+    </StackLayout>
+
+    <!-- save confirmation -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'saveConfirmation'">
+      <Label
+       text="All Done!"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+
+      <Button
+        text="Save Product"
+        class="-primary"
+        (tap)="saveProduct()"
+        ></Button>
+    </StackLayout>
+
+    <!-- save status -->
+    <StackLayout [@slideLeftOut]="'in'" *ngSwitchCase="'saving'">
+      <Label
+       text="Saving"
+       textAlignment="center"
+       textWrap="true"
+       class='h1'
+       ></Label>
+      <ActivityIndicator busy="true"></ActivityIndicator>
+
+      <Label
+       [text]="saveStatus"
+       textAlignment="center"
+       textWrap="true"
+       class='body'
+       ></Label>
+    </StackLayout>
+  </ng-container>
+</GridLayout>

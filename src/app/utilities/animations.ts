@@ -13,31 +13,19 @@ export const slideInOutDownAnimation = (name = "slideInOut") => trigger(
     })),
     transition("void => *", [animate("1600ms 700ms ease-out")]),
     transition("* => void", [animate("600ms ease-in")])
-    // transition(
-    //   "in => out",
-    //   [
-    //     group([
-    //       animate("400ms ease-in-out", style({
-    //         opacity: "0"
-    //       })),
-    //       animate("600ms ease-in-out", style({
-    //         height: "0px"
-    //       }))
-    //     ])
-    //   ]
-    // ),
-    // transition(
-    //   "out => in",
-    //   [
-    //     group([
-    //       animate("600ms ease-in-out", style({
-    //         height
-    //       })),
-    //       animate("800ms ease-in-out", style({
-    //         opacity: "1"
-    //       }))
-    //     ])
-    //   ]
-    // )
+  ]
+);
+
+export const slideOutLeftAnimation = trigger(
+  "slideLeftOut",
+  [
+    state("in", style({ opacity: 1, transform: "translateX(0)" })),
+    transition("void => *", [
+      style({ opacity: 0, transform: "translateX(100%)" }),
+      animate(200)
+    ]),
+    transition("* => void", [
+      animate(200, style({ opacity: 0, transform: "translateX(-100%)" }))
+    ])
   ]
 );

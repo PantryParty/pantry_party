@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 
 import { ScanResult } from "nativescript-barcodescanner";
 import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
@@ -10,7 +10,8 @@ import { map, switchMap } from "rxjs/operators";
   templateUrl: "./purchase.component.html",
   providers: [ScannedItemManagerService]
 })
-export class PurchaseComponent {
+export class PurchaseComponent implements OnDestroy {
+  destroyed = false;
   constructor(
     private changeRef: ChangeDetectorRef,
     public scannedItemManager: ScannedItemManagerService,
@@ -44,10 +45,13 @@ export class PurchaseComponent {
 
   scanResults(evt: ScanResult) {
     this.scannedItemManager.newScanResults(evt);
-    this.changeRef.detectChanges();
+    this.updateView();
   }
 
+  ngOnDestroy() { this.destroyed = true; }
   updateView() {
-    this.changeRef.detectChanges();
+    if (!this.destroyed) {
+      this.changeRef.detectChanges();
+    }
   }
 }
