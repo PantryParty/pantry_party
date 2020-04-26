@@ -1,0 +1,12 @@
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/blue";
+
+.locationNotice {
+  background: $complementary;
+  color: $complementary-color;
+
+  &.no-location {
+    background: red;
+    font-weight: bold;
+  }
+}

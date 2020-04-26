@@ -5,6 +5,7 @@ import { PurchaseComponent } from "../purchase/purchase.component";
 import { OpenComponent } from "../open/open.component";
 import { SpoiledComponent } from "../spoiled/spoiled.component";
 import { ConsumeComponent } from "../consume/consume.component";
+import { InventoryComponent } from "../inventory/inventory.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: "spoiled",
     component: SpoiledComponent
+  },
+  {
+    path: "inventory",
+    component: InventoryComponent
   },
   {
     path: "consume",

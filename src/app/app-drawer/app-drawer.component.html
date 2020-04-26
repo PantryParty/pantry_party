@@ -25,6 +25,10 @@
               <Image col="0" src="font://&#xf2ed;" class="fas"></Image>
               <Label col="1" text="Spoil"></Label>
             </GridLayout>
+            <GridLayout (tap)="navigateTo(['/scan/inventory'])" class="item subitem" columns="15, *">
+              <Image col="0" src="font://&#xf468;" class="fas"></Image>
+              <Label col="1" text="Inventory"></Label>
+            </GridLayout>
           <GridLayout (tap)="navigateTo(['/products'])" class="item heading" columns="15, *">
             <Image col="0" src="font://&#xf49e;" class="fas"></Image>
             <Label col="1" text="Products"></Label>
