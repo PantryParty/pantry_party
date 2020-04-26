@@ -366,6 +366,7 @@
       <Button
         text="Next"
         class="-primary"
+        [isEnabled]="isStepValid('minimumStockAmount')"
         (tap)="nextStep()"
         ></Button>
     </StackLayout>
