@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 
 import { ScanResult } from "nativescript-barcodescanner";
 import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
@@ -10,16 +10,17 @@ import { map, switchMap } from "rxjs/operators";
   templateUrl: "./spoiled.component.html",
   providers: [ScannedItemManagerService]
 })
-export class SpoiledComponent {
+export class SpoiledComponent implements OnDestroy {
+  destroyed = false;
   constructor(
     private changeRef: ChangeDetectorRef,
     public scannedItemManager: ScannedItemManagerService,
     public grocyService: GrocyService
   ) {
 
-    scannedItemManager.undoCallback = (i) => this.grocyService.undoBooking(i);
+    scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
-    scannedItemManager.saveCallback = (i) => {
+    scannedItemManager.saveCallback = i => {
       const spoiledProductProps: ConsumeProductsParams = {
         productId: i.grocyProduct.id,
         quantity: i.quantity,
@@ -33,17 +34,21 @@ export class SpoiledComponent {
         switchMap(
           () => this.grocyService.consumeProduct(spoiledProductProps)
         ),
-        map((r) => r.id)
+        map(r => r.id)
       );
     };
   }
 
   scanResults(evt: ScanResult) {
     this.scannedItemManager.newScanResults(evt);
-    this.changeRef.detectChanges();
+    this.updateView();
   }
 
+  ngOnDestroy() { this.destroyed = true; }
+
   updateView() {
-    this.changeRef.detectChanges();
+    if (!this.destroyed) {
+      this.changeRef.detectChanges();
+    }
   }
 }

@@ -199,6 +199,21 @@ export class ScannedItemManagerService implements OnDestroy {
     };
   }
 
+  assignProductToBarcode(barcode: string, product: GrocyProduct, location?: GrocyLocation) {
+    this.updateScannedItem(
+      barcode,
+      {
+        grocyProduct: product,
+        bestBeforeDate: dateString(product.default_best_before_days),
+        location
+      }
+    );
+
+    if (!location) {
+      this.fetchDefaultLocationForItem(this.itemByBarcode(barcode));
+    }
+  }
+
   private updateScannedItemWithoutVersionBump(
     barcode: string,
     partialItem: Partial<ScannedItem>
@@ -215,38 +230,26 @@ export class ScannedItemManagerService implements OnDestroy {
     this.grocyService.getLocation(item.grocyProduct.location_id).pipe(
       finalize(() => this.setWorking(item.barcode, false))
     ).subscribe(location => this.updateScannedItem(item.barcode, { location })
-    );
-  }
-
-  private itemGrocyProductUpdated(item: ScannedItem) {
-
+               );
   }
 
   private findGrocyProduct(item: ScannedItem) {
     this.setWorking(item.barcode, true);
 
     this.grocyService
-      .searchForBarcode(item.barcode)
-      .pipe(
-        finalize(() => this.setWorking(item.barcode, false))
-      ).subscribe(r => {
-          this.updateScannedItem(
-            item.barcode,
-            {
-              grocyProduct: r.product,
-              bestBeforeDate: dateString(r.product.default_best_before_days)
-            }
-          );
-
-          this.fetchDefaultLocationForItem(this.itemByBarcode(item.barcode));
-        }, e => {
-          if (e.status === 400) {
-            this.searchForItemExternally(item);
-          } else {
-            console.log("received error fetching grocy product", e);
-          }
-        }
-      );
+    .searchForBarcode(item.barcode)
+    .pipe(
+      finalize(() => this.setWorking(item.barcode, false))
+    ).subscribe(r => {
+      this.assignProductToBarcode(item.barcode, r.product)
+    }, e => {
+      if (e.status === 400) {
+        this.searchForItemExternally(item);
+      } else {
+        console.log("received error fetching grocy product", e);
+      }
+    }
+               );
   }
 
   private searchForItemExternally(item: ScannedItem) {
@@ -255,11 +258,11 @@ export class ScannedItemManagerService implements OnDestroy {
     .pipe(
       finalize(() => this.setWorking(item.barcode, false))
     ).subscribe(r => {
-        this.updateScannedItem(
-          item.barcode,
-          { externalProduct: r }
-        );
-      });
+      this.updateScannedItem(
+        item.barcode,
+        { externalProduct: r }
+      );
+    });
   }
 
   private itemByBarcode(barcode: string) {
@@ -280,7 +283,7 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   private isWorking(barcode: string): boolean {
-      return !!this.pvtWorkingItemBarcodes[barcode];
+    return !!this.pvtWorkingItemBarcodes[barcode];
   }
 
   private setWorking(barcode: string, working: boolean) {

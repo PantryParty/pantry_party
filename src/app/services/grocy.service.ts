@@ -32,6 +32,8 @@ interface CreateProductParams {
   default_best_before_days_after_open: number;
   default_best_before_days_after_thawing: number;
   default_best_before_days_after_freezing: number;
+  cumulate_min_stock_amount_of_sub_products?: boolean;
+  parent_product_id?: string | number;
 }
 
 export interface PurchaseProductsParams {
@@ -127,6 +129,15 @@ export class GrocyService {
     );
   }
 
+  searchProducts(term: string): Observable<GrocyProduct[]> {
+    return this.http.get<GrocyProductAPIReturn[]>(
+      `${this.apiHost}/objects/products/search/${term}`,
+      { headers: {"GROCY-API-KEY": this.apiKey} }
+    ).pipe(
+      map(r => r.map(this.convertProductApiToLocal))
+    );
+  }
+
   allProducts(): Observable<GrocyProduct[]> {
     return this.http.get<GrocyProductAPIReturn[]>(
       `${this.apiHost}/objects/products`,
@@ -151,7 +162,9 @@ export class GrocyService {
         default_best_before_days: productParams.default_best_before_days,
         default_best_before_days_after_open: productParams.default_best_before_days_after_open,
         default_best_before_days_after_thawing: productParams.default_best_before_days_after_thawing,
-        default_best_before_days_after_freezing: productParams.default_best_before_days_after_freezing
+        default_best_before_days_after_freezing: productParams.default_best_before_days_after_freezing,
+        cumulate_min_stock_amount_of_sub_products: productParams.cumulate_min_stock_amount_of_sub_products,
+        parent_product_id: productParams.parent_product_id
       },
       { headers: {"GROCY-API-KEY": this.apiKey} }
     ).pipe(
