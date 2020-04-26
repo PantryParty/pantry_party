@@ -95,6 +95,7 @@ export class ProductQuickCreateComponent {
     purchase_quantity: () => !!this.product.purchaseQuantityUnits,
     consume_quantity: () => !!this.product.consumeQuantityUnits,
     quantity_unit_factor: () => this.product.quantityUnitFactor >= 1,
+    minimumStockAmount: () => this.product.minStockAmount >= 0,
     bestBeforeDays: () => true,
     parentProduct: () => true,
     earlySave: () => true,
@@ -217,6 +218,11 @@ export class ProductQuickCreateComponent {
   nextScannedItem() {
     this.idxUnderEdit += 1;
     const nextItem = this.scannedItems[this.idxUnderEdit];
+
+    if (!nextItem) {
+      this.routerExtensions.back();
+    }
+
     this.saveStatus = "Getting ready to save";
 
     this.product = {
