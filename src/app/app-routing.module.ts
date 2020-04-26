@@ -7,8 +7,13 @@ import { ApplicationIsSetup } from "./guards/appIsSetup";
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/locations",
+    redirectTo: "/scan/purchase",
     pathMatch: "full"
+  },
+  {
+    path: "stock",
+    loadChildren: () => import("~/app/features/stock/stock.module").then(m => m.StockModule),
+    canActivate: [ApplicationIsSetup]
   },
   {
     path: "scan",

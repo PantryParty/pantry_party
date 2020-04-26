@@ -3,9 +3,19 @@ import { HttpClient } from "@angular/common/http";
 
 import { getString, setString } from "tns-core-modules/application-settings";
 
-import { GrocyProduct, GrocyLocation, GrocyQuantityUnit, GrocyItemCreated, GrocyProductAPIReturn } from "./grocy.interfaces";
+import {
+  GrocyProduct,
+  GrocyLocation,
+  GrocyQuantityUnit,
+  GrocyItemCreated,
+  GrocyProductAPIReturn,
+  GrocyStockAPIReturn,
+  GrocyStockEntry
+} from "./grocy.interfaces";
+
 import { Observable, of } from "rxjs";
 import { map, exhaustMap, mapTo } from "rxjs/operators";
+import { dateStringParser } from "../utilities/dateStringParser";
 
 export interface OpenProductsParams {
   productId: number | string;
@@ -256,6 +266,21 @@ export class GrocyService {
         location_id: purchaseProduct.locationId
       },
       { headers: {"GROCY-API-KEY": this.apiKey} }
+    );
+  }
+
+  allStock(): Observable<GrocyStockEntry[]> {
+    return this.http.get<GrocyStockAPIReturn[]>(
+      `${this.apiHost}/stock`,
+      { headers: {"GROCY-API-KEY": this.apiKey} }
+    ).pipe(
+      map(items => items.map(
+        i => ({
+          ...i,
+          best_before_date: dateStringParser(i.best_before_date),
+          product: this.convertProductApiToLocal(i.product)
+        })
+      ))
     );
   }
 

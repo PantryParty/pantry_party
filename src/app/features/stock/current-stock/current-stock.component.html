@@ -1,0 +1,61 @@
+<ActionBar title="Current Stock">
+  <NavigationButton ></NavigationButton>
+  <ActionItem drawerToggle> </ActionItem>
+</ActionBar>
+
+<StackLayout >
+  <SearchBar
+    hint="Filter By Product Name--"
+    (textChange)="searchUpdated($event)"
+    >
+  </SearchBar>
+
+  <GridLayout>
+    <RadListView
+      [items]="filteredStockItems"
+      pullToRefresh="true"
+      (pullToRefreshInitiated)="listPulled($event)"
+      >
+      <ng-template let-item="item" let-i="index">
+        <GridLayout
+          class="stockItem"
+          columns="*,100"
+          >
+
+          <StackLayout col="0">
+            <Label
+              [text]='item.product.name'
+              class="productName"
+              ></Label>
+
+            <Label
+              [text]="'Next Best Before ' + bestBeforeDate(item)"
+              class="nextBestBefore"
+              ></Label>
+          </StackLayout>
+
+          <FlexboxLayout
+            class="stockCounts"
+            col="1"
+            flexDirection="column"
+            justifyContent="center"
+            >
+            <Label
+              [text]='item.amount_aggregated'
+              class="totalAmmounts"
+              textAlignment="center"
+              ></Label>
+
+            <Label
+              [text]="item.amount_opened_aggregated + ' opened' "
+              class="openAmmounts"
+              *ngIf="item.amount_opened_aggregated > 0"
+              textAlignment="center"
+              ></Label>
+
+          </FlexboxLayout>
+        </GridLayout>
+      </ng-template>
+    </RadListView>
+  </GridLayout>
+</StackLayout>

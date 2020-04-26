@@ -6,6 +6,7 @@ import { ProductListComponent } from "./product-list/product-list.component";
 import { ProductCreationComponent } from "./product-creation/product-creation.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular/dataform-directives";
+import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular/d
     ProductManagmentRoutingModule,
     NativeScriptCommonModule,
     NativeScriptUIListViewModule,
-    NativeScriptUIDataFormModule
+    NativeScriptUIDataFormModule,
+    AppDrawerOpenerModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

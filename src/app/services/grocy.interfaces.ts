@@ -49,3 +49,25 @@ export interface GrocyProduct extends BaseGrocyProduct {
   default_best_before_days_after_freezing: number;
   default_best_before_days_after_thawing: number;
 }
+
+export interface GrocyStockAPIReturn {
+    product_id: number;
+    amount: number;
+    amount_aggregated: number;
+    amount_opened: number;
+    amount_opened_aggregated: number;
+    best_before_date: string;
+    is_aggregated_amount: true;
+    product: GrocyProductAPIReturn;
+}
+
+export interface GrocyStockEntry {
+  product_id: number;
+  amount: number;
+  amount_aggregated: number;
+  amount_opened: number;
+  amount_opened_aggregated: number;
+  best_before_date: Date;
+  is_aggregated_amount: true;
+  product: GrocyProduct;
+}
