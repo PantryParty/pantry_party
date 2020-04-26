@@ -17,9 +17,9 @@ export class ConsumeComponent {
     public grocyService: GrocyService
   ) {
 
-    scannedItemManager.undoCallback = (i) => this.grocyService.undoBooking(i);
+    scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
-    scannedItemManager.saveCallback = (i) => {
+    scannedItemManager.saveCallback = i => {
       const consumeProductProps: ConsumeProductsParams = {
         productId: i.grocyProduct.id,
         quantity: i.quantity,
@@ -34,17 +34,17 @@ export class ConsumeComponent {
         switchMap(
           () => this.grocyService.consumeProduct(consumeProductProps)
         ),
-        map((r) => r.id)
+        map(r => r.id)
       );
     };
   }
 
   scanResults(evt: ScanResult) {
     this.scannedItemManager.newScanResults(evt);
-    this.changeRef.detectChanges();
+    this.updateView();
   }
 
   updateView() {
-    this.changeRef.detectChanges();
+    this.changeRef.markForCheck();
   }
 }
