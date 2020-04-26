@@ -5,6 +5,10 @@
   <ScrollView row="1">
       <StackLayout class="sideStackLayout">
 
+          <GridLayout (tap)="navigateTo(['/stock'])" class="item heading" columns="15, *">
+            <Image col="0" src="font://&#xf2e7;" class="fas"></Image>
+            <Label col="1" text="Current Stock"></Label>
+          </GridLayout>
           <GridLayout class="item heading" columns="15, *">
             <Image col="0" src="font://&#xf02a;" class="fas"></Image>
             <Label col="1" text="Scan"></Label>
