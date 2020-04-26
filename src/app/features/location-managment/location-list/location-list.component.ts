@@ -15,7 +15,7 @@ export interface LocationSelectionResults {
 @Component({
   selector: "ns-location-list",
   templateUrl: "./location-list.component.html",
-  styleUrls: ["./location-list.component.css"]
+  styleUrls: ["./location-list.component.scss"]
 })
 export class LocationListComponent implements OnInit {
   get locations(): GrocyLocation[] {
