@@ -28,7 +28,7 @@ interface ReadyScannedItem extends BaseScannedItem {
 }
 
 export class ScannedItemManagerService implements OnDestroy {
-  @Input() defaultLocation?: GrocyLocation;
+  defaultLocation?: GrocyLocation;
 
   get allPendingScannedItems() {
     return this.scannedItems.filter(i => !i.grocyProduct && !this.isWorking(i.barcode));
