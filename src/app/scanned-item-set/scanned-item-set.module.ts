@@ -5,6 +5,7 @@ import { ScannedItemSetComponent } from "~/app/scanned-item-set/scanned-item-set
 import { ScannedItemListComponent } from "./scanned-item-list/scanned-item-list.component";
 import { ScannedItemDisplayComponent } from "./scanned-item-display/scanned-item-display.component";
 import { ScannedItemSetRoutingModule } from "./scanned-item-set.routing";
+import { ProductQuickCreateComponent } from './product-quick-create/product-quick-create.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ScannedItemSetRoutingModule } from "./scanned-item-set.routing";
   declarations: [
     ScannedItemSetComponent,
     ScannedItemListComponent,
-    ScannedItemDisplayComponent
+    ScannedItemDisplayComponent,
+    ProductQuickCreateComponent
   ],
   exports: [
     ScannedItemSetComponent

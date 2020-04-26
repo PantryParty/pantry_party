@@ -1,8 +1,21 @@
-<ns-scanned-item-list
-  [items]="scannedItemManager.updatedScannedItems | async"
-  [pausedItems]="scannedItemManager.pausedItemBarcodes"
-  [workingItems]="scannedItemManager.workingBarcodes"
-  (itemPauseToggled)="handlePausedItem($event)"
-  (itemTapped)="itemTapped($event)"
-  (swipeOnItem)="swipeOnItem($event)"
-  ></ns-scanned-item-list>
+<StackLayout>
+  <Label
+    [@slideInOut]="'in'"
+    textAlignment="center"
+    height="40"
+    [text]="pendingItemWarningText()"
+    class="pendingItemsWarning"
+    (tap)="quickCreateProducts()"
+    *ngIf="scannedItemManager.allPendingScannedItems.length"
+    ></Label>
+  <GridLayout>
+  <ns-scanned-item-list
+    [items]="scannedItemManager.updatedScannedItems | async"
+    [pausedItems]="scannedItemManager.pausedItemBarcodes"
+    [workingItems]="scannedItemManager.workingBarcodes"
+    (itemPauseToggled)="handlePausedItem($event)"
+    (itemTapped)="itemTapped($event)"
+    (swipeOnItem)="swipeOnItem($event)"
+    ></ns-scanned-item-list>
+  </GridLayout>
+</StackLayout>

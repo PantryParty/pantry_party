@@ -1,10 +1,10 @@
 import { ScanResult } from "nativescript-barcodescanner";
-import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of } from "rxjs";
+import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject, timer } from "rxjs";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
-import { map, takeUntil, finalize, take } from "rxjs/operators";
-import { OnDestroy } from "@angular/core";
+import { map, takeUntil, finalize, take, mergeMap, mapTo } from "rxjs/operators";
+import { OnDestroy, Injectable } from "@angular/core";
 import { dateString } from "~/app/utilities/dateString";
 
 interface BaseScannedItem {
@@ -29,6 +29,10 @@ interface ReadyScannedItem extends BaseScannedItem {
 
 export class ScannedItemManagerService implements OnDestroy {
 
+  get allPendingScannedItems() {
+    return this.scannedItems.filter(i => !i.grocyProduct);
+  }
+
   get workingBarcodes(): Record<string, boolean> {
     const working: Record<string, boolean> = {};
 
@@ -39,13 +43,15 @@ export class ScannedItemManagerService implements OnDestroy {
     return working;
   }
 
-  defaultWaitToSave = 20;
-
   private get scannedItems() { return this._scannedItems; }
   private set scannedItems(v: ScannedItem[]) {
     this._scannedItems = v;
     this.updatedScannedItems.next(v);
   }
+
+  defaultWaitToSave = 20;
+  createDelay = 5;
+
   pausedItemBarcodes: Record<string, boolean> = {};
 
   updatedScannedItems = new BehaviorSubject<ScannedItem[]>([]);
@@ -73,7 +79,8 @@ export class ScannedItemManagerService implements OnDestroy {
   constructor(
     private grocyService: GrocyService,
     private externalLookupService: ScannedItemExernalLookupService
-  ) {}
+  ) {
+  }
 
   undoCallback: (s: string) => Observable<any> = _ => of("");
   saveCallback: (s: ReadyScannedItem) => Observable<string> = _ => of("");

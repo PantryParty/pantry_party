@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import { NativeScriptHttpClientModule } from "nativescript-angular";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
+import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
 
 @NgModule({
     bootstrap: [
@@ -15,11 +16,12 @@ import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
         NativeScriptModule,
         AppRoutingModule,
         NativeScriptUISideDrawerModule,
-        NativeScriptHttpClientModule
+        NativeScriptHttpClientModule,
+        NativeScriptAnimationsModule
     ],
     declarations: [
         AppComponent,
-        AppDrawerComponent,
+        AppDrawerComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

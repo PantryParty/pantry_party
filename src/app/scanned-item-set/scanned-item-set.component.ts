@@ -1,16 +1,19 @@
-import { Component, Input, ViewContainerRef } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ScannedItemManagerService, ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
-import { ModalDialogOptions, ModalDialogService, RouterExtensions } from "nativescript-angular";
-import { ScannedItemEditorEntryComponent } from "./scanned-item-editor/scanned-item-editor-entry.component";
+import {  RouterExtensions } from "nativescript-angular";
 import { SwipeOnItemData } from "./scanned-item-list/scanned-item-list.component";
 import { SwipeDirection } from "@nativescript/core/ui/gestures/gestures";
 import { ActivatedRoute } from "@angular/router";
 import { StateTransferService } from "../services/state-transfer.service";
+import { slideInOutDownAnimation } from "../utilities/animations";
 
 @Component({
   selector: "ns-scanned-item-set",
   templateUrl: "./scanned-item-set.component.html",
-  styleUrls: ["./scanned-item-set.component.css"]
+  styleUrls: ["./scanned-item-set.component.scss"],
+  animations: [
+    [ slideInOutDownAnimation() ]
+  ]
 })
 export class ScannedItemSetComponent {
   @Input() scannedItemManager: ScannedItemManagerService;
@@ -20,6 +23,19 @@ export class ScannedItemSetComponent {
     private route: ActivatedRoute,
     private stateTransfer: StateTransferService
   ) {}
+
+  quickCreateProducts() {
+    this.stateTransfer.setState({
+      type: "productQuickCreate",
+      scannedItems: this.scannedItemManager.allPendingScannedItems,
+      scannedItemManager: this.scannedItemManager
+    });
+
+    this.routerExtension.navigate(
+      ["../quickCreateProducts"],
+      { relativeTo:  this.route }
+    );
+  }
 
   itemTapped(item: ScannedItem) {
     this.stateTransfer.setState({
@@ -54,5 +70,11 @@ export class ScannedItemSetComponent {
    if ($event.direction === SwipeDirection.left) {
      this.scannedItemManager.removeScannedItemByBarcode(item.barcode);
    }
+  }
+
+  pendingItemWarningText() {
+    const total = this.scannedItemManager.allPendingScannedItems.length;
+
+    return `Complete ${total} Product${total > 1 ? "s" : ""} now`;
   }
 }
