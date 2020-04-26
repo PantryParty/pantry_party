@@ -1,10 +1,10 @@
 import { ScanResult } from "nativescript-barcodescanner";
-import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject, timer } from "rxjs";
+import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of } from "rxjs";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
-import { map, takeUntil, finalize, take, mergeMap, mapTo } from "rxjs/operators";
-import { OnDestroy, Injectable } from "@angular/core";
+import { map, takeUntil, finalize, take } from "rxjs/operators";
+import { OnDestroy, Input } from "@angular/core";
 import { dateString } from "~/app/utilities/dateString";
 
 interface BaseScannedItem {
@@ -28,9 +28,10 @@ interface ReadyScannedItem extends BaseScannedItem {
 }
 
 export class ScannedItemManagerService implements OnDestroy {
+  @Input() defaultLocation?: GrocyLocation;
 
   get allPendingScannedItems() {
-    return this.scannedItems.filter(i => !i.grocyProduct);
+    return this.scannedItems.filter(i => !i.grocyProduct && !this.isWorking(i.barcode));
   }
 
   get workingBarcodes(): Record<string, boolean> {
@@ -129,7 +130,8 @@ export class ScannedItemManagerService implements OnDestroy {
         autoSave: true,
         saveInProgress: false,
         saveCoutdown: this.defaultWaitToSave,
-        bestBeforeDate: dateString(0)
+        bestBeforeDate: dateString(0),
+        location: this.defaultLocation
       };
 
       this.findGrocyProduct(newItem);
@@ -200,16 +202,19 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   assignProductToBarcode(barcode: string, product: GrocyProduct, location?: GrocyLocation) {
-    this.updateScannedItem(
-      barcode,
-      {
-        grocyProduct: product,
-        bestBeforeDate: dateString(product.default_best_before_days),
-        location
-      }
-    );
+    const update: Partial<ScannedItem> = {
+      grocyProduct: product,
+      bestBeforeDate: dateString(product.default_best_before_days)
+    };
 
-    if (!location) {
+    if (location) {
+      update.location = location;
+    }
+
+    this.updateScannedItem(barcode, update);
+
+    const currentItem = this.itemByBarcode(barcode);
+    if (!currentItem.location) {
       this.fetchDefaultLocationForItem(this.itemByBarcode(barcode));
     }
   }
@@ -229,8 +234,7 @@ export class ScannedItemManagerService implements OnDestroy {
 
     this.grocyService.getLocation(item.grocyProduct.location_id).pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(location => this.updateScannedItem(item.barcode, { location })
-               );
+    ).subscribe(location => this.updateScannedItem(item.barcode, { location }));
   }
 
   private findGrocyProduct(item: ScannedItem) {
@@ -241,7 +245,7 @@ export class ScannedItemManagerService implements OnDestroy {
     .pipe(
       finalize(() => this.setWorking(item.barcode, false))
     ).subscribe(r => {
-      this.assignProductToBarcode(item.barcode, r.product)
+      this.assignProductToBarcode(item.barcode, r.product);
     }, e => {
       if (e.status === 400) {
         this.searchForItemExternally(item);

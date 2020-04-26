@@ -12,8 +12,21 @@ export class NamedThingSelectorButton<T extends {name: string}> {
   constructor(public nounName: string, private valueGetter: () => Promise<T>) {
   }
 
-  get value() {
-    return this.selectedValue;
+  get value(): T {
+    if (!isNSDictionary(this.selectedValue)) {
+      return this.selectedValue as T;
+    }
+
+    const result = {};
+    const val = this.selectedValue;
+    const keys = val.allKeys;
+
+    for (let i = 0; i < keys.count; i++) {
+      const key = keys[i];
+      result[key] = val.objectForKey(key);
+    }
+
+    return result as T;
   }
 
   editorNeedsView(args) {

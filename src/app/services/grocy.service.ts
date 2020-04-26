@@ -47,6 +47,12 @@ export interface GrocySystemInfoResponse {
   grocy_version: { Version: string; };
 }
 
+export interface InventoryProductsParams  {
+  new_amount: number;
+  best_before_date: string;
+  location_id: string | number;
+}
+
 @Injectable({
   providedIn: "root"
 })
@@ -228,6 +234,14 @@ export class GrocyService {
         spoiled: consumeParams.spoiled,
         location_id: consumeParams.locationId
       },
+      { headers: {"GROCY-API-KEY": this.apiKey} }
+    );
+  }
+
+  inventoryProduct(productId: string | number , inventoryParams: InventoryProductsParams) {
+    return this.http.post<{id: string; stock_id: string}>(
+      `${this.apiHost}/stock/products/${productId}/inventory`,
+      inventoryParams,
       { headers: {"GROCY-API-KEY": this.apiKey} }
     );
   }

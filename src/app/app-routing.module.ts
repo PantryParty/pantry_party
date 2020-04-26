@@ -7,7 +7,7 @@ import { ApplicationIsSetup } from "./guards/appIsSetup";
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/scan/purchase",
+    redirectTo: "/scan/inventory",
     pathMatch: "full"
   },
   {

@@ -10,13 +10,15 @@ import { OpenComponent } from "../open/open.component";
 import { SpoiledComponent } from "../spoiled/spoiled.component";
 import { ConsumeComponent } from "../consume/consume.component";
 import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
+import { InventoryComponent } from "../inventory/inventory.component";
 
 @NgModule({
   declarations: [
     PurchaseComponent,
     OpenComponent,
     SpoiledComponent,
-    ConsumeComponent
+    ConsumeComponent,
+    InventoryComponent
   ],
   imports: [
     ScanRoutingModule,
