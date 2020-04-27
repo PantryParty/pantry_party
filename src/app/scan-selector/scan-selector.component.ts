@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { BarcodeScanner, ScanOptions, ScanResult } from "nativescript-barcodescanner";
+import { TNSTextToSpeech, SpeakOptions } from "nativescript-texttospeech";
 
 @Component({
   selector: "ns-scan-selector",
@@ -11,8 +12,6 @@ export class ScanSelectorComponent {
   @Output() scannerClosed = new EventEmitter<void>();
 
   scannerSettings: ScanOptions = {
-      formats: "QR_CODE, EAN_13, UPC_A, UPC_E",
-      beepOnScan: true,
       reportDuplicates: true,
       preferFrontCamera: false,
       closeCallback: () => this.scannerClosed.emit(),

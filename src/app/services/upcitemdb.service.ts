@@ -46,9 +46,13 @@ export class UPCItemDbService {
       if (r.items.length === 0) {
         return EMPTY;
       } else {
-        return of({
-          name: `${ r.items[0].title } (${r.items[0].brand})`
-        });
+        let name = r.items[0].title;
+
+        if (r.items[0].brand) {
+          name += ` (${r.items[0].brand})`;
+        }
+
+        return of({ name });
       }
     })
     );

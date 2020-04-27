@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, concat } from "rxjs";
+import { Observable, concat, throwError } from "rxjs";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
 import { map, take } from "rxjs/operators";
@@ -32,21 +32,19 @@ export class ScannedItemExernalLookupService {
 
   search(barcode: string): Observable<ExternalProduct> {
     return concat(
-      ...this.lookupOrder.map(i => this.searchForType(i, barcode))
+      ...this.lookupOrder.map(i => this.searchForType(i, barcode)),
+      throwError("No Prouct Found")
     ).pipe(take(1));
   }
 
   searchForType(type: string, barcode: string): Observable<ExternalProduct> {
     switch (type) {
       case "openFoodFacts":
-        return this.openFoodFacts.searchForBarcode(barcode).pipe(
-          map(r => ({name: `${r.product.product_name} (${r.product.brands})`}))
-      );
+        return this.openFoodFacts.searchForBarcode(barcode);
       case "upcItemDb":
         return this.upcItemDbService.lookForBarcode(barcode);
       case "upcDb":
         return this.upcDatabase.lookForBarcode(barcode);
-
     }
   }
 }

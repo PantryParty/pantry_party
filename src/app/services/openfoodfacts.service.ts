@@ -5,6 +5,7 @@ import { map, catchError } from "rxjs/operators";
 
 import { OpenFoodFactsProductResponse, ProductFound } from "./openfoodfacts.interface";
 import { getBoolean, setBoolean } from "tns-core-modules/application-settings/application-settings";
+import { ExternalProduct } from "./scanned-item-exernal-lookup.service";
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +22,7 @@ export class OpenFoodFactsService {
     setBoolean("openfoodfacts.enabled", val);
   }
 
-  searchForBarcode(barcode: string): Observable<ProductFound> {
+  searchForBarcode(barcode: string): Observable<ExternalProduct> {
     if (!this.enabled) {
       return EMPTY;
     }
@@ -33,7 +34,13 @@ export class OpenFoodFactsService {
         if (i.status === 0 || !i.product.product_name) {
           throw new Error("Product not found");
         } else {
-          return i;
+          let name = i.product.product_name;
+
+          if (i.product.brands) {
+            name += ` (${i.product.brands})`;
+          }
+
+          return { name };
         }
       }),
       catchError(() => EMPTY)

@@ -1,11 +1,12 @@
 import { ScanResult } from "nativescript-barcodescanner";
-import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of } from "rxjs";
+import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject } from "rxjs";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
 import { map, takeUntil, finalize, take } from "rxjs/operators";
 import { OnDestroy, Input } from "@angular/core";
 import { dateString } from "~/app/utilities/dateString";
+import { ScannedAnnouncerService, FinalScanResults } from "~/app/services/scan-announcer";
 
 interface BaseScannedItem {
   barcode: string;
@@ -29,6 +30,10 @@ interface ReadyScannedItem extends BaseScannedItem {
 
 export class ScannedItemManagerService implements OnDestroy {
   defaultLocation?: GrocyLocation;
+
+  scanResults = new Subject<FinalScanResults>();
+  annouceScannedItems = true;
+  scanAnnouncer = new ScannedAnnouncerService(this.scanResults);
 
   get allPendingScannedItems() {
     return this.scannedItems.filter(i => !i.grocyProduct && !this.isWorking(i.barcode));
@@ -191,6 +196,7 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.scanAnnouncer.ngOnDestroy();
     this.ngUnsubscribe.next(true);
   }
 
@@ -245,15 +251,22 @@ export class ScannedItemManagerService implements OnDestroy {
     .pipe(
       finalize(() => this.setWorking(item.barcode, false))
     ).subscribe(r => {
+      this.scanResults.next({status: "success", itemName: r.product.name});
       this.assignProductToBarcode(item.barcode, r.product);
     }, e => {
       if (e.status === 400) {
         this.searchForItemExternally(item);
       } else {
         console.log("received error fetching grocy product", e);
+        this.scanResults.next({status: "failure"});
       }
     }
                );
+  }
+
+  private foundExternalItem(item: ScannedItem, external: ExternalProduct) {
+    this.scanResults.next({ status: "success", itemName: external.name });
+    this.updateScannedItem(item.barcode, { externalProduct: external });
   }
 
   private searchForItemExternally(item: ScannedItem) {
@@ -261,12 +274,10 @@ export class ScannedItemManagerService implements OnDestroy {
     this.externalLookupService.search(item.barcode)
     .pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(r => {
-      this.updateScannedItem(
-        item.barcode,
-        { externalProduct: r }
-      );
-    });
+    ).subscribe(
+      r => this.foundExternalItem(item, r),
+      _ => this.scanResults.next({status: "failure"})
+    );
   }
 
   private itemByBarcode(barcode: string) {
