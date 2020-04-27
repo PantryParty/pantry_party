@@ -5,9 +5,9 @@ import { arrayMove } from "~/app/utilities/arrayMove";
 import { ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
 import { EventData } from "tns-core-modules/ui/page/page";
 import { Switch } from "tns-core-modules/ui/switch/switch";
-import { ActivatedRoute, Router } from "@angular/router";
 import { openUrl } from "@nativescript/core/utils/utils";
 import { Component } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular";
 
 interface BarcodeServiceDef {
   name: string;
@@ -51,21 +51,16 @@ export class BarcodeSourcesComponent {
   };
 
   orderedItems = this.scannedItemExternalLookupService.lookupOrder
-      .map((i) => this.barcodeServices[i])
-      .filter((i) => !!i);
+      .map(i => this.barcodeServices[i])
+      .filter(i => !!i);
 
   constructor(
     public openFoodFacts: OpenFoodFactsService,
     public upcItemDb: UPCItemDbService,
     public upcDatabase: UPCDatabaseService,
     public scannedItemExternalLookupService: ScannedItemExernalLookupService,
-    private router: Router
+    private router: RouterExtensions
   ) { }
-
-  enabledSwitchChanged(evt: EventData, item: BarcodeServiceDef) {
-    const sw = evt.object as Switch;
-    item.service.enabled = sw.checked;
-  }
 
   openUrl(url: string) {
     openUrl(url);
@@ -81,13 +76,7 @@ export class BarcodeSourcesComponent {
 
   sourceTapped(item: BarcodeServiceDef) {
     if (item.configurationPath) {
-      console.log("naving to config path", item.configurationPath);
       this.router.navigate(item.configurationPath);
     }
   }
-
-  switchTap(evt: Event) {
-    evt.stopPropagation();
-  }
-
 }

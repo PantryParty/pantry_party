@@ -6,10 +6,9 @@
       (itemReordered)="onItemReordered($event)"
       >
         <ng-template let-i="index" let-item="item">
-          <GridLayout height="150" columns="60,*,20">
+          <StackLayout orientation="horizontal">
             <Switch
-              [checked]="item.service.enabled"
-              (checkedChange)="enabledSwitchChanged($event, item)"
+              [(ngModel)]="item.service.enabled"
               col="0"
               horizontalAlignment="center"></Switch>
             <StackLayout (tap)="sourceTapped(item)" col="1">
@@ -31,12 +30,7 @@
                 *ngIf="item.service.configurationRequired"
                 ></Label>
             </StackLayout>
-            <ReorderHandle col="2" verticalAlignment="center">
-              <Image *ngIf="i === 0" src="font://&#xf0dd;" class="fas"></Image>
-              <Image *ngIf="i !== 0 && i !== orderedItems.length - 1"src="font://&#xf0dc;" class="fas"></Image>
-              <Image *ngIf="i === orderedItems.length - 1" src="font://&#xf0de;" class="fas"></Image>
-            </ReorderHandle>
-          </GridLayout>
+          </StackLayout>
         </ng-template>
     </RadListView>
 </GridLayout>

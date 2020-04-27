@@ -13,6 +13,7 @@ import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener
 import { GrocyApiWrapperComponent } from "./grocy-api/grocy-api-wrapper.component";
 import { BarcodeSourcesWrapperComponent } from "./barcode-sources/barcode-sources-wrapper.component";
 import { PrivacySettingsWrapperComponent } from "./privacy-settings/privacy-settings-wrapper.component";
+import { NativeScriptFormsModule } from "nativescript-angular";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PrivacySettingsWrapperComponent } from "./privacy-settings/privacy-sett
     NativeScriptCommonModule,
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
-    AppDrawerOpenerModule
+    AppDrawerOpenerModule,
+    NativeScriptFormsModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   exports: [
