@@ -7,7 +7,7 @@ import { ScannedItemDisplayComponent } from "./scanned-item-display/scanned-item
 import { ScannedItemSetRoutingModule } from "./scanned-item-set.routing";
 import { ProductQuickCreateComponent } from "./product-quick-create/product-quick-create.component";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
-import { DateIncrementerComponent } from './product-quick-create/date-incrementer/date-incrementer.component';
+import { DateIncrementerComponent } from "./product-quick-create/date-incrementer/date-incrementer.component";
 
 @NgModule({
   imports: [
