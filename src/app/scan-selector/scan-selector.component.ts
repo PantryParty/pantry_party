@@ -21,21 +21,19 @@ export class ScanSelectorComponent {
       resultDisplayDuration: 0
   };
 
-  constructor(
-    private barcodeScanner: BarcodeScanner
-  ) { }
+  private barcodeScanner = new BarcodeScanner();
 
   scanOnce(): void {
     this.barcodeScanner.scan(this.scannerSettings)
-    .then((r) => this.scanResults.emit(r))
-    .catch((error) => console.log(error));
+    .then(r => this.scanResults.emit(r))
+    .catch(error => console.log(error));
   }
 
   scanContiniously(): void {
     this.barcodeScanner.scan({
       ...this.scannerSettings,
-      continuousScanCallback: (r) => this.scanResults.emit(r)
+      continuousScanCallback: r => this.scanResults.emit(r)
     })
-    .catch((error) => console.log(error));
+    .catch(error => console.log(error));
   }
 }

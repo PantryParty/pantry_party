@@ -2,5 +2,10 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app/app.module";
+import { enableProdMode } from "@angular/core";
+import { envConfig } from "./app/utilities/env";
 
+if (envConfig.enableNgProdMode) {
+  enableProdMode();
+}
 platformNativeScriptDynamic().bootstrapModule(AppModule);
