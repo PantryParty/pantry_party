@@ -17,11 +17,6 @@ export class PurchaseComponent implements OnDestroy {
     public scannedItemManager: ScannedItemManagerService,
     public grocyService: GrocyService
   ) {
-    setTimeout(() => this.scanResults({text: "014100085508", format: "UPC_A"}), 1000);
-    // setTimeout(() => this.scanResults({text: "041498254971", format: "UPC_A"}), 2000);
-    // setTimeout(() => this.scanResults({text: "658010118873", format: "UPC_A"}), 3000);
-    // setTimeout(() => this.scanResults({text: "20621483", format: "UPC_A"}), 4000);
-    // setTimeout(() => this.scanResults({text: "rjoqwjroi", format: "UPC_A"}), 4000);
     scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
     scannedItemManager.saveCallback = i => {

@@ -157,11 +157,12 @@ export class ProductQuickCreateComponent {
     if (val && val.type === "productQuickCreate") {
       this.scannedItemManager = val.scannedItemManager;
       this.scannedItems = val.scannedItems;
-      this.nextScannedItem();
     }
 
     this.grocyService.locations().subscribe(locs => {
       this.locations = locs;
+      this.preSelectLocation();
+      this.nextScannedItem();
     });
 
     this.grocyService.allProducts().subscribe(p => {
@@ -224,13 +225,27 @@ export class ProductQuickCreateComponent {
     }
 
     this.saveStatus = "Getting ready to save";
-
     this.product = {
       ...this.buildEmptyProduct(),
       name: nextItem.externalProduct ? nextItem.externalProduct.name : "",
       barcode: nextItem.barcode,
       location: nextItem.location || null
     };
+
+    this.preSelectLocation();
+  }
+
+  preSelectLocation() {
+    debugger;
+    if (this.product.location) {
+      const idx = this.locations.findIndex(
+        a => a.id === this.product.location.id
+      );
+
+      if (idx) {
+        this.selectedLocationIdx = idx;
+      }
+    }
   }
 
   valueAdjuster(

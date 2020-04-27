@@ -1,9 +1,9 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { registerElement } from "nativescript-angular/element-registry";
-import { BarcodeScanner } from "nativescript-barcodescanner";
+// import { BarcodeScanner } from "nativescript-barcodescanner";
 
-registerElement("BarcodeScanner", () => require("nativescript-barcodescanner").BarcodeScannerView);
+// registerElement("BarcodeScanner", () => require("nativescript-barcodescanner").BarcodeScannerView);
 
 import { ScanSelectorComponent } from "./scan-selector.component";
 
@@ -19,9 +19,6 @@ import { ScanSelectorComponent } from "./scan-selector.component";
     ],
     schemas: [
         NO_ERRORS_SCHEMA
-    ],
-    providers: [
-      BarcodeScanner
     ]
 })
 export class ScanSelectorModule { }

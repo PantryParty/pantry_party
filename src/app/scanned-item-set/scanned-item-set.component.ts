@@ -12,7 +12,7 @@ import { slideInOutDownAnimation } from "../utilities/animations";
   templateUrl: "./scanned-item-set.component.html",
   styleUrls: ["./scanned-item-set.component.scss"],
   animations: [
-    [ slideInOutDownAnimation() ]
+    slideInOutDownAnimation
   ]
 })
 export class ScannedItemSetComponent {

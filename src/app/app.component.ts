@@ -5,6 +5,7 @@ import { getBoolean } from "tns-core-modules/application-settings/application-se
 import { PrivacyService } from "./services/privacy.service";
 import { Frame } from "tns-core-modules/ui/frame/frame";
 import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
+import { envConfig } from "./utilities/env";
 
 @Component({
     selector: "ns-app",
@@ -13,7 +14,7 @@ import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-
 export class AppComponent implements OnInit {
     @ViewChild(RadSideDrawerComponent, { static: false }) drawerComponent: RadSideDrawerComponent;
 
-    private testing = true;
+    private testing = envConfig.adTesting;
     private androidBannerId: string = "ca-app-pub-7265627701189310/9591754412";
     private iosBannerId: string = "ca-app-pub-7265627701189310/7896363511";
 
