@@ -33,10 +33,6 @@ export class InventoryComponent implements OnDestroy {
     private stateTransfer: StateTransferService,
     private routerExtensions: RouterExtensions
   ) {
-    setTimeout(
-      () => this.scanResults({text: "asdf", format: "UPC_A"}),
-      5000
-    );
     scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
     scannedItemManager.saveCallback = i => {
