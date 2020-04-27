@@ -69,7 +69,7 @@ export class UPCDatabaseService {
        </methodCall>`,
        { responseType: "text" }
     ) .pipe(
-      switchMap((r) => this.decodeResponse(r)),
+      switchMap(r => this.decodeResponse(r)),
       catchError(() => empty())
     );
   }
