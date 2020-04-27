@@ -7,6 +7,12 @@ import { convertToUpcAIfRequired } from "../utilities/upcConverter";
 import { ExternalProduct } from "./scanned-item-exernal-lookup.service";
 import { getBoolean, setBoolean } from "tns-core-modules/application-settings/application-settings";
 
+interface ItemLookupResponse {
+  items: {
+    title: string;
+    brand: string;
+  }[];
+}
 @Injectable({
   providedIn: "root"
 })
@@ -27,7 +33,7 @@ export class UPCItemDbService {
       return EMPTY;
     }
 
-    return this.http.get<{items: {title: string}[]}>(
+    return this.http.get<ItemLookupResponse>(
       "https://api.upcitemdb.com/prod/trial/lookup",
       {
         params: {
@@ -36,12 +42,12 @@ export class UPCItemDbService {
       }
     ) .pipe(
       catchError(() => EMPTY),
-      switchMap((r) => {
+      switchMap(r => {
       if (r.items.length === 0) {
         return EMPTY;
       } else {
         return of({
-          name: r.items[0].title
+          name: `${ r.items[0].title } (${r.items[0].brand})`
         });
       }
     })

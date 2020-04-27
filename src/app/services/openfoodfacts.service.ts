@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, empty, EMPTY } from "rxjs";
+import { Observable, EMPTY } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
 import { OpenFoodFactsProductResponse, ProductFound } from "./openfoodfacts.interface";
@@ -29,14 +29,14 @@ export class OpenFoodFactsService {
     return this.http.get<OpenFoodFactsProductResponse>(
       `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`
     ).pipe(
-      map((i) => {
+      map(i => {
         if (i.status === 0 || !i.product.product_name) {
           throw new Error("Product not found");
         } else {
           return i;
         }
       }),
-      catchError(() => empty())
+      catchError(() => EMPTY)
     );
   }
 }

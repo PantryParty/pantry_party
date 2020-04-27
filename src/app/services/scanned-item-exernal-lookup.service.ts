@@ -32,7 +32,7 @@ export class ScannedItemExernalLookupService {
 
   search(barcode: string): Observable<ExternalProduct> {
     return concat(
-      ...this.lookupOrder.map((i) => this.searchForType(i, barcode))
+      ...this.lookupOrder.map(i => this.searchForType(i, barcode))
     ).pipe(take(1));
   }
 
@@ -40,7 +40,7 @@ export class ScannedItemExernalLookupService {
     switch (type) {
       case "openFoodFacts":
         return this.openFoodFacts.searchForBarcode(barcode).pipe(
-          map((r) => ({name: r.product.product_name}))
+          map(r => ({name: `${r.product.product_name} (${r.product.brands})`}))
       );
       case "upcItemDb":
         return this.upcItemDbService.lookForBarcode(barcode);
