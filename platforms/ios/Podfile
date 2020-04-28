@@ -1,0 +1,19 @@
+use_frameworks!
+
+target "PantryParty" do
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-admob/platforms/ios/Podfile
+pod 'Google-Mobile-Ads-SDK', '7.58.0'
+
+# End Podfile
+
+# NativeScriptPlatformSection /Users/brianmalinconico/workspace/PantryParty/node_modules/@nativescript/core/platforms/ios/Podfile with 9.0
+platform :ios, '9.0'
+# End NativeScriptPlatformSection
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/@nativescript/core/platforms/ios/Podfile
+# platform :ios, '9.0'
+use_frameworks!
+
+pod 'MaterialComponents/Tabs', '~> 94.5'
+# End Podfile
+end
