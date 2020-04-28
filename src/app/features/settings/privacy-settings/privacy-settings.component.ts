@@ -15,11 +15,6 @@ export class PrivacySettingsComponent {
       title: "Allow Ads",
       description: "Help support continued development by allowing ads. We do get it if you turn them off though.",
       key: "allowAds"
-    },
-    {
-      title: "Allow Analytics",
-      description: "Analytics guide development by showing application usage and help catch errors.",
-      key: "allowAnalytics"
     }
   ];
 
