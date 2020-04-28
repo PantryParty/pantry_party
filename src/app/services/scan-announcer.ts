@@ -2,7 +2,8 @@ import { android as androidApplication  } from "tns-core-modules/application";
 import { Observable, ReplaySubject } from "rxjs";
 import { OnDestroy } from "@angular/core";
 import { takeUntil, concatMap } from "rxjs/operators";
-import { TNSTextToSpeech, SpeakOptions  } from "../utilities/text-to-speech";
+import { TNSTextToSpeech  } from "../utilities/text-to-speech";
+import { SpeakOptions } from "../utilities/text-to-speech/interfaces";
 
 interface ScanSuccess {
   status: "success";
