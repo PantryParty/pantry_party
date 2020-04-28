@@ -26,16 +26,23 @@ export class ScannedAnnouncerService implements OnDestroy {
       takeUntil(this.ngUnsubscribe),
       concatMap(r => {
 
+        console.log("received 1", r);
+
         if (r.status === "failure") {
           return this.speak("Item lookup failure");
         } else {
           return this.speak(r.itemName);
         }
       })
-    ).subscribe(r => {});
+    ).subscribe(
+      r => console.log("successfully spoke"),
+      e => console.log("error speaking", e.message)
+    );
   }
 
   speak(text: string) {
+    console.log("speaking", text);
+
     return this.TTS.speak({
       ...this.speakOptions,
       text
