@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { BarcodeScanner, ScanOptions, ScanResult } from "nativescript-barcodescanner";
+import { TNSTextToSpeech, SpeakOptions } from "nativescript-texttospeech";
 
 @Component({
   selector: "ns-scan-selector",

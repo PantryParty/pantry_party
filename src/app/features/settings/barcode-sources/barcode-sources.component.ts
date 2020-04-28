@@ -3,8 +3,6 @@ import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
 import { arrayMove } from "~/app/utilities/arrayMove";
 import { ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
-import { EventData } from "tns-core-modules/ui/page/page";
-import { Switch } from "tns-core-modules/ui/switch/switch";
 import { openUrl } from "@nativescript/core/utils/utils";
 import { Component } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular";

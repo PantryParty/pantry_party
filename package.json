@@ -27,6 +27,7 @@
     "nativescript-admob": "^4.0.2",
     "nativescript-angular": "~8.21.0",
     "nativescript-barcodescanner": "^3.4.2",
+    "nativescript-texttospeech": "^2.0.3",
     "nativescript-ui-dataform": "^6.0.0",
     "nativescript-ui-listview": "^8.1.2",
     "nativescript-ui-sidedrawer": "^8.0.1",
