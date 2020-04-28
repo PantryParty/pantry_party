@@ -1,7 +1,8 @@
+import { android as androidApplication  } from "tns-core-modules/application";
 import { Observable, ReplaySubject } from "rxjs";
 import { OnDestroy } from "@angular/core";
 import { takeUntil, concatMap } from "rxjs/operators";
-import { TNSTextToSpeech, SpeakOptions } from "nativescript-texttospeech";
+import { TNSTextToSpeech, SpeakOptions  } from "../utilities/text-to-speech";
 
 interface ScanSuccess {
   status: "success";
@@ -25,14 +26,16 @@ export class ScannedAnnouncerService implements OnDestroy {
     stream.pipe(
       takeUntil(this.ngUnsubscribe),
       concatMap(r => {
-
         if (r.status === "failure") {
           return this.speak("Item lookup failure");
         } else {
           return this.speak(r.itemName);
         }
       })
-    ).subscribe(r => {});
+    ).subscribe(
+      r => console.log("successfully spoke"),
+      e => console.log("error speaking", e.message)
+    );
   }
 
   speak(text: string) {
@@ -45,7 +48,7 @@ export class ScannedAnnouncerService implements OnDestroy {
   get speakOptions(): SpeakOptions {
     return   {
       text: "",
-      speakRate: 1.0
+      speakRate: androidApplication ? 1.0 : 0.5
     };
   }
 
