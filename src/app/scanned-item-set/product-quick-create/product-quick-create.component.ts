@@ -94,7 +94,7 @@ export class ProductQuickCreateComponent {
   }
 
   stepValid = {
-    name: () => this.product.name.length > 0 && !this.nameIsTaken(this.product.name),
+    name: () => this.product.name.length > 0, // && !this.nameIsTaken(this.product.name),
     location: () => !!this.product.location,
     purchase_quantity: () => !!this.product.purchaseQuantityUnits,
     consume_quantity: () => !!this.product.consumeQuantityUnits,
