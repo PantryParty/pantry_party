@@ -10,6 +10,9 @@ import { SwipeGestureEventData, SwipeDirection } from "@nativescript/core/ui/ges
 import { slideOutLeftAnimation } from "~/app/utilities/animations";
 import { EMPTY, Observable, of } from "rxjs";
 import { tap, catchError, mergeMap } from "rxjs/operators";
+import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
+import { UPCItemDbService } from "~/app/services/upcitemdb.service";
+import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
 
 interface InprogresProduct {
   barcode: string;
@@ -90,7 +93,7 @@ export class ProductQuickCreateComponent {
   }
 
   stepValid = {
-    name: () => this.product.name.length > 0,
+    name: () => this.product.name.length > 0 && !this.nameIsTaken(this.product.name),
     location: () => !!this.product.location,
     purchase_quantity: () => !!this.product.purchaseQuantityUnits,
     consume_quantity: () => !!this.product.consumeQuantityUnits,
@@ -125,7 +128,8 @@ export class ProductQuickCreateComponent {
 
   stepIdx = 0;
   saveStatus = "";
-
+  alternateNamesSearched = false;
+  alternateNames: Record<string, string> = {};
   scannedItemManager: ScannedItemManagerService;
   scannedItems: ScannedItem[] = [];
   idxUnderEdit = -1;
@@ -150,7 +154,11 @@ export class ProductQuickCreateComponent {
   constructor(
     private routerExtensions: RouterExtensions,
     private stateTransfer: StateTransferService,
-    private grocyService: GrocyService
+    private grocyService: GrocyService,
+
+    private openFoodFacts: OpenFoodFactsService,
+    private upcItemDbService: UPCItemDbService,
+    private upcDatabase: UPCDatabaseService
   ) {
     const val = this.stateTransfer.readAndClearState();
 
@@ -225,6 +233,8 @@ export class ProductQuickCreateComponent {
     }
 
     this.saveStatus = "Getting ready to save";
+    this.alternateNamesSearched = false;
+    this.alternateNames = {};
     this.product = {
       ...this.buildEmptyProduct(),
       name: nextItem.externalProduct ? nextItem.externalProduct.name : "",
@@ -235,8 +245,37 @@ export class ProductQuickCreateComponent {
     this.preSelectLocation();
   }
 
+  addBarcodeToExistingProduct() {
+    const conflict = this.nameConflicts();
+
+    if (conflict) {
+      const loc = this.locations.find(p => Number(p.id) === conflict.location_id);
+
+      this.grocyService.addBarcodeToProduct(conflict.id, this.product.barcode)
+      .subscribe(_ => {
+        this.updateScannedItem(conflict, loc);
+        this.nextScannedItem();
+      });
+    }
+  }
+
+  useName(newName: string) {
+    this.product.name = newName;
+  }
+
+  nameIsTaken(str: string) {
+    return !!this.products.find(p => p.name.toLowerCase() === str.toLowerCase());
+  }
+
+  isCurrentUserNameInput(name: string) {
+    return name.toLowerCase() === this.product.name.toLowerCase();
+  }
+
+  nameConflicts(): GrocyProduct | null {
+    return this.products.find(p => this.isCurrentUserNameInput(p.name)) || null;
+  }
+
   preSelectLocation() {
-    debugger;
     if (this.product.location) {
       const idx = this.locations.findIndex(
         a => a.id === this.product.location.id
@@ -301,19 +340,21 @@ export class ProductQuickCreateComponent {
     this.filteredProductNames = this.filteredProducts.map(p => p.name);
   }
 
+  updateScannedItem(product: GrocyProduct, location: GrocyLocation) {
+    this.scannedItemManager.assignProductToBarcode(
+      this.product.barcode,
+      product,
+      location
+    );
+  }
+
   saveProduct() {
     this.goToStep("saving");
 
     this.createParentProduct().pipe(
       tap(_ => this.saveStatus = "Creating Product"),
         mergeMap(_ => this.createNewProduct()),
-        tap(p => {
-        this.scannedItemManager.assignProductToBarcode(
-          this.product.barcode,
-          p,
-          this.product.location
-        );
-      }),
+        tap(p => this.updateScannedItem(p, this.product.location)),
       tap(_ => this.saveStatus = "Done"),
       catchError(e => {
         console.log(e);
@@ -379,6 +420,28 @@ export class ProductQuickCreateComponent {
     } else {
       return of("");
     }
+  }
+
+  numberOfAlternativeNames(): number {
+    return Object.keys(this.alternateNames).length;
+  }
+
+  findOtherNames() {
+    this.alternateNamesSearched = true;
+    this.upcDatabase.lookForBarcode(this.product.barcode)
+    .subscribe(r => {
+      this.alternateNames["UPC Database"] = r.name;
+    });
+
+    this.upcItemDbService.lookForBarcode(this.product.barcode)
+    .subscribe(r => {
+      this.alternateNames["UPC Item DB"] = r.name;
+    });
+
+    this.openFoodFacts.searchForBarcode(this.product.barcode)
+    .subscribe(r => {
+      this.alternateNames["Open Food Facts"] = r.name;
+    });
   }
 
   private createProductBaseParams() {
