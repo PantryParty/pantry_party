@@ -25,6 +25,63 @@
         [isEnabled]="isStepValid('name')"
         (tap)="nextStep()"
         ></Button>
+
+      <Label
+        text="Name is not unique please select a unique name"
+       textAlignment="center"
+       class="text-danger"
+       *ngIf="nameConflicts()"
+       ></Label>
+      <Button
+        text="Add barcode to existing product"
+        class="-outline"
+       *ngIf="nameConflicts()"
+        (tap)="addBarcodeToExistingProduct()"
+        ></Button>
+
+      <StackLayout class="hr m-10"></StackLayout>
+
+      <Button
+        text="Or Look For More Names"
+        class="-outline"
+        *ngIf="!alternateNamesSearched"
+        (tap)="findOtherNames()"
+        ></Button>
+
+      <Label
+        text="No new name found"
+       textAlignment="center"
+       class="body"
+       *ngIf="alternateNamesSearched && numberOfAlternativeNames() === 0"
+       ></Label>
+
+     <ng-container *ngFor="let name of alternateNames | keyvalue">
+      <Button
+        [text]="name.value"
+        class="-outline m-t-20"
+        (tap)="useName(name.value)"
+        *ngIf="!nameIsTaken(name.value) && !isCurrentUserNameInput(name.value)"
+        ></Button>
+      <Label
+        [text]="'Source ' + name.key"
+       textAlignment="center"
+       class="body"
+        *ngIf="!nameIsTaken(name.value) && !isCurrentUserNameInput(name.value)"
+       ></Label>
+
+      <Label
+        [text]="name.key + ' returned name which is already in use'"
+       textAlignment="center"
+       class="body"
+        *ngIf="nameIsTaken(name.value)"
+       ></Label>
+      <Label
+        [text]="name.key + ' returned the current name'"
+       textAlignment="center"
+       class="body"
+        *ngIf="!nameIsTaken(name.value) && isCurrentUserNameInput(name.value)"
+       ></Label>
+     </ng-container>
     </StackLayout>
 
     <!-- Location Selection -->
