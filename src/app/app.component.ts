@@ -33,9 +33,9 @@ export class AppComponent implements OnInit {
               !this.privacyService.showAds ||
               event instanceof NavigationStart
             ) {
-                // Admob.hideBanner();
+                Admob.hideBanner();
             } else if (event instanceof NavigationEnd) {
-                this.createBanner();
+                setTimeout(() => this.createBanner(), 1000);
             }
         });
     }
