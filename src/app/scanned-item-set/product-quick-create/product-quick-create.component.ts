@@ -13,6 +13,7 @@ import { tap, catchError, mergeMap } from "rxjs/operators";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
 import { UPCItemDbService } from "~/app/services/upcitemdb.service";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
+import { HttpErrorResponse, HttpResponse } from "@angular/common/http";
 
 interface InprogresProduct {
   barcode: string;
@@ -356,12 +357,17 @@ export class ProductQuickCreateComponent {
         mergeMap(_ => this.createNewProduct()),
         tap(p => this.updateScannedItem(p, this.product.location)),
       tap(_ => this.saveStatus = "Done"),
-      catchError(e => {
-        console.log(e);
-        this.saveStatus = `There was an error saving the product: ${e.message}`;
+      catchError((e: Error | HttpErrorResponse) => {
+        let errMsg = `There was an error saving the product: ${e.message}`;
+
+        if (e instanceof HttpErrorResponse) {
+          errMsg += JSON.stringify(e.error);
+        }
+
+        this.saveStatus = errMsg;
         throw e;
       })
-    ).subscribe(p => {
+    ).subscribe(_ => {
       this.saveStatus = "Product Created";
       setTimeout(() => {
         this.nextScannedItem();
