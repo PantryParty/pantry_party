@@ -1,0 +1,21 @@
+/* Add mobile styles for the component here.  */
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/blue";
+
+.control-wrapper {
+  margin-bottom: 5px;
+}
+
+.field-label {
+  margin-left: 25px;
+  font-size: 13px;
+  color: lighten( $complementary, 5%);
+}
+
+.field-errors {
+  margin-left: 25px;
+}
+
+.field {
+  margin-bottom: 0;
+}

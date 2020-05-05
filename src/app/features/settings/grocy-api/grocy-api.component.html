@@ -1,35 +1,18 @@
 <StackLayout>
-  <RadDataForm
-    [source]="apiConfig"
-    (propertyCommitted)="propertyCommitted()"
-    (propertyValidated)="propertyCommitted()"
-    validationMode="immediate"
-    #configForm
-    >
-    <TKEntityProperty
-      tkDataFormProperty
-      name="url"
-      displayName="URL to Grocy Server (including /api)"
-      index="0"
-      hintText="http://something.com/api"
-      required="true"
+    <ns-text-input
+      [control]="formControl('url')"
+      label="Grocy URL"
       >
-      <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
-    </TKEntityProperty>
-
-    <TKEntityProperty
-      tkDataFormProperty
-      name="apiKey"
-      displayName="API Key"
-      index="1"
-      required="true"
+      <ns-form-error-text validator="pattern" message="Expected to be http(s)://somehost/api"></ns-form-error-text>
+    </ns-text-input>
+    <ns-text-input
+      [control]="formControl('apiKey')"
+      label="API Key"
       >
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-    </TKEntityProperty>
-  </RadDataForm>
+    </ns-text-input>
 
   <Label
-    *ngIf="apiConfig.url !== ''"
+    *ngIf="formControl('url').value !== ''"
     [text]="apiKeyText()"
     textAlignment="center"
     class="text-muted"
