@@ -252,8 +252,8 @@ export class ScannedItemManagerService implements OnDestroy {
       finalize(() => this.setWorking(item.barcode, false))
     ).subscribe(r => {
       console.log("sending success");
-      this.scanResults.next({status: "success", itemName: r.product.name});
-      this.assignProductToBarcode(item.barcode, r.product);
+      this.scanResults.next({status: "success", itemName: r.name});
+      this.assignProductToBarcode(item.barcode, r);
     }, e => {
       if (e.status === 400) {
         this.searchForItemExternally(item);

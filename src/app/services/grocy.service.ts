@@ -92,10 +92,12 @@ export class GrocyService {
     );
   }
 
-  searchForBarcode(barcode: string) {
-    return this.http.get<{product: GrocyProduct}>(
+  searchForBarcode(barcode: string): Observable<GrocyProduct> {
+    return this.http.get<{product: GrocyProductAPIReturn}>(
       `${this.apiHost}/stock/products/by-barcode/${barcode}`,
       { headers: {"GROCY-API-KEY": this.apiKey} }
+    ).pipe(
+      map(i => this.convertProductApiToLocal(i.product))
     );
   }
 
