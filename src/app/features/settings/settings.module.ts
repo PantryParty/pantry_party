@@ -34,6 +34,8 @@ import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
     AppDrawerOpenerModule,
+    ReactiveFormsModule,
+    NativeScriptFormsModule,
     PantryPartyFormBuilderModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
