@@ -22,8 +22,8 @@ export class PurchaseComponent implements OnDestroy {
     scannedItemManager.saveCallback = i => {
       const purchaseProductProps: PurchaseProductsParams = {
         productId: i.grocyProduct.id,
-        quantity: i.quantity,
-        bestBeforeDate: "2020-12-30"
+        quantity: i.quantity * i.grocyProduct.quantity_unit_factor_purchase_to_stock,
+        bestBeforeDate: i.bestBeforeDate
       };
 
       return this.grocyService.addBarcodeToProduct(
