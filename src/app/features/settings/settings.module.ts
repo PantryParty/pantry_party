@@ -14,6 +14,8 @@ import { GrocyApiWrapperComponent } from "./grocy-api/grocy-api-wrapper.componen
 import { BarcodeSourcesWrapperComponent } from "./barcode-sources/barcode-sources-wrapper.component";
 import { PrivacySettingsWrapperComponent } from "./privacy-settings/privacy-settings-wrapper.component";
 import { NativeScriptFormsModule } from "nativescript-angular";
+import { ReactiveFormsModule } from "@angular/forms";
+import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-builder/pantry-party-form-builder.module";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { NativeScriptFormsModule } from "nativescript-angular";
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
     AppDrawerOpenerModule,
-    NativeScriptFormsModule
+    PantryPartyFormBuilderModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   exports: [

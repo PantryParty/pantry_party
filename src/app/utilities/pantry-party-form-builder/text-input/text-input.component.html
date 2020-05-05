@@ -1,0 +1,16 @@
+<StackLayout class="control-wrapper" *ngIf="control">
+  <Label
+    [text]="label"
+    *ngIf="label.length > 0"
+    class="field-label"
+    ></Label>
+  <TextField
+    [formControl]="control"
+    class="field"
+    ></TextField>
+  <Label
+    *ngFor="let error of control.errors | keyvalue"
+    [text]="getErrorMessages(error.key)"
+    class="field-errors text-danger"
+    ></Label>
+</StackLayout>

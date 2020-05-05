@@ -3,10 +3,11 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { NativeScriptHttpClientModule } from "nativescript-angular";
+import { NativeScriptHttpClientModule, NativeScriptFormsModule } from "nativescript-angular";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
 import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     bootstrap: [
@@ -17,7 +18,9 @@ import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
         AppRoutingModule,
         NativeScriptUISideDrawerModule,
         NativeScriptHttpClientModule,
-        NativeScriptAnimationsModule
+        NativeScriptAnimationsModule,
+        ReactiveFormsModule,
+        NativeScriptFormsModule
     ],
     declarations: [
         AppComponent,
