@@ -1,0 +1,30 @@
+<StackLayout class="control-wrapper" *ngIf="control">
+  <Label
+    [text]="label"
+    *ngIf="label.length > 0"
+    class="field-label"
+    ></Label>
+  <Button
+    [text]="displayText()"
+    (tap)="togglePicker()"
+    *ngIf="!pickerVisible"
+    class="-outline"
+    ></Button>
+  <ListPicker
+    [items]="optionNames()"
+    *ngIf="pickerVisible"
+    [selectedIndex]="selectedIndex"
+    (selectedIndexChange)="onSelectedIndexChanged($event)"
+    ></ListPicker>
+  <Button
+    [text]="'Select ' + nounName "
+    (tap)="select()"
+    *ngIf="pickerVisible"
+    class="-outline"
+    ></Button>
+  <Label
+    *ngFor="let error of control.errors | keyvalue"
+    [text]="getErrorMessages(error.key)"
+    class="field-errors text-danger"
+    ></Label>
+</StackLayout>
