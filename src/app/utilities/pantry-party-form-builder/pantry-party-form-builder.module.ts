@@ -5,11 +5,13 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { NativeScriptFormsModule } from "nativescript-angular";
 import { FormErrorTextComponent } from "./form-error-text/form-error-text.component";
 import { NumberInputComponent } from "./number-input/component";
+import { SingleSelectInputComponent } from "./single-select-input/component";
 
 const allComponents = [
   TextInputComponent,
   FormErrorTextComponent,
-  NumberInputComponent
+  NumberInputComponent,
+  SingleSelectInputComponent
 ];
 
 @NgModule({

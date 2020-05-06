@@ -1,6 +1,6 @@
 import { Component, ViewChild, NgZone, OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
-import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
+import { GrocyProduct, GrocyLocation, GrocyQuantityUnit } from "~/app/services/grocy.interfaces";
 import { RouterExtensions, ModalDialogOptions, ModalDialogService } from "nativescript-angular";
 import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 import { NamedThingSelectorButton } from "~/app/scanned-item-set/named-thing-selector-button";
@@ -17,6 +17,7 @@ export class ProductCreationComponent implements OnInit {
   @ViewChild("productCreate", { static: false }) productForm: RadDataFormComponent;
 
   quantityUnits: Map<string, string> = new Map([]);
+  quantityUnitsArr: GrocyQuantityUnit[] = [];
   selectionCallback: null | ((x: GrocyProduct) => any)  = null;
 
   locationSelector = new NamedThingSelectorButton<GrocyLocation>(
@@ -52,7 +53,8 @@ export class ProductCreationComponent implements OnInit {
     bestBeforeDaysAfterOpen: [0, Validators.compose([Validators.required, Validators.min(-1)])],
     bestBeforeDaysAfterFreezing: [0, Validators.compose([Validators.required, Validators.min(-1)])],
     bestBeforeDaysAfterThawing: [0, Validators.compose([Validators.required, Validators.min(-1)])],
-    purchaseFactor: [1, Validators.compose([Validators.required, Validators.min(1)])]
+    purchaseFactor: [1, Validators.compose([Validators.required, Validators.min(1)])],
+    quantityUnitPurchase: [null, Validators.required]
   });
 
   constructor(
@@ -79,6 +81,8 @@ export class ProductCreationComponent implements OnInit {
 
   ngOnInit() {
     this.grocyService.quantityUnits().subscribe(u => {
+      console.log("setting to", u);
+      this.quantityUnitsArr = u;
       this.quantityUnits = new Map(u.map(i => [i.id, i.name]));
     });
   }

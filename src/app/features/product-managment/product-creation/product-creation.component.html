@@ -11,6 +11,8 @@
 
 <StackLayout>
   <ns-text-input [control]="formControl('name')" label="Product Name" hint="needs a name" ></ns-text-input>
+  <ns-single-select-input [options]="quantityUnitsArr" nounName='Unit' [control]="formControl('quantityUnitPurchase')" label="Purcahse Quanity Units">
+  </ns-single-select-input>
   <ns-number-input [control]="formControl('minStockAccmount')" label="Minimum Stock" >
     <ns-form-error-text validator="min" message="Minimum stock must be 0 or greater"> </ns-form-error-text>
   </ns-number-input>
@@ -26,7 +28,7 @@
   <ns-number-input [control]="formControl('bestBeforeDaysAfterThawing')" label="Best Before Days After Thawing" hint="-1 never expires, 0 expires right away">
     <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
   </ns-number-input>
-  <ns-number-input [control]="formControl('purchaseFator')" label="Purcahse Factor" hint="Number of units added to stock when purchased">
+  <ns-number-input  [control]="formControl('purchaseFator')" label="Purcahse Factor" hint="Number of units added to stock when purchased">
     <ns-form-error-text validator="min" message="Must be greater than 1"> </ns-form-error-text>
   </ns-number-input>
 </StackLayout>
