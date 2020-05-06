@@ -47,11 +47,12 @@ export class ProductCreationComponent implements OnInit {
 
   form = this._fb.group ({
     name: ["", Validators.required],
-    minStockAccmount: [0, Validators.compose(
-      [
-        Validators.required,
-        Validators.min(0)
-      ])]
+    minStockAccmount: [0, Validators.compose([Validators.required, Validators.min(0)])],
+    bestBeforeDays: [0, Validators.compose([Validators.required, Validators.min(-1)])],
+    bestBeforeDaysAfterOpen: [0, Validators.compose([Validators.required, Validators.min(-1)])],
+    bestBeforeDaysAfterFreezing: [0, Validators.compose([Validators.required, Validators.min(-1)])],
+    bestBeforeDaysAfterThawing: [0, Validators.compose([Validators.required, Validators.min(-1)])],
+    purchaseFactor: [1, Validators.compose([Validators.required, Validators.min(1)])]
   });
 
   constructor(

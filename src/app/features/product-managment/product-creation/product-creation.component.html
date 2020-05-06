@@ -10,127 +10,23 @@
 </ActionBar>
 
 <StackLayout>
-  <ns-text-input
-      [control]="formControl('name')"
-      label="Product Name"
-    ></ns-text-input>
-  <ns-number-input
-      [control]="formControl('minStockAccmount')"
-      label="Minimum Stock"
-    >
-    <ns-form-error-text
-      validator="min"
-      message="Minimum stock must be 0 or greater"
-      > </ns-form-error-text>
+  <ns-text-input [control]="formControl('name')" label="Product Name" hint="needs a name" ></ns-text-input>
+  <ns-number-input [control]="formControl('minStockAccmount')" label="Minimum Stock" >
+    <ns-form-error-text validator="min" message="Minimum stock must be 0 or greater"> </ns-form-error-text>
   </ns-number-input>
-  <RadDataForm
-    [source]="grocyProduct"
-    validationMode="immediate"
-    #productCreate
-    >
-    <TKEntityProperty
-      tkDataFormProperty
-      name="name"
-      displayName="Name"
-      index="0"
-      required="true"
-      >
-      <TKNonEmptyValidator
-        tkEntityPropertyValidators
-        errorMessage="Product name can't be empty."
-        ></TKNonEmptyValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="location"
-      displayName="Default Location"
-      index="1"
-      >
-      <TKCustomPropertyEditor
-        tkEntityPropertyEditor
-        (editorNeedsView)="locationSelector.editorNeedsView($event)"
-        (editorHasToApplyValue)="locationSelector.editorHasToApplyValue($event)"
-        (editorNeedsValue)="locationSelector.editorNeedsValue($event)"></TKCustomPropertyEditor>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="minStockAccmount"
-      displayName="Minimum stock amount"
-      index="2"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Stepper"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-      <TKRangeValidator tkEntityPropertyValidators minimum=0 maximum=10000000 errorMessage="Must be above 0" ></TKRangeValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="bestBeforeDays"
-      displayName="Default best before days"
-      index="3"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-      <TKRangeValidator tkEntityPropertyValidators minimum=0 maximum=10000000 errorMessage="Must be above 0" ></TKRangeValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="bestBeforeDaysAfterOpen"
-      displayName="Default best before days after open"
-      index="4"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-      <TKRangeValidator tkEntityPropertyValidators minimum=0 maximum=10000000 errorMessage="Must be above 0" ></TKRangeValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="bestBeforeDaysAfterFreezing"
-      displayName="Default best before days after freezing"
-      index="5"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-      <TKRangeValidator tkEntityPropertyValidators minimum=0 maximum=10000000 errorMessage="Must be above 0" ></TKRangeValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="bestBeforeDaysAfterThawing"
-      displayName="Default best before days after thawing"
-      index="6"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-      <TKRangeValidator tkEntityPropertyValidators minimum=0 maximum=10000000 errorMessage="Must be above 0" ></TKRangeValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="quantityUnitPurchase"
-      displayName="Purcahse Quanity Unit "
-      [valuesProvider]="quantityUnits"
-      index="7"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="quantityUnitStock"
-      displayName="Stock Quanity Unit "
-      [valuesProvider]="quantityUnits"
-      index="8"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-    </TKEntityProperty>
-    <TKEntityProperty
-      tkDataFormProperty
-      name="purchaseFator"
-      displayName="Purchase Factor"
-      index="9"
-      >
-      <TKPropertyEditor tkEntityPropertyEditor type="Decimal"></TKPropertyEditor>
-      <TKNonEmptyValidator tkEntityPropertyValidators errorMessage="Can't be empty." ></TKNonEmptyValidator>
-      <TKRangeValidator tkEntityPropertyValidators minimum=0 maximum=10000000 errorMessage="Must be above 0" ></TKRangeValidator>
-    </TKEntityProperty>
-  </RadDataForm>
+  <ns-number-input [control]="formControl('bestBeforeDays')" label="Best Before Days" hint="-1 never expires, 0 expires right away">
+    <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+  </ns-number-input>
+  <ns-number-input [control]="formControl('bestBeforeDaysAfterOpen')" label="Best Before Days After Opening" hint="-1 never expires, 0 expires right away">
+    <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+  </ns-number-input>
+  <ns-number-input [control]="formControl('bestBeforeDaysAfterFreezing')" label="Best Before Days After Freezing" hint="-1 never expires, 0 expires right away">
+    <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+  </ns-number-input>
+  <ns-number-input [control]="formControl('bestBeforeDaysAfterThawing')" label="Best Before Days After Thawing" hint="-1 never expires, 0 expires right away">
+    <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+  </ns-number-input>
+  <ns-number-input [control]="formControl('purchaseFator')" label="Purcahse Factor" hint="Number of units added to stock when purchased">
+    <ns-form-error-text validator="min" message="Must be greater than 1"> </ns-form-error-text>
+  </ns-number-input>
 </StackLayout>

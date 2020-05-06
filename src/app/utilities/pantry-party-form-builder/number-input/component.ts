@@ -11,6 +11,8 @@ import { FormErrorTextComponent } from "../form-error-text/form-error-text.compo
 export class NumberInputComponent {
   @Input() control: FormControl;
   @Input() label = "";
+  // tslint:disable-next-line:no-input-rename
+  @Input("hint") inputHint = "";
 
   @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
 

@@ -6,8 +6,9 @@
     ></Label>
   <TextField
     [formControl]="control"
-    class="field"
+    class="form-field"
     keyboardType="integer"
+    [hint]="inputHint"
     ></TextField>
   <Label
     *ngFor="let error of control.errors | keyvalue"

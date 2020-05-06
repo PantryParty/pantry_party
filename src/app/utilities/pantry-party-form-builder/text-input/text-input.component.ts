@@ -11,6 +11,8 @@ import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
 export class TextInputComponent {
   @Input() control: FormControl;
   @Input() label = "";
+  // tslint:disable-next-line:no-input-rename
+  @Input("hint") inputHint = "";
 
   @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
 
