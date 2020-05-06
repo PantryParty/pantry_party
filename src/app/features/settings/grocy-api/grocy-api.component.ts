@@ -41,7 +41,7 @@ export class GrocyApiComponent implements OnInit, OnDestroy {
   form = this._fb.group ({
     url: [this.grocyService.apiHost, Validators.compose([
       Validators.required,
-      Validators.pattern("^https?://.*/api$")
+      Validators.pattern(/^https?:\/\/.*\/api$/i)
       ])
     ],
     apiKey: [this.grocyService.apiKey, Validators.required ]
