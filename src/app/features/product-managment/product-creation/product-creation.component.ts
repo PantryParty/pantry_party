@@ -5,6 +5,7 @@ import { RouterExtensions, ModalDialogOptions, ModalDialogService } from "native
 import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 import { NamedThingSelectorButton } from "~/app/scanned-item-set/named-thing-selector-button";
 import { StateTransferService } from "~/app/services/state-transfer.service";
+import { FormBuilder, Validators } from "@angular/forms";
 
 export type ProductSelectorDismiss  = GrocyProduct | null;
 
@@ -44,12 +45,21 @@ export class ProductCreationComponent implements OnInit {
     location: 1
   };
 
+  form = this._fb.group ({
+    name: ["", Validators.required],
+    minStockAccmount: [0, Validators.compose(
+      [
+        Validators.required,
+        Validators.min(0)
+      ])]
+  });
+
   constructor(
     private grocyService: GrocyService,
     private routedExtensions: RouterExtensions,
     private ngZone: NgZone,
-    private statePasser: StateTransferService
-
+    private statePasser: StateTransferService,
+    private _fb: FormBuilder
   ) {
     const passedState = statePasser.readAndClearState();
 
@@ -60,6 +70,10 @@ export class ProductCreationComponent implements OnInit {
         this.grocyProduct.name = scannedItem.externalProduct.name;
       }
     }
+  }
+
+  formControl(name: string) {
+    return this.form.get(name);
   }
 
   ngOnInit() {

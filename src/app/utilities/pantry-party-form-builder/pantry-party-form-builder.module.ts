@@ -4,10 +4,12 @@ import { TextInputComponent } from "./text-input/text-input.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NativeScriptFormsModule } from "nativescript-angular";
 import { FormErrorTextComponent } from "./form-error-text/form-error-text.component";
+import { NumberInputComponent } from "./number-input/component";
 
 const allComponents = [
   TextInputComponent,
-  FormErrorTextComponent
+  FormErrorTextComponent,
+  NumberInputComponent
 ];
 
 @NgModule({
