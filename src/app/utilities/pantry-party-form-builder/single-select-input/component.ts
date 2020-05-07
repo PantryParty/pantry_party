@@ -40,6 +40,15 @@ export class SingleSelectInputComponent<T> {
     this.selectedIndex = picker.selectedIndex;
   }
 
+  selectItemText() {
+    const value = this.options[this.selectedIndex];
+    if (value) {
+      return `Select ${value[this.textKey]}`;
+    } else {
+      return `Select a ${this.nounName}`;
+    }
+  }
+
   displayText() {
     const value = this.currentValue();
     if (value) {

@@ -20,3 +20,14 @@
 .form-field {
   placeholder-color: #CCC;
 }
+
+.select-item {
+  border-bottom-width: 1px;
+  border-bottom-color: $accent;
+  border-top-width: 1px;
+  border-top-color: $accent;
+  border-left-width: 1px;
+  border-left-color: $accent;
+  border-right-width: 1px;
+  border-right-color: $accent;
+}
