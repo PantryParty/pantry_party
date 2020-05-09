@@ -29,6 +29,15 @@
      ></Label>
 
    <Label
+     *ngIf="looksLikeHass()"
+     [text]="hassHelpText"
+     (tap)="openHassHelp()"
+     textAlignment="center"
+     class="text-danger"
+     textWrap="true"
+     ></Label>
+
+   <Label
      *ngIf="grocyVersion"
      [text]="'Successfully connected to Grocy version ' + grocyVersion"
      textAlignment="center"
