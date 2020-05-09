@@ -4,27 +4,50 @@
     *ngIf="label.length > 0"
     class="field-label"
     ></Label>
-  <Button
-    [text]="displayText()"
-    (tap)="togglePicker()"
+  <ng-container
+    *ngIf="pickerVisible"
+    >
+    <ListPicker
+      [items]="optionNames()"
+      [selectedIndex]="selectedIndex"
+      (selectedIndexChange)="onSelectedIndexChanged($event)"
+      (doubleTap)="select()"
+      ></ListPicker>
+      <GridLayout height="40" columns="50 * 50" class='subMenu'>
+        <Image (tap)="closePicker()" height="30" src='font://&#xf00d;' class='fas' col="0"></Image>
+
+        <SearchBar
+          col="1"
+          hint="Filter"
+          (textChange)="searchUpdated($event)">
+        </SearchBar>
+
+        <Image
+          height="30"
+          src='font://&#xf00c;'
+          class='fas'
+          col="2"
+          (tap)="select()"></Image>
+      </GridLayout>
+  </ng-container>
+
+  <ng-container
     *ngIf="!pickerVisible"
-    class="-primary"
-    ></Button>
-  <Button
-    [text]="selectItemText()"
-    (tap)="select()"
-    *ngIf="pickerVisible"
-    class="select-item"
-    ></Button>
-  <ListPicker
-    [items]="optionNames()"
-    *ngIf="pickerVisible"
-    [selectedIndex]="selectedIndex"
-    (selectedIndexChange)="onSelectedIndexChanged($event)"
-    ></ListPicker>
-  <Label
-    *ngFor="let error of control.errors | keyvalue"
-    [text]="getErrorMessages(error.key)"
-    class="field-errors text-danger"
-    ></Label>
+    >
+    <Button
+      [text]="displayText()"
+      (tap)="openPicker()"
+      class="-primary"
+      ></Button>
+
+    <ng-container
+      *ngIf="control.touched">
+      <Label
+        *ngFor="let error of control.errors | keyvalue"
+        [text]="getErrorMessages(error.key)"
+        class="field-errors text-danger"
+        ></Label>
+    </ng-container>
+  </ng-container>
+
 </StackLayout>

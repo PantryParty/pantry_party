@@ -1,9 +1,10 @@
-import { Component, Input, QueryList, ContentChildren } from "@angular/core";
+import { Component, Input, QueryList, ContentChildren, EventEmitter, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
 import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker";
 import { EventData } from "tns-core-modules/ui/page/page";
+import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
 
 @Component({
   selector: "ns-single-select-input",
@@ -11,42 +12,65 @@ import { EventData } from "tns-core-modules/ui/page/page";
   styleUrls: ["./component.scss"]
 })
 export class SingleSelectInputComponent<T> {
+  get options(): T[] {
+    return this._options;
+  }
+  @Input()
+  set options(value: T[]) {
+    this._options = value;
+    this.filterItems();
+  }
   @Input() control: FormControl;
   @Input() label = "";
-  @Input() options: T[] = [];
   @Input() textKey = "name";
   @Input() nounName: string = "";
+  @Input() allowsCreate = false;
+
+  @Output() createTriggerd = new EventEmitter<void>();
 
   @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
 
   pickerVisible = false;
   selectedIndex = 0;
+  lastSearch = "";
+  filteredItems: T[] = [];
 
-  optionNames() {
-    return this.options.map(o => o[this.textKey]);
+  private _options: T[] = [];
+
+  searchUpdated($evt: any) {
+    this.lastSearch = ($evt.object as SearchBar).text.toLowerCase();
+    this.filterItems();
   }
 
-  togglePicker() {
-    this.pickerVisible = !this.pickerVisible;
+  filterItems() {
+    this.filteredItems = this.options.filter(
+      i => i[this.textKey].toLowerCase().includes(this.lastSearch)
+    );
+  }
+
+  optionNames() {
+    return this.filteredItems.map(o => o[this.textKey]);
+  }
+
+  openPicker() {
+    this.filterItems();
+    this.pickerVisible = true;
+  }
+
+  closePicker() {
+    this.pickerVisible = false;
+    this.control.markAsTouched();
+    this.lastSearch = "";
   }
 
   select() {
     this.control.setValue(this.options[this.selectedIndex]);
-    this.pickerVisible = false;
+    this.closePicker();
   }
 
   onSelectedIndexChanged(evt: EventData) {
     const picker = <ListPicker>evt.object;
     this.selectedIndex = picker.selectedIndex;
-  }
-
-  selectItemText() {
-    const value = this.options[this.selectedIndex];
-    if (value) {
-      return `Select ${value[this.textKey]}`;
-    } else {
-      return `Select a ${this.nounName}`;
-    }
   }
 
   displayText() {

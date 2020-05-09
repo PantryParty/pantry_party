@@ -10,9 +10,12 @@
     keyboardType="integer"
     [hint]="inputHint"
     ></TextField>
-  <Label
-    *ngFor="let error of control.errors | keyvalue"
-    [text]="getErrorMessages(error.key)"
-    class="field-errors text-danger"
-    ></Label>
+  <ng-container
+    *ngIf="control.touched">
+    <Label
+      *ngFor="let error of control.errors | keyvalue"
+      [text]="getErrorMessages(error.key)"
+      class="field-errors text-danger"
+      ></Label>
+  </ng-container>
 </StackLayout>
