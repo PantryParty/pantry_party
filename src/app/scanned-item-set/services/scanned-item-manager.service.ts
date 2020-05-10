@@ -208,9 +208,11 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   assignProductToBarcode(barcode: string, product: GrocyProduct, location?: GrocyLocation) {
+    const bestBeforeDays = product.default_best_before_days === -1 ? 36500 : product.default_best_before_days;
+
     const update: Partial<ScannedItem> = {
       grocyProduct: product,
-      bestBeforeDate: dateString(product.default_best_before_days)
+      bestBeforeDate: dateString(bestBeforeDays)
     };
 
     if (location) {

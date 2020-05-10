@@ -17,6 +17,7 @@ type responseRender =
   styleUrls: ["./grocy-api.component.css"]
 })
 export class GrocyApiComponent implements OnInit, OnDestroy {
+  hassHelpText = "This error is usually associated with HASS.IO install. Tap for instructions to setup";
 
   get helpText() {
     return this.helpTextForStatus[this.lastHttpError.status] ||
@@ -111,6 +112,10 @@ export class GrocyApiComponent implements OnInit, OnDestroy {
     openUrl(this.manageKeysUrl());
   }
 
+  openHassHelp() {
+    openUrl("https://pantryparty.app/docs/getting_started/configure-has.html");
+  }
+
   apiKeyText() {
     return `Get API Keys at ${this.manageKeysUrl()}`;
   }
@@ -121,6 +126,10 @@ export class GrocyApiComponent implements OnInit, OnDestroy {
 
   hostWithoutAPI() {
     return this.formControl("url").value.replace(/\/api$/, "");
+  }
+
+  looksLikeHass() {
+    return this.lastHttpError && this.lastHttpError.status === 200;
   }
 
   saveSettings() {
