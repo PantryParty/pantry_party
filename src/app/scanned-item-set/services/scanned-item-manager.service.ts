@@ -29,11 +29,6 @@ interface ReadyScannedItem extends BaseScannedItem {
 }
 
 export class ScannedItemManagerService implements OnDestroy {
-  defaultLocation?: GrocyLocation;
-
-  scanResults = new Subject<FinalScanResults>();
-  annouceScannedItems = true;
-  scanAnnouncer = new ScannedAnnouncerService(this.scanResults);
 
   get allPendingScannedItems() {
     return this.scannedItems.filter(i => !i.grocyProduct && !this.isWorking(i.barcode));
@@ -54,6 +49,11 @@ export class ScannedItemManagerService implements OnDestroy {
     this._scannedItems = v;
     this.updatedScannedItems.next(v);
   }
+  defaultLocation?: GrocyLocation;
+
+  scanResults = new Subject<FinalScanResults>();
+  annouceScannedItems = true;
+  scanAnnouncer = new ScannedAnnouncerService(this.scanResults);
 
   defaultWaitToSave = 20;
   createDelay = 5;
@@ -86,6 +86,24 @@ export class ScannedItemManagerService implements OnDestroy {
     private grocyService: GrocyService,
     private externalLookupService: ScannedItemExernalLookupService
   ) {
+  }
+  determineBestBeforeDate = (item: ScannedItem): string | null => {
+    const product = item.grocyProduct;
+    if (!product) {
+      return dateString(0);
+    }
+
+    let defaultBestBefore = product.default_best_before_days;
+
+    if (item.location && item.location.is_freezer === "1") {
+      defaultBestBefore = product.default_best_before_days_after_freezing;
+    }
+
+    if (defaultBestBefore === -1) {
+      defaultBestBefore = 36500;
+    }
+
+    return dateString(defaultBestBefore);
   }
 
   undoCallback: (s: string) => Observable<any> = _ => of("");
@@ -193,6 +211,10 @@ export class ScannedItemManagerService implements OnDestroy {
         ...partialItem
       }
     );
+
+    if (partialItem.location) {
+      this.refreshBestBeforeDate(barcode);
+    }
   }
 
   ngOnDestroy() {
@@ -208,22 +230,21 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   assignProductToBarcode(barcode: string, product: GrocyProduct, location?: GrocyLocation) {
-    const bestBeforeDays = product.default_best_before_days === -1 ? 36500 : product.default_best_before_days;
-
-    const update: Partial<ScannedItem> = {
-      grocyProduct: product,
-      bestBeforeDate: dateString(bestBeforeDays)
-    };
-
-    if (location) {
-      update.location = location;
-    }
+    const update: Partial<ScannedItem> = { grocyProduct: product, location };
 
     this.updateScannedItem(barcode, update);
 
     const currentItem = this.itemByBarcode(barcode);
     if (!currentItem.location) {
       this.fetchDefaultLocationForItem(this.itemByBarcode(barcode));
+    }
+  }
+
+  private refreshBestBeforeDate(barcode: string) {
+    const currentItem = this.itemByBarcode(barcode);
+    const newDate = this.determineBestBeforeDate(currentItem);
+    if (newDate) {
+      this.updateScannedItem(barcode, { bestBeforeDate: newDate });
     }
   }
 
@@ -242,7 +263,7 @@ export class ScannedItemManagerService implements OnDestroy {
 
     this.grocyService.getLocation(item.grocyProduct.location_id).pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(location => this.updateScannedItem(item.barcode, { location }));
+    ).subscribe(location => this.updateScannedItem(item.barcode, { location }))
   }
 
   private findGrocyProduct(item: ScannedItem) {
