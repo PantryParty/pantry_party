@@ -7,6 +7,7 @@ import { ProductCreationComponent } from "./product-creation/product-creation.co
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular/dataform-directives";
 import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
+import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener
     NativeScriptCommonModule,
     NativeScriptUIListViewModule,
     NativeScriptUIDataFormModule,
-    AppDrawerOpenerModule
+    AppDrawerOpenerModule,
+    AdWrapperModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

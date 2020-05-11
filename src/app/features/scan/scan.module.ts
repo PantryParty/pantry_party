@@ -11,6 +11,7 @@ import { SpoiledComponent } from "../spoiled/spoiled.component";
 import { ConsumeComponent } from "../consume/consume.component";
 import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
 import { InventoryComponent } from "../inventory/inventory.component";
+import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { InventoryComponent } from "../inventory/inventory.component";
     ScanSelectorModule,
     ScannedItemSetModule,
     ScanedItemEditorModule,
-    AppDrawerOpenerModule
+    AppDrawerOpenerModule,
+    AdWrapperModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

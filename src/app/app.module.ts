@@ -24,7 +24,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     ],
     declarations: [
         AppComponent,
-        AppDrawerComponent
+        AppDrawerComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA
