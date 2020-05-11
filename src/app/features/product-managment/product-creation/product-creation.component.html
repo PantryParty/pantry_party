@@ -15,7 +15,7 @@ j
     <ns-number-input [control]="formControl('minStockAccmount')" label="Minimum Stock" >
       <ns-form-error-text validator="min" message="Minimum stock must be 0 or greater"> </ns-form-error-text>
     </ns-number-input>
-    <ns-single-select-input [options]="locationsArr" nounName='Location' [control]="formControl('defaultLocation')" label="Default Location">
+    <ns-single-select-input [options]="locationsArr" allowsCreate=true (createTriggerd)="createNewLocation()" nounName='Location' [control]="formControl('defaultLocation')" label="Default Location">
     </ns-single-select-input>
     <ns-single-select-input [options]="quantityUnitsArr" nounName='Unit' [control]="formControl('quantityUnitPurchase')" label="Purcahse Quanity Units">
     </ns-single-select-input>

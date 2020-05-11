@@ -77,6 +77,17 @@ export class ProductCreationComponent implements OnInit {
     }
   }
 
+  createNewLocation() {
+    this.statePasser.setState({
+      type: "locationCreation",
+      callback: location => {
+        this.locationsArr = [location].concat(this.locationsArr);
+        this.formControl("defaultLocation").setValue(location);
+      }
+    });
+    this.routedExtensions.navigate(["/locations/create"]);
+  }
+
   formControl(name: string) {
     return this.form.get(name);
   }

@@ -13,11 +13,12 @@
       (selectedIndexChange)="onSelectedIndexChanged($event)"
       (doubleTap)="select()"
       ></ListPicker>
-      <GridLayout height="40" columns="50 * 50" class='subMenu'>
+      <GridLayout height="40" [columns]="'40, ' + (allowsCreate ? 40 : 0) + ', *, 40'" class='subMenu'>
         <Image (tap)="closePicker()" height="30" src='font://&#xf00d;' class='fas' col="0"></Image>
+        <Image (tap)="startCreate()" *ngIf="allowsCreate" height="30" src='font://&#xf067;' class='fas' col="1"></Image>
 
         <SearchBar
-          col="1"
+          col="2"
           hint="Filter"
           (textChange)="searchUpdated($event)">
         </SearchBar>
@@ -26,7 +27,7 @@
           height="30"
           src='font://&#xf00c;'
           class='fas'
-          col="2"
+          col="3"
           (tap)="select()"></Image>
       </GridLayout>
   </ng-container>
