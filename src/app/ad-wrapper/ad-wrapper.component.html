@@ -1,6 +1,4 @@
 <GridLayout [rows]="'*,' + height">
-  <ScrollView row="0">
-    <ng-content></ng-content>
-  </ScrollView>
+  <ng-content row="0"></ng-content>
   <Placeholder row="1"></Placeholder>
 </GridLayout>

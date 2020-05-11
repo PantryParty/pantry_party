@@ -72,7 +72,7 @@ export class SingleSelectInputComponent<T> {
   }
 
   select() {
-    this.control.setValue(this.filterItems[this.selectedIndex]);
+    this.control.setValue(this.filteredItems[this.selectedIndex]);
     this.closePicker();
   }
 

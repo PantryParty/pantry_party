@@ -5,36 +5,80 @@
     icon="font://&#xf0c7;"
     text="Create"
     class="fas actionitem"
+    *ngIf="form.valid"
     (tap)="create()"
     ></ActionItem>
 </ActionBar>
-j
+
 <ns-ad-wrapper>
-  <StackLayout>
-    <ns-text-input [control]="formControl('name')" label="Product Name"></ns-text-input>
-    <ns-number-input [control]="formControl('minStockAccmount')" label="Minimum Stock" >
-      <ns-form-error-text validator="min" message="Minimum stock must be 0 or greater"> </ns-form-error-text>
-    </ns-number-input>
-    <ns-single-select-input [options]="locationsArr" allowsCreate=true (createTriggerd)="createNewLocation()" nounName='Location' [control]="formControl('defaultLocation')" label="Default Location">
-    </ns-single-select-input>
-    <ns-single-select-input [options]="quantityUnitsArr" nounName='Unit' [control]="formControl('quantityUnitPurchase')" label="Purcahse Quanity Units">
-    </ns-single-select-input>
-    <ns-single-select-input [options]="quantityUnitsArr" nounName='Unit' [control]="formControl('quantityUnitConsume')" label="Purcahse Quanity Units">
-    </ns-single-select-input>
-    <ns-number-input [control]="formControl('bestBeforeDays')" label="Best Before Days" hint="-1 never expires, 0 expires right away">
-      <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
-    </ns-number-input>
-    <ns-number-input [control]="formControl('bestBeforeDaysAfterOpen')" label="Best Before Days After Opening" hint="-1 never expires, 0 expires right away">
-      <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
-    </ns-number-input>
-    <ns-number-input [control]="formControl('bestBeforeDaysAfterFreezing')" label="Best Before Days After Freezing" hint="-1 never expires, 0 expires right away">
-      <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
-    </ns-number-input>
-    <ns-number-input [control]="formControl('bestBeforeDaysAfterThawing')" label="Best Before Days After Thawing" hint="-1 never expires, 0 expires right away">
-      <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
-    </ns-number-input>
-    <ns-number-input  [control]="formControl('purchaseFactor')" label="Purcahse Factor" hint="Number of units added to stock when purchased">
-      <ns-form-error-text validator="min" message="Must be greater than 1"> </ns-form-error-text>
-    </ns-number-input>
-  </StackLayout>
+  <ScrollView>
+    <StackLayout>
+      <ns-text-input
+        [control]="formControl('name')"
+        label="Product Name"></ns-text-input>
+      <ns-number-input
+        [control]="formControl('minStockAccmount')"
+        label="Minimum Stock"
+        >
+        <ns-form-error-text validator="min" message="Minimum stock must be 0 or greater"> </ns-form-error-text>
+      </ns-number-input>
+      <ns-single-select-input
+        [options]="locationsArr"
+        allowsCreate=true
+        (createTriggerd)="createNewLocation()"
+        nounName='Location'
+        [control]="formControl('defaultLocation')"
+        label="Default Location"></ns-single-select-input>
+      <ns-single-select-input
+        [options]="quantityUnitsArr"
+        nounName='Unit' [control]="formControl('quantityUnitPurchase')"
+        label="Purcahse Quanity Units"
+        ></ns-single-select-input>
+      <ns-single-select-input
+        [options]="quantityUnitsArr"
+        nounName='Unit' [control]="formControl('quantityUnitConsume')"
+        label="Purcahse Quanity Units"
+        ></ns-single-select-input>
+      <ns-number-input
+        [control]="formControl('purchaseFactor')"
+        label="Purcahse Factor"
+        hint="Number of units added to stock when purchased"
+        >
+        <ns-form-error-text validator="min" message="Must be greater than 1"> </ns-form-error-text>
+      </ns-number-input>
+      <ns-number-input
+        [control]="formControl('bestBeforeDays')"
+        label="Best Before Days"
+        hint="-1 never expires, 0 expires right away"
+        >
+        <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+      </ns-number-input>
+      <ns-number-input
+        [control]="formControl('bestBeforeDaysAfterOpen')"
+        label="Best Before Days After Opening"
+        hint="-1 never expires, 0 expires right away"
+        >
+        <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+      </ns-number-input>
+      <ns-number-input
+        [control]="formControl('bestBeforeDaysAfterFreezing')"
+        label="Best Before Days After Freezing"
+        hint="-1 never expires, 0 expires right away"
+        >
+        <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+      </ns-number-input>
+      <ns-number-input
+        [control]="formControl('bestBeforeDaysAfterThawing')"
+        label="Best Before Days After Thawing"
+        hint="-1 never expires, 0 expires right away"
+        >
+        <ns-form-error-text validator="min" message="Must be greater than -1"> </ns-form-error-text>
+      </ns-number-input>
+      <Button
+        (tap)="create()"
+        [isEnabled]="form.valid"
+        text="Create Product"
+        class="-outline"></Button>
+    </StackLayout>
+  </ScrollView>
 </ns-ad-wrapper>
