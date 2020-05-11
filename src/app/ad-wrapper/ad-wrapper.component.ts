@@ -11,7 +11,6 @@ import { PrivacyService } from "../services/privacy.service";
   styleUrls: ["./ad-wrapper.component.css"]
 })
 export class AdWrapperComponent implements AfterViewInit {
-  @ViewChild("adPosition", {static: true}) adPlaceholder!: Placeholder;
   height: number;
 
   private testing = envConfig.adTesting;
@@ -47,9 +46,7 @@ export class AdWrapperComponent implements AfterViewInit {
       margins: {
         bottom: 0
       }
-    }).then(e =>  {
-      console.log("admob createBanner donex");
-    })
+    }).then(() =>  console.log("admob createBanner donex"))
     .catch(error =>  console.log("admob createBanner error: " + error));
   }
 
