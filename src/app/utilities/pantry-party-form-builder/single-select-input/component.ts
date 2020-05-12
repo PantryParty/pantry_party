@@ -36,7 +36,6 @@ export class SingleSelectInputComponent<T> {
   selectedIndex = 0;
   lastSearch = "";
   filteredItems: T[] = [];
-  private _control: FormControl;
 
   private _options: T[] = [];
 
