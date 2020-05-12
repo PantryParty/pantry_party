@@ -29,6 +29,7 @@ export class SingleSelectInputComponent<T> {
   @Input() allowsCreate = false;
 
   @Output() createTriggerd = new EventEmitter<void>();
+  @Output() changed = new EventEmitter<void>();
 
   @ContentChildren(FormErrorTextComponent) errorMessages!: QueryList<FormErrorTextComponent>;
 
@@ -75,6 +76,7 @@ export class SingleSelectInputComponent<T> {
   select() {
     this.control.setValue(this.filteredItems[this.selectedIndex]);
     this.closePicker();
+    this.changed.emit();
   }
 
   onSelectedIndexChanged(evt: EventData) {

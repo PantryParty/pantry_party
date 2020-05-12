@@ -5,12 +5,16 @@ import { NativeScriptRouterModule } from "nativescript-angular";
 
 import { ScannedItemEditorEntryComponent } from "./scanned-item-editor-entry.component";
 import { ScannedItemEditorComponent } from "./scanned-item-editor.component";
+import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-builder/pantry-party-form-builder.module";
+import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
 
 @NgModule({
   imports: [
     NativeScriptCommonModule,
     NativeScriptUIDataFormModule,
-    NativeScriptRouterModule
+    NativeScriptRouterModule,
+    PantryPartyFormBuilderModule,
+    AdWrapperModule
   ],
   declarations: [
     ScannedItemEditorComponent,

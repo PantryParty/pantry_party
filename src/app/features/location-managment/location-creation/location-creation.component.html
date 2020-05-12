@@ -5,38 +5,30 @@
     icon="font://&#xf0c7;"
     text="Create"
     class="fas actionitem"
+    *ngIf="form.valid"
     (tap)="create()"
     ></ActionItem>
 </ActionBar>
 
-<RadDataForm
-  [source]="grocyLocation"
-  validationMode="immediate"
-  #locationCreate
-  >
-  <TKEntityProperty
-    tkDataFormProperty
-    name="name"
-    displayName="Name"
-    index="0"
-    required="true"
-    >
-    <TKNonEmptyValidator
-      tkEntityPropertyValidators
-      errorMessage="Location name can't be empty."
-      ></TKNonEmptyValidator>
-  </TKEntityProperty>
-  <TKEntityProperty
-    tkDataFormProperty
-    name="description"
-    displayName="Description"
-    index="1"
-    ></TKEntityProperty>
-  <TKEntityProperty
-    tkDataFormProperty
-    name="isFreezer"
-    displayName="This is a freezer"
-    index="2">
-    <TKPropertyEditor tkEntityPropertyEditor type="Switch"></TKPropertyEditor>
-  </TKEntityProperty>
-</RadDataForm>
+<ns-ad-wrapper>
+  <ScrollView>
+    <StackLayout>
+      <ns-text-input
+        [control]="formControl('name')"
+        label="Location Name">
+        <ns-form-error-text validator="valueExists" message="Location name already exists"> </ns-form-error-text>
+      </ns-text-input>
+      <ns-text-input
+        [control]="formControl('description')"
+        label="Description"></ns-text-input>
+      <ns-switch-input
+        [control]="formControl('isFreezer')"
+        label="Is Freezer?"></ns-switch-input>
+      <Button
+        (tap)="create()"
+        [isEnabled]="form.valid"
+        text="Create Location"
+        class="-outline"></Button>
+    </StackLayout>
+  </ScrollView>
+</ns-ad-wrapper>

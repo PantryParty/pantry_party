@@ -6,7 +6,9 @@ import { ModalDialogParams, RouterExtensions } from "nativescript-angular";
 import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
 import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 import { StateTransferService } from "~/app/services/state-transfer.service";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
+import { AsyncUniqeName } from "~/app/utilities/validators/async-unique-name";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "ns-location-creation",
@@ -17,21 +19,23 @@ export class LocationCreationComponent {
 
   selectionCallback: null | ((x: GrocyLocation) => any)  = null;
 
-  validState = {
-    name: false,
-    description: true,
-    isFreezer: true
-  };
-
-  grocyLocation = {
-    name: "",
-    description: "",
-    isFreezer: false
-  };
+  form = this._fb.group ({
+    name: ["",
+      [ Validators.required ],
+      [
+        AsyncUniqeName.createValidator(
+          this.grocyService.locations().pipe(map(all => all.map(p => p.name)))
+        )
+      ]
+    ],
+    description: [""],
+    isFreezer: [false]
+  });
 
   constructor(
     private grocyService: GrocyService,
     private routerExtensions: RouterExtensions,
+    private _fb: FormBuilder,
     stateTransfer: StateTransferService
   ) {
     const passedState = stateTransfer.readAndClearState();
@@ -42,15 +46,11 @@ export class LocationCreationComponent {
   }
 
   create() {
-    this.locationForm.nativeElement.validateAll().then(r => {
-      if (r) {
-        this.grocyService.createLocation(
-          this.grocyLocation.name,
-          this.grocyLocation.description,
-          this.grocyLocation.isFreezer
-        ).subscribe(l => this.locationCreated(l));
-      }
-    });
+    this.grocyService.createLocation(
+      this.form.get("name").value,
+      this.form.get("description").value,
+      this.form.get("isFreezer").value
+    ).subscribe(l => this.locationCreated(l));
   }
 
   locationCreated(loc: GrocyLocation) {
@@ -58,5 +58,9 @@ export class LocationCreationComponent {
       this.selectionCallback(loc);
       this.routerExtensions.back();
     }
+  }
+
+  formControl(name: string) {
+    return this.form.get(name);
   }
 }

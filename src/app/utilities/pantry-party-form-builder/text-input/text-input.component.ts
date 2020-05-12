@@ -1,9 +1,6 @@
-import { Component, Input, QueryList, ContentChildren, OnDestroy } from "@angular/core";
+import { Component, Input, QueryList, ContentChildren } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
-import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
-import { map, distinctUntilChanged, switchMap, tap, filter } from "rxjs/operators";
-import { Observable, Subject, BehaviorSubject, Subscription } from "rxjs";
 
 @Component({
   selector: "ns-text-input",

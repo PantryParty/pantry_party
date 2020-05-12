@@ -7,12 +7,14 @@ import { FormErrorTextComponent } from "./form-error-text/form-error-text.compon
 import { NumberInputComponent } from "./number-input/component";
 import { SingleSelectInputComponent } from "./single-select-input/component";
 import { FieldErrorsDisplayComponent } from "./field-errors-display/field-errors-display.component";
+import { SwitchInputComponent } from "./switch-input/component";
 
 const allComponents = [
   TextInputComponent,
   FormErrorTextComponent,
   NumberInputComponent,
-  SingleSelectInputComponent
+  SingleSelectInputComponent,
+  SwitchInputComponent
 ];
 
 @NgModule({

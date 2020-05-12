@@ -8,6 +8,7 @@ import { RouterExtensions } from "nativescript-angular";
 import { GrocyService } from "~/app/services/grocy.service";
 import { dateString } from "~/app/utilities/dateString";
 import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
+import { FormBuilder, Validators } from "@angular/forms";
 
 export type ScannedItemUpdateOutput = Pick<
   ScannedItem,
@@ -34,46 +35,28 @@ export class ScannedItemEditorComponent {
   scannedItem: Pick< ScannedItem, "quantity" | "location" | "bestBeforeDate" | "grocyProduct" >;
   originalScannedItem: ScannedItem;
   @ViewChild("configForm", { static: false }) configForm: RadDataFormComponent;
-
-  locationSelector = new NamedThingSelectorButton<GrocyLocation>(
-    "Location",
-    () => new Promise<GrocyLocation>((resolve, _) => {
-      this.ngZone.run(() => {
-        this.stateTransfer.setState({
-          type: "locationSelection",
-          callback: r => resolve(r.location)
-        });
-        this.routedExtensions.navigate(["/locations"]);
-      });
-    })
-  );
-
-  productSelector = new NamedThingSelectorButton<GrocyProduct>(
-    "Product",
-    () => new Promise<GrocyProduct>((resolve, _) => {
-      this.ngZone.run(() => {
-        this.stateTransfer.setState({
-          type: "productSelection",
-          forScannedItem: this.originalScannedItem,
-          callback: r => {
-            this.productUpdated(r.product);
-            resolve(r.product);
-          }
-        });
-        this.routedExtensions.navigate(["/products"]);
-      });
-    })
-  );
+  locationsArr: GrocyLocation[] = [];
+  productsArr: GrocyProduct[] = [];
 
   selectionCallback: null | ScannedItemEditorCallback  = null;
+
+  form = this._fb.group ({
+    quantity: [0, [Validators.required, Validators.min(0)]],
+    location: [null, Validators.required],
+    product: [null, Validators.required]
+  });
 
   constructor(
     private stateTransfer: StateTransferService,
     private ngZone: NgZone,
     private routedExtensions: RouterExtensions,
     private grocyService: GrocyService,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    private _fb: FormBuilder
   ) {
+    this.grocyService.locations().subscribe(loc => this.locationsArr = loc);
+    this.grocyService.allProducts().subscribe(prods => this.productsArr = prods);
+
     const state = this.stateTransfer.readAndClearState();
 
     if (state && state.type === "scannedItemEdit") {
@@ -91,34 +74,35 @@ export class ScannedItemEditorComponent {
 
   }
 
-  productUpdated(prod: GrocyProduct) {
-    if (prod.location_id && !this.locationSelector.value) {
-      this.grocyService.getLocation(prod.location_id).subscribe(location => {
-        this.locationSelector.setValue(location);
+  productUpdated() {
+    const product = this.form.get("product").value;
+    const locationControl = this.form.get("location");
+
+    if (product && product.location_id && (!locationControl.value || locationControl.untouched)) {
+      this.grocyService.getLocation(product.location_id).subscribe(location => {
+        this.form.get("location").setValue(location);
       });
     }
   }
 
-  onEditorUpdate(args: any) {
-    if (args.propertyName === "bestBeforeDate") {
-      this.changeDateFormatting(args.editor);
-    }
+  formControl(name: string) {
+    return this.form.get(name);
   }
 
   save() {
-    const data: ScannedItemUpdateOutput = {
-      ...this.scannedItem,
-      location: this.locationSelector.value as GrocyLocation,
-      grocyProduct: this.productSelector.value as GrocyProduct
-    };
+   // const data: ScannedItemUpdateOutput = {
+   //   ...this.scannedItem,
+   //   location: this.locationSelector.value as GrocyLocation,
+   //   grocyProduct: this.productSelector.value as GrocyProduct
+   // };
 
-    if (this.selectionCallback) {
-      this.selectionCallback({
-        action: "update",
-        scannedItem: data
-      });
-      this.routedExtensions.back();
-    }
+   // if (this.selectionCallback) {
+   //   this.selectionCallback({
+   //     action: "update",
+   //     scannedItem: data
+   //   });
+   //   this.routedExtensions.back();
+   // }
   }
 
   remove() {
@@ -131,16 +115,26 @@ export class ScannedItemEditorComponent {
     }
   }
 
-  // Location Updater
-  private changeDateFormatting(editor: any) {
-    // if (ios) {
-    //   const dateFormatter = NSDateFormatter.alloc().init();
-    //   dateFormatter.dateFormat = "yyyy-MM-dd";
-    //   editor.dateFormatter = dateFormatter;
-    // } else {
-    if (androidApplication) {
-      const simpleDateFormat = new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US);
-      editor.setDateFormat(simpleDateFormat);
-    }
+  createNewLocation() {
+    this.stateTransfer.setState({
+      type: "locationCreation",
+      callback: location => {
+        this.locationsArr = [location].concat(this.locationsArr);
+        this.formControl("location").setValue(location);
+      }
+    });
+    this.routedExtensions.navigate(["/locations/create"]);
+  }
+
+  createNewProduct() {
+    this.stateTransfer.setState({
+      type: "productCreation",
+      callback: product => {
+        this.productsArr = [product].concat(this.productsArr);
+        this.formControl("product").setValue(location);
+        this.productUpdated();
+      }
+    });
+    this.routedExtensions.navigate(["/products/create"]);
   }
 }
