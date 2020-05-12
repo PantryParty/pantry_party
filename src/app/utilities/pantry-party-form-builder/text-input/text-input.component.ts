@@ -1,7 +1,9 @@
-import { Component, Input, QueryList, ContentChildren } from "@angular/core";
+import { Component, Input, QueryList, ContentChildren, OnDestroy } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
 import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
+import { map, distinctUntilChanged, switchMap, tap, filter } from "rxjs/operators";
+import { Observable, Subject, BehaviorSubject, Subscription } from "rxjs";
 
 @Component({
   selector: "ns-text-input",
@@ -10,11 +12,20 @@ import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
 })
 export class TextInputComponent {
   @Input() control: FormControl;
+
   @Input() label = "";
   // tslint:disable-next-line:no-input-rename
   @Input("hint") inputHint = "";
 
   @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
+
+  errorMessages(): string[] {
+    if (!this.control) {
+      return [];
+    }
+
+    return Object.keys(this.control.errors || {}).map(e => this.getErrorMessages(e));
+  }
 
   getErrorMessages(validator: string): string {
     const child = this.errorStrings.find(c => c.validator === validator);

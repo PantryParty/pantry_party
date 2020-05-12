@@ -6,6 +6,7 @@ import { NativeScriptFormsModule } from "nativescript-angular";
 import { FormErrorTextComponent } from "./form-error-text/form-error-text.component";
 import { NumberInputComponent } from "./number-input/component";
 import { SingleSelectInputComponent } from "./single-select-input/component";
+import { FieldErrorsDisplayComponent } from "./field-errors-display/field-errors-display.component";
 
 const allComponents = [
   TextInputComponent,
@@ -15,7 +16,10 @@ const allComponents = [
 ];
 
 @NgModule({
-  declarations: allComponents,
+  declarations: [
+    ...allComponents,
+    FieldErrorsDisplayComponent
+  ],
   exports: allComponents,
   imports: [
     NativeScriptCommonModule,

@@ -15,7 +15,9 @@
     <StackLayout>
       <ns-text-input
         [control]="formControl('name')"
-        label="Product Name"></ns-text-input>
+        label="Product Name">
+        <ns-form-error-text validator="valueExists" message="Product name already exists"> </ns-form-error-text>
+      </ns-text-input>
       <ns-number-input
         [control]="formControl('minStockAccmount')"
         label="Minimum Stock"

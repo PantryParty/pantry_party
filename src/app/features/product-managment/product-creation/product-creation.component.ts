@@ -6,6 +6,8 @@ import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-
 import { NamedThingSelectorButton } from "~/app/scanned-item-set/named-thing-selector-button";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { FormBuilder, Validators } from "@angular/forms";
+import { map, tap } from "rxjs/operators";
+import { AsyncUniqeName } from "~/app/utilities/validators/async-unique-name";
 
 export type ProductSelectorDismiss  = GrocyProduct | null;
 
@@ -19,13 +21,20 @@ export class ProductCreationComponent implements OnInit {
   selectionCallback: null | ((x: GrocyProduct) => any)  = null;
 
   form = this._fb.group ({
-    name: ["", Validators.required],
-    minStockAccmount: [0, Validators.compose([Validators.required, Validators.min(0)])],
-    bestBeforeDays: [0, Validators.compose([Validators.required, Validators.min(-1)])],
-    bestBeforeDaysAfterOpen: [0, Validators.compose([Validators.required, Validators.min(-1)])],
-    bestBeforeDaysAfterFreezing: [0, Validators.compose([Validators.required, Validators.min(-1)])],
-    bestBeforeDaysAfterThawing: [0, Validators.compose([Validators.required, Validators.min(-1)])],
-    purchaseFactor: [1, Validators.compose([Validators.required, Validators.min(1)])],
+    name: ["",
+      [ Validators.required ],
+      [
+        AsyncUniqeName.createValidator(
+          this.grocyService.allProducts().pipe(map(all => all.map(p => p.name)))
+        )
+      ]
+    ],
+    minStockAccmount: [0, [Validators.required, Validators.min(0)]],
+    bestBeforeDays: [0, [Validators.required, Validators.min(-1)]],
+    bestBeforeDaysAfterOpen: [0, [Validators.required, Validators.min(-1)]],
+    bestBeforeDaysAfterFreezing: [0, [Validators.required, Validators.min(-1)]],
+    bestBeforeDaysAfterThawing: [0, [Validators.required, Validators.min(-1)]],
+    purchaseFactor: [1, [Validators.required, Validators.min(1)]],
     quantityUnitPurchase: [null, Validators.required],
     quantityUnitConsume: [null, Validators.required],
     defaultLocation: [null, Validators.required]
