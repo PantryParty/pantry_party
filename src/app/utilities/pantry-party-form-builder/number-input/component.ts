@@ -14,17 +14,13 @@ export class NumberInputComponent {
   // tslint:disable-next-line:no-input-rename
   @Input("hint") inputHint = "";
 
-  @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
+  @ContentChildren(FormErrorTextComponent) errorMessages!: QueryList<FormErrorTextComponent>;
 
-  getErrorMessages(validator: string): string {
-    const child = this.errorStrings.find(c => c.validator === validator);
-
-    if (child) {
-      return child.message;
-    } else if (DEFAULT_ERROR_MESSAGES[validator]) {
-      return DEFAULT_ERROR_MESSAGES[validator];
-    } else {
-      return `no validation error message for ${validator}`;
+  errors(): string[] {
+    if (!this.control) {
+      return [];
     }
+
+    return Object.keys(this.control.errors || {});
   }
 }

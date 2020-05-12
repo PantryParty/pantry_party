@@ -41,14 +41,12 @@
       class="-primary"
       ></Button>
 
-    <ng-container
-      *ngIf="control.touched">
-      <Label
-        *ngFor="let error of control.errors | keyvalue"
-        [text]="getErrorMessages(error.key)"
-        class="field-errors text-danger"
-        ></Label>
-    </ng-container>
+    <ns-field-errors
+      *ngIf="control.dirty && control.invalid"
+      [errors]="errors()"
+      [errorMessages]="errorMessages"
+      >
+    </ns-field-errors>
   </ng-container>
 
 </StackLayout>

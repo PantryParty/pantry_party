@@ -30,7 +30,7 @@ export class SingleSelectInputComponent<T> {
 
   @Output() createTriggerd = new EventEmitter<void>();
 
-  @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
+  @ContentChildren(FormErrorTextComponent) errorMessages!: QueryList<FormErrorTextComponent>;
 
   pickerVisible = false;
   selectedIndex = 0;
@@ -62,6 +62,8 @@ export class SingleSelectInputComponent<T> {
   openPicker() {
     this.filterItems();
     this.pickerVisible = true;
+    this.control.markAsTouched();
+    this.control.markAsDirty();
   }
 
   closePicker() {
@@ -105,15 +107,11 @@ export class SingleSelectInputComponent<T> {
     }
   }
 
-  getErrorMessages(validator: string): string {
-    const child = this.errorStrings.find(c => c.validator === validator);
-
-    if (child) {
-      return child.message;
-    } else if (DEFAULT_ERROR_MESSAGES[validator]) {
-      return DEFAULT_ERROR_MESSAGES[validator];
-    } else {
-      return `no validation error message for ${validator}`;
+  errors(): string[] {
+    if (!this.control) {
+      return [];
     }
+
+    return Object.keys(this.control.errors || {});
   }
 }

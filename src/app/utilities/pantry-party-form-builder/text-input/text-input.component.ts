@@ -17,25 +17,13 @@ export class TextInputComponent {
   // tslint:disable-next-line:no-input-rename
   @Input("hint") inputHint = "";
 
-  @ContentChildren(FormErrorTextComponent) errorStrings!: QueryList<FormErrorTextComponent>;
+  @ContentChildren(FormErrorTextComponent) errorMessages!: QueryList<FormErrorTextComponent>;
 
-  errorMessages(): string[] {
+  errors(): string[] {
     if (!this.control) {
       return [];
     }
 
-    return Object.keys(this.control.errors || {}).map(e => this.getErrorMessages(e));
-  }
-
-  getErrorMessages(validator: string): string {
-    const child = this.errorStrings.find(c => c.validator === validator);
-
-    if (child) {
-      return child.message;
-    } else if (DEFAULT_ERROR_MESSAGES[validator]) {
-      return DEFAULT_ERROR_MESSAGES[validator];
-    } else {
-      return `no validation error message for ${validator}`;
-    }
+    return Object.keys(this.control.errors || {});
   }
 }

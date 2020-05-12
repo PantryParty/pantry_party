@@ -11,6 +11,8 @@
     ></TextField>
   <ns-field-errors
     *ngIf="control.dirty && control.invalid"
-    [errorMessages]="errorMessages()"
-    ></ns-field-errors>
+    [errors]="errors()"
+    [errorMessages]="errorMessages"
+    >
+  </ns-field-errors>
 </StackLayout>
