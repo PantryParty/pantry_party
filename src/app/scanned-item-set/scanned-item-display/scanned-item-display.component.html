@@ -1,4 +1,4 @@
- <GridLayout columns="40,*,40">
+ <GridLayout columns="40,*,50">
    <ng-container [ngSwitch]="status">
      <Image src='font://&#xf071;' col="0" *ngSwitchCase="'needs_product'" class='fas'></Image>
      <Image src='font://&#xf28b;' col="0" (tap)="pausedToggled.emit(true)" *ngSwitchCase="'save_paused'" class='fas'></Image>
@@ -9,5 +9,16 @@
    </ng-container>
 
    <Label col="1" [text]='entryName' ></Label>
-   <Label [text]='scannedItem.quantity' col="2"></Label>
+   <StackLayout col="2">
+     <Label
+       textAlignment="center"
+       class="quantity"
+       [text]='scannedItem.quantity'></Label>
+     <Label
+       textAlignment="center"
+       class="purcahseFactorAdjustment"
+       [text]='purchaseFactorText'
+       *ngIf='displayPurchaseFactor'
+       ></Label>
+   </StackLayout>
  </GridLayout>

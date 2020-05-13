@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
 import { ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
-import { GestureEventData, SwipeGestureEventData } from "@nativescript/core/ui/gestures/gestures";
+import { SwipeGestureEventData } from "@nativescript/core/ui/gestures/gestures";
 
 @Component({
   selector: "ns-scanned-item-display",
@@ -12,6 +12,7 @@ export class ScannedItemDisplayComponent {
   @Input() scannedItem?: ScannedItem;
   @Input() savePaused = false;
   @Input() working = false;
+  @Input() respectsPurcahseFactor = false;
   @Output() pausedToggled = new EventEmitter<boolean>();
   @Output() swipe = new EventEmitter<SwipeGestureEventData>();
 
@@ -39,5 +40,21 @@ export class ScannedItemDisplayComponent {
     } else {
       return `Unknown (${this.scannedItem.barcode})`;
     }
+  }
+
+  get purchaseFactorText() {
+    if (this.scannedItem && this.scannedItem.grocyProduct) {
+      return `x${this.scannedItem.grocyProduct.quantity_unit_factor_purchase_to_stock}`;
+    }
+
+    return "";
+  }
+
+  get displayPurchaseFactor() {
+    return this.respectsPurcahseFactor
+      && this.scannedItem
+      && this.scannedItem.grocyProduct
+      && this.scannedItem.grocyProduct.quantity_unit_factor_purchase_to_stock > 1
+      ;
   }
 }

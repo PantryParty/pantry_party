@@ -17,6 +17,7 @@ export class PurchaseComponent implements OnDestroy {
     public scannedItemManager: ScannedItemManagerService,
     public grocyService: GrocyService
   ) {
+    scannedItemManager.respectsPurcahseFactor = true;
     scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
     scannedItemManager.saveCallback = i => {
