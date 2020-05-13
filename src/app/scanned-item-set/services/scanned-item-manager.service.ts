@@ -1,5 +1,5 @@
 import { ScanResult } from "nativescript-barcodescanner";
-import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject } from "rxjs";
+import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject, EMPTY } from "rxjs";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
@@ -115,7 +115,7 @@ export class ScannedItemManagerService implements OnDestroy {
       {saveInProgress: true}
     );
     const lastUndoKey = this.pvtUndoKey[item.barcode];
-    const undo$ = lastUndoKey ? this.undoCallback(lastUndoKey) : empty();
+    const undo$ = lastUndoKey ? this.undoCallback(lastUndoKey) : EMPTY;
 
     concat(
       undo$.pipe(
@@ -263,7 +263,7 @@ export class ScannedItemManagerService implements OnDestroy {
 
     this.grocyService.getLocation(item.grocyProduct.location_id).pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(location => this.updateScannedItem(item.barcode, { location }))
+    ).subscribe(location => this.updateScannedItem(item.barcode, { location }));
   }
 
   private findGrocyProduct(item: ScannedItem) {

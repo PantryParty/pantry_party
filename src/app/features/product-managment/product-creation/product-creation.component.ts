@@ -1,12 +1,10 @@
-import { Component, ViewChild, NgZone, OnInit } from "@angular/core";
+import { Component,  OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct, GrocyLocation, GrocyQuantityUnit } from "~/app/services/grocy.interfaces";
-import { RouterExtensions, ModalDialogOptions, ModalDialogService } from "nativescript-angular";
-import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
-import { NamedThingSelectorButton } from "~/app/scanned-item-set/named-thing-selector-button";
+import { RouterExtensions } from "nativescript-angular";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { FormBuilder, Validators } from "@angular/forms";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { AsyncUniqeName } from "~/app/utilities/validators/async-unique-name";
 
 export type ProductSelectorDismiss  = GrocyProduct | null;

@@ -6,7 +6,6 @@ import { StateTransferService } from "~/app/services/state-transfer.service";
 import { RouterExtensions } from "nativescript-angular";
 import { GrocyService } from "~/app/services/grocy.service";
 import { relativeDate, toDateString } from "~/app/utilities/dateString";
-import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 import { FormBuilder, Validators } from "@angular/forms";
 import { dateStringParser } from "~/app/utilities/dateStringParser";
 
@@ -34,7 +33,6 @@ export type ScannedItemEditorCallback = (x: EditorCallbackRemove | EditorCallbac
 export class ScannedItemEditorComponent {
   scannedItem: Pick< ScannedItem, "quantity" | "location" | "bestBeforeDate" | "grocyProduct" >;
   originalScannedItem: ScannedItem;
-  @ViewChild("configForm", { static: false }) configForm: RadDataFormComponent;
   locationsArr: GrocyLocation[] = [];
   productsArr: GrocyProduct[] = [];
 

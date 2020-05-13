@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from "@
 import { openUrl } from "@nativescript/core/utils/utils";
 import { BehaviorSubject, of, ReplaySubject, merge } from "rxjs";
 import { debounceTime, filter, switchMap, catchError, map, tap, takeUntil } from "rxjs/operators";
-import { RadDataFormComponent } from "nativescript-ui-dataform/angular/dataform-directives";
 import { GrocyService, GrocySystemInfoResponse } from "~/app/services/grocy.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -23,7 +22,6 @@ export class GrocyApiComponent implements OnInit, OnDestroy {
     return this.helpTextForStatus[this.lastHttpError.status] ||
       `An unknown error occurred. Got HTTP Status code ${this.lastHttpError.status}`;
   }
-  @ViewChild("configForm", { static: false }) configForm: RadDataFormComponent;
   @Output() configValid = new EventEmitter<boolean>();
 
   working = false;
