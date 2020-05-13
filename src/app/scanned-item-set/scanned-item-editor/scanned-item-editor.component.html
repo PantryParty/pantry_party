@@ -20,9 +20,9 @@
 <ns-ad-wrapper>
   <ScrollView>
     <StackLayout>
-      <ns-text-input
+      <ns-number-input
         [control]="formControl('quantity')"
-        label="Quantity"></ns-text-input>
+        label="Quantity"></ns-number-input>
       <ns-single-select-input
         [options]="productsArr"
         allowsCreate=true
@@ -34,10 +34,19 @@
       <ns-single-select-input
         [options]="locationsArr"
         allowsCreate=true
+        (changed)="updateDate()"
         (createTriggerd)="createNewLocation()"
         nounName='Location'
         [control]="formControl('location')"
         label="Default Location"></ns-single-select-input>
+      <ns-date-select-input
+        [control]="formControl('bestByDate')"
+        label="Best By Date"></ns-date-select-input>
+      <Button
+        text="Save"
+        class="-outline"
+        (tap)="save()"
+        ></Button>
     </StackLayout>
   </ScrollView>
 </ns-ad-wrapper>

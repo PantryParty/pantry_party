@@ -8,13 +8,15 @@ import { NumberInputComponent } from "./number-input/component";
 import { SingleSelectInputComponent } from "./single-select-input/component";
 import { FieldErrorsDisplayComponent } from "./field-errors-display/field-errors-display.component";
 import { SwitchInputComponent } from "./switch-input/component";
+import { DateSelectComponent } from "./date-select-input/component";
 
 const allComponents = [
   TextInputComponent,
   FormErrorTextComponent,
   NumberInputComponent,
   SingleSelectInputComponent,
-  SwitchInputComponent
+  SwitchInputComponent,
+  DateSelectComponent
 ];
 
 @NgModule({
