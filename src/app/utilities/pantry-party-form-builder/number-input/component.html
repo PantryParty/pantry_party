@@ -6,8 +6,9 @@
     ></Label>
   <TextField
     [formControl]="control"
+    class="form-field"
+    keyboardType="integer"
     [hint]="inputHint"
-    class="field"
     ></TextField>
   <ns-field-errors
     *ngIf="control.dirty && control.invalid"

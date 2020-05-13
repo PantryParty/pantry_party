@@ -1,15 +1,15 @@
 import { Component, Input, QueryList, ContentChildren } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
 
 @Component({
-  selector: "ns-text-input",
-  templateUrl: "./text-input.component.html",
-  styleUrls: ["./text-input.component.scss"]
+  selector: "ns-number-input",
+  templateUrl: "./component.html",
+  styleUrls: ["./component.scss"]
 })
-export class TextInputComponent {
+export class NumberInputComponent {
   @Input() control: FormControl;
-
   @Input() label = "";
   // tslint:disable-next-line:no-input-rename
   @Input("hint") inputHint = "";

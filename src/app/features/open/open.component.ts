@@ -4,7 +4,7 @@ import { ScanResult } from "nativescript-barcodescanner";
 import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, OpenProductsParams } from "~/app/services/grocy.service";
 import { map, switchMap } from "rxjs/operators";
-import { dateString } from "~/app/utilities/dateString";
+import { toDateString, relativeDate } from "~/app/utilities/dateString";
 
 @Component({
   selector: "Open",
@@ -24,12 +24,14 @@ export class OpenComponent implements OnDestroy {
       const product = i.grocyProduct;
 
       if (product && product.default_best_before_days_after_open) {
-        return dateString(
-          product.default_best_before_days_after_open === -1 ? 36500 : product.default_best_before_days_after_open
+        return toDateString(
+          relativeDate(
+            product.default_best_before_days_after_open === -1 ? 36500 : product.default_best_before_days_after_open
+          )
         );
       }
 
-      return dateString(0);
+      return toDateString(new Date());
     };
     scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 

@@ -4,14 +4,26 @@ import { TextInputComponent } from "./text-input/text-input.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NativeScriptFormsModule } from "nativescript-angular";
 import { FormErrorTextComponent } from "./form-error-text/form-error-text.component";
+import { NumberInputComponent } from "./number-input/component";
+import { SingleSelectInputComponent } from "./single-select-input/component";
+import { FieldErrorsDisplayComponent } from "./field-errors-display/field-errors-display.component";
+import { SwitchInputComponent } from "./switch-input/component";
+import { DateSelectComponent } from "./date-select-input/component";
 
 const allComponents = [
   TextInputComponent,
-  FormErrorTextComponent
+  FormErrorTextComponent,
+  NumberInputComponent,
+  SingleSelectInputComponent,
+  SwitchInputComponent,
+  DateSelectComponent
 ];
 
 @NgModule({
-  declarations: allComponents,
+  declarations: [
+    ...allComponents,
+    FieldErrorsDisplayComponent
+  ],
   exports: allComponents,
   imports: [
     NativeScriptCommonModule,

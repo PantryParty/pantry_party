@@ -17,46 +17,36 @@
     ></ActionItem>
 </ActionBar>
 
-<RadDataForm
-  (editorUpdate)="onEditorUpdate($event)"
-  [source]="scannedItem"
-  validationMode="immediate"
-  #configForm
-  >
-  <TKEntityProperty
-    tkDataFormProperty
-    name="quantity"
-    displayName="Quantity"
-    index="0">
-    <TKPropertyEditor tkEntityPropertyEditor type="Stepper"></TKPropertyEditor>
-  </TKEntityProperty>
-  <TKEntityProperty
-    tkDataFormProperty
-    name="bestBeforeDate"
-    displayName="Best Before Date"
-    index="1">
-    <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
-  </TKEntityProperty>
-  <TKEntityProperty
-    tkDataFormProperty
-    name="location"
-    displayName="Location"
-    index="2">
-    <TKCustomPropertyEditor
-      tkEntityPropertyEditor
-      (editorNeedsView)="locationSelector.editorNeedsView($event)"
-      (editorHasToApplyValue)="locationSelector.editorHasToApplyValue($event)"
-      (editorNeedsValue)="locationSelector.editorNeedsValue($event)"></TKCustomPropertyEditor>
-  </TKEntityProperty>
-  <TKEntityProperty
-    tkDataFormProperty
-    name="grocyProduct"
-    displayName="Product"
-    index="3">
-    <TKCustomPropertyEditor
-      tkEntityPropertyEditor
-      (editorNeedsView)="productSelector.editorNeedsView($event)"
-      (editorHasToApplyValue)="productSelector.editorHasToApplyValue($event)"
-      (editorNeedsValue)="productSelector.editorNeedsValue($event)"></TKCustomPropertyEditor>
-  </TKEntityProperty>
-</RadDataForm>
+<ns-ad-wrapper>
+  <ScrollView>
+    <StackLayout>
+      <ns-number-input
+        [control]="formControl('quantity')"
+        label="Quantity"></ns-number-input>
+      <ns-single-select-input
+        [options]="productsArr"
+        allowsCreate=true
+        (createTriggerd)="createNewProduct()"
+        (changed)="productUpdated()"
+        nounName='Product'
+        [control]="formControl('product')"
+        label="Default Product"></ns-single-select-input>
+      <ns-single-select-input
+        [options]="locationsArr"
+        allowsCreate=true
+        (changed)="updateDate()"
+        (createTriggerd)="createNewLocation()"
+        nounName='Location'
+        [control]="formControl('location')"
+        label="Default Location"></ns-single-select-input>
+      <ns-date-select-input
+        [control]="formControl('bestByDate')"
+        label="Best By Date"></ns-date-select-input>
+      <Button
+        text="Save"
+        class="-outline"
+        (tap)="save()"
+        ></Button>
+    </StackLayout>
+  </ScrollView>
+</ns-ad-wrapper>

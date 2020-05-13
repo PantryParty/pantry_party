@@ -1,14 +1,13 @@
-<StackLayout class="control-wrapper" *ngIf="control">
+<StackLayout orientation="horizontal" class="control-wrapper" *ngIf="control">
   <Label
     [text]="label"
     *ngIf="label.length > 0"
     class="field-label"
     ></Label>
-  <TextField
+  <Switch
     [formControl]="control"
-    [hint]="inputHint"
     class="field"
-    ></TextField>
+    ></Switch>
   <ns-field-errors
     *ngIf="control.dirty && control.invalid"
     [errors]="errors()"

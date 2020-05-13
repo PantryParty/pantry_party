@@ -16,4 +16,9 @@ use_frameworks!
 
 pod 'MaterialComponents/Tabs', '~> 94.5'
 # End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-iqkeyboardmanager/platforms/ios/Podfile
+pod 'IQKeyboardManager', '~> 6.2.0'
+
+# End Podfile
 end

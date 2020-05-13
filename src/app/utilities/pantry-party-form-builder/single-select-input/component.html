@@ -1,0 +1,52 @@
+<StackLayout class="control-wrapper" *ngIf="control">
+    <Label
+      [text]="label"
+      *ngIf="label.length > 0"
+      class="field-label"
+      ></Label>
+    <ng-container
+      *ngIf="pickerVisible"
+      >
+      <ListPicker
+        [items]="optionNames()"
+        [selectedIndex]="selectedIndex"
+        (selectedIndexChange)="onSelectedIndexChanged($event)"
+        (doubleTap)="select()"
+        ></ListPicker>
+        <GridLayout height="40" [columns]="'40, ' + (allowsCreate ? 40 : 0) + ', *, 40'" class='subMenu'>
+          <Image (tap)="closePicker()" height="30" src='font://&#xf00d;' class='fas' col="0"></Image>
+          <Image (tap)="startCreate()" *ngIf="allowsCreate" height="30" src='font://&#xf067;' class='fas' col="1"></Image>
+
+          <SearchBar
+            col="2"
+            hint="Filter"
+            (textChange)="searchUpdated($event)">
+          </SearchBar>
+
+          <Image
+            height="30"
+            src='font://&#xf00c;'
+            class='fas'
+            col="3"
+            (tap)="select()"></Image>
+        </GridLayout>
+    </ng-container>
+
+  <ng-container
+    *ngIf="!pickerVisible"
+    >
+    <Button
+      [text]="displayText()"
+      (tap)="openPicker()"
+      class="-primary"
+      ></Button>
+
+    <ns-field-errors
+      *ngIf="control.dirty && control.invalid"
+      [errors]="errors()"
+      [errorMessages]="errorMessages"
+      >
+    </ns-field-errors>
+  </ng-container>
+
+</StackLayout>

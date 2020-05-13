@@ -12,6 +12,11 @@
   color: lighten( $complementary, 5%);
 }
 
-.field {
+.field-errors {
+  margin-top: 0px;
+  margin-left: 25px;
+}
+
+.form-field {
   placeholder-color: #CCC;
 }

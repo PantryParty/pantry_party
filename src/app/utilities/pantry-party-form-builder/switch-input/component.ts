@@ -3,11 +3,11 @@ import { FormControl } from "@angular/forms";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
 
 @Component({
-  selector: "ns-text-input",
-  templateUrl: "./text-input.component.html",
-  styleUrls: ["./text-input.component.scss"]
+  selector: "ns-switch-input",
+  templateUrl: "./component.html",
+  styleUrls: ["./component.scss"]
 })
-export class TextInputComponent {
+export class SwitchInputComponent {
   @Input() control: FormControl;
 
   @Input() label = "";

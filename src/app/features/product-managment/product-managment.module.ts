@@ -7,6 +7,7 @@ import { ProductCreationComponent } from "./product-creation/product-creation.co
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular/dataform-directives";
 import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
+import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-builder/pantry-party-form-builder.module";
 import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
 
 @NgModule({
@@ -19,6 +20,7 @@ import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
     NativeScriptCommonModule,
     NativeScriptUIListViewModule,
     NativeScriptUIDataFormModule,
+    PantryPartyFormBuilderModule,
     AppDrawerOpenerModule,
     AdWrapperModule
   ],

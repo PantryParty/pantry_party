@@ -3,11 +3,11 @@ import { FormControl } from "@angular/forms";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
 
 @Component({
-  selector: "ns-text-input",
-  templateUrl: "./text-input.component.html",
-  styleUrls: ["./text-input.component.scss"]
+  selector: "ns-date-select-input",
+  templateUrl: "./component.html",
+  styleUrls: ["./component.scss"]
 })
-export class TextInputComponent {
+export class DateSelectComponent {
   @Input() control: FormControl;
 
   @Input() label = "";
@@ -16,11 +16,33 @@ export class TextInputComponent {
 
   @ContentChildren(FormErrorTextComponent) errorMessages!: QueryList<FormErrorTextComponent>;
 
+  pickerVisible = false;
+
   errors(): string[] {
     if (!this.control) {
       return [];
     }
 
     return Object.keys(this.control.errors || {});
+  }
+
+  displayText() {
+    const value = this.control.value;
+    if (value) {
+      return value.toDateString();
+    } else {
+      return "No date selected";
+    }
+  }
+
+  openPicker() {
+    this.pickerVisible = true;
+    this.control.markAsTouched();
+    this.control.markAsDirty();
+  }
+
+  closePicker() {
+    this.pickerVisible = false;
+    this.control.markAsTouched();
   }
 }

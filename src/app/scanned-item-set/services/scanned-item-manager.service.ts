@@ -1,12 +1,12 @@
 import { ScanResult } from "nativescript-barcodescanner";
-import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject } from "rxjs";
+import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject, EMPTY } from "rxjs";
 import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
 import { map, takeUntil, finalize, take } from "rxjs/operators";
 import { OnDestroy, Input } from "@angular/core";
-import { dateString } from "~/app/utilities/dateString";
 import { ScannedAnnouncerService, FinalScanResults } from "~/app/services/scan-announcer";
+import { toDateString, relativeDate } from "~/app/utilities/dateString";
 
 interface BaseScannedItem {
   barcode: string;
@@ -90,7 +90,7 @@ export class ScannedItemManagerService implements OnDestroy {
   determineBestBeforeDate = (item: ScannedItem): string | null => {
     const product = item.grocyProduct;
     if (!product) {
-      return dateString(0);
+      return toDateString(new Date());
     }
 
     let defaultBestBefore = product.default_best_before_days;
@@ -103,7 +103,7 @@ export class ScannedItemManagerService implements OnDestroy {
       defaultBestBefore = 36500;
     }
 
-    return dateString(defaultBestBefore);
+    return toDateString(relativeDate(defaultBestBefore));
   }
 
   undoCallback: (s: string) => Observable<any> = _ => of("");
@@ -115,7 +115,7 @@ export class ScannedItemManagerService implements OnDestroy {
       {saveInProgress: true}
     );
     const lastUndoKey = this.pvtUndoKey[item.barcode];
-    const undo$ = lastUndoKey ? this.undoCallback(lastUndoKey) : empty();
+    const undo$ = lastUndoKey ? this.undoCallback(lastUndoKey) : EMPTY;
 
     concat(
       undo$.pipe(
@@ -153,7 +153,7 @@ export class ScannedItemManagerService implements OnDestroy {
         autoSave: true,
         saveInProgress: false,
         saveCoutdown: this.defaultWaitToSave,
-        bestBeforeDate: dateString(0),
+        bestBeforeDate: toDateString(new Date()),
         location: this.defaultLocation
       };
 
@@ -263,7 +263,7 @@ export class ScannedItemManagerService implements OnDestroy {
 
     this.grocyService.getLocation(item.grocyProduct.location_id).pipe(
       finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(location => this.updateScannedItem(item.barcode, { location }))
+    ).subscribe(location => this.updateScannedItem(item.barcode, { location }));
   }
 
   private findGrocyProduct(item: ScannedItem) {

@@ -7,6 +7,8 @@ import { LocationCreationComponent } from "./location-creation/location-creation
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular/dataform-directives";
 import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
+import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
+import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-builder/pantry-party-form-builder.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener
     NativeScriptCommonModule,
     NativeScriptUIListViewModule,
     NativeScriptUIDataFormModule,
-    AppDrawerOpenerModule
+    AppDrawerOpenerModule,
+    AdWrapperModule,
+    PantryPartyFormBuilderModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })
