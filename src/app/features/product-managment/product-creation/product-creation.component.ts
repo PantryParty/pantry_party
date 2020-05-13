@@ -44,7 +44,6 @@ export class ProductCreationComponent implements OnInit {
     private statePasser: StateTransferService,
     private _fb: FormBuilder
   ) {
-    console.log("constructor");
     const passedState = statePasser.readAndClearState();
 
     if (passedState && passedState.type === "productCreation") {

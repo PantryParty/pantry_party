@@ -54,6 +54,7 @@ export class ScannedItemManagerService implements OnDestroy {
   scanResults = new Subject<FinalScanResults>();
   annouceScannedItems = true;
   scanAnnouncer = new ScannedAnnouncerService(this.scanResults);
+  respectsPurcahseFactor = false;
 
   defaultWaitToSave = 20;
   createDelay = 5;
