@@ -1,0 +1,29 @@
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/blue";
+
+.bottomSheet {
+  &_frame {
+  }
+
+  &_title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0px;
+    background: #EEE;
+    padding: 50px 30px 50px 30px;
+
+    &-primary {
+      background: $complementary;
+      color: $complementary-color;
+    }
+  }
+
+  &_content {
+    margin: 20px;
+  }
+
+  &_filterLabel {
+    margin-left: 15px;
+    font-size: 15px;
+  }
+}

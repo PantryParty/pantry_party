@@ -19,6 +19,9 @@ import { ReactiveFormsModule } from "@angular/forms";
     NativeScriptFormsModule,
     ReactiveFormsModule
   ],
+  entryComponents: [
+    StockFilterComponent
+  ],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class StockModule { }

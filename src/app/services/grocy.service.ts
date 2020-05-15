@@ -190,6 +190,7 @@ export class GrocyService {
       map(r => ({
         ...productParams,
         location_id: Number(productParams.location_id),
+        parent_product_id: `${productParams.parent_product_id}`,
         id: r.created_object_id
       }))
     );

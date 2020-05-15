@@ -5,6 +5,16 @@ import { FormBuilder } from "@angular/forms";
 import { slideInOutDownAnimation } from "~/app/utilities/animations";
 import { debounceTime } from "rxjs/operators";
 import { GrocyStockEntry } from "~/app/services/grocy.interfaces";
+import { StateTransferService } from "~/app/services/state-transfer.service";
+
+export interface StockFilters {
+  showChildProducts: boolean;
+  showOnlyBelowMinStock: boolean;
+  withinDaysOfExpiration: string;
+  includeOpenAsOutOfStock: boolean;
+  onlyShowOutOfStock: boolean;
+  belowMinQuantity: boolean;
+}
 
 @Component({
   selector: "ns-stock-filter",
@@ -15,57 +25,38 @@ import { GrocyStockEntry } from "~/app/services/grocy.interfaces";
   ]
 })
 export class StockFilterComponent implements OnDestroy {
-  @Output() filtersUpdated = new EventEmitter<void>();
-
-  screenWidth = screen.mainScreen.widthPixels;
-  filtersVisible = true;
-
-  lastData = {
-    productNameContains: "",
-    hideChildProducts: true,
-    showOnlyBelowMinStock: false,
-    withinDaysOfExpiration: ""
-  };
 
   form = this._fb.group({
-    productNameContains: [this.lastData.productNameContains],
-    hideChildProducts: [this.lastData.hideChildProducts],
-    showOnlyBelowMinStock: [this.lastData.showOnlyBelowMinStock],
-    withinDaysOfExpiration: [this.lastData.withinDaysOfExpiration]
+    showChildProducts: [true],
+    showOnlyBelowMinStock: [false],
+    withinDaysOfExpiration: [""],
+    belowMinQuantity: [false],
+    onlyShowOutOfStock: [false],
+    includeOpenAsOutOfStock: [false]
   });
 
   subscription = this.form.valueChanges.pipe(
     debounceTime(250)
-  ).subscribe(c => {
-    this.lastData = c;
-    this.filtersUpdated.next();
-  });
+  ).subscribe(c => this.updatedCallback(c));
 
-  constructor(private _fb: FormBuilder) {
-  }
+  constructor(
+    private _fb: FormBuilder,
+    private stateTransfer: StateTransferService
+  ) {
+    const state = this.stateTransfer.readAndClearState();
+    if (state.type === "stockFilter") {
+      this.updatedCallback = state.callback;
 
-  stockItemMatches(item: GrocyStockEntry) {
-    if (
-      this.lastData.productNameContains.length > 0 &&
-      !item.product.name.toLowerCase().includes(this.lastData.productNameContains.toLowerCase())
-    ) {
-      return false;
+      if (state.currentFilters) {
+        this.form.patchValue(state.currentFilters);
+      }
     }
-
-    if (
-      !this.lastData.hideChildProducts &&
-      item.product.parent_product_id
-    ) { return false; }
-
-    return true;
   }
+
+  updatedCallback = (s: StockFilters) => {};
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  toggleFilters() {
-    this.filtersVisible = !this.filtersVisible;
   }
 
   formControl(name: string) {

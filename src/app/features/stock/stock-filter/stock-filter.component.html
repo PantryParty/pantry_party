@@ -1,62 +1,79 @@
-<StackLayout class="filterWrapper">
-  <GridLayout height="50" columns="*, auto">
-    <TextField
+<StackLayout class="bottomSheet_frame">
+  <Label
+    text='Stock Filters'
+    class='bottomSheet_title bottomSheet_title-primary'
+    ></Label>
+  <GridLayout
+    rows="auto, auto, auto, auto, auto"
+    cols="auto,auto"
+    class='bottomSheet_content'
+    >
+    <Label
+      row="0"
       col="0"
-      height="50"
-      class='filter_productName'
-      [formControl]="formControl('productNameContains')"
-      hint="Filter By Product Name"
-      >
-    </TextField>
-    <StackLayout
-      orientation="horizontal"
-      class="filterButton_wrapper"
+      class="bottomSheet_filterLabel"
+      text="Show Child Products"
+      ></Label>
+    <Switch
+      row="0"
       col="1"
-      >
-      <Label
-        text='&#xf0b0;'
-        class='fas filterButton_icon'
-        ></Label>
-      <Label
-        class="filterButton_label"
-        (tap)="toggleFilters()"
-        [text]="filtersVisible ?  'Hide Filters' : 'More Filters'"></Label>
-    </StackLayout>
+      class="pull-right filter_action"
+      [formControl]="formControl('showChildProducts')"
+      ></Switch>
+
+    <Label
+      row="1"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Only Out of Stock"
+      ></Label>
+    <Switch
+      row="1"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('onlyShowOutOfStock')"
+      ></Switch>
+
+    <Label
+      row="2"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Only Stock below Min Quantity"
+      ></Label>
+    <Switch
+      row="2"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('belowMinQuantity')"
+      ></Switch>
+
+    <Label
+      row="3"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Count Opened As Consumed"
+      ></Label>
+    <Switch
+      row="3"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('includeOpenAsOutOfStock')"
+      ></Switch>
+
+    <Label
+      row="4"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Within days of expiry"
+      ></Label>
+    <TextField
+      row="4"
+      col="1"
+      width="70"
+      class="pull-right filter_action"
+      [formControl]="formControl('withinDaysOfExpiration')"
+      keyboardType="integer"
+      ></TextField>
   </GridLayout>
-  <ScrollView
-      class="moreFilter_wrappers"
-      *ngIf="filtersVisible"
-      >
-    <GridLayout
-      rows="auto, auto, auto"
-      cols="auto,auto">
-      <Label
-        row="0"
-        col="0"
-        class="filter_label"
-        text="Show Child Products"
-        ></Label>
-      <Switch
-        row="0"
-        col="1"
-        class="pull-right filter_action"
-        [formControl]="formControl('hideChildProducts')"
-        ></Switch>
-      <Label
-        row="1"
-        col="0"
-        class="filter_label"
-        text="Within days of expiry"
-        ></Label>
-      <TextField
-        row="1"
-        col="1"
-        width="70"
-        class="pull-right filter_action"
-        [formControl]="formControl('withinDaysOfExpiration')"
-        keyboardType="integer"
-        ></TextField>
-    </GridLayout>
-  </ScrollView>
 </StackLayout>
 

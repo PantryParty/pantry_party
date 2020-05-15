@@ -1,13 +1,18 @@
 <ActionBar title="Current Stock">
   <NavigationButton ></NavigationButton>
+  <ActionItem
+    ios.position="right"
+    (tap)="openFilter()">
+    <Label text="Filter"></Label>
+  </ActionItem>
   <ActionItem drawerToggle> </ActionItem>
 </ActionBar>
 
 <StackLayout >
-  <ns-stock-filter
-    (filtersUpdated)="filterStock()"
-    ></ns-stock-filter>
-
+  <SearchBar
+    hint="Filter By Product Name"
+    class="filter_byName"
+    (textChange)="searchUpdated($event)"></SearchBar>
   <GridLayout>
     <RadListView
       [items]="filteredStockItems"

@@ -63,6 +63,7 @@ export interface GrocyStockAPIReturn {
 }
 
 export interface GrocyStockEntry {
+  is_in_stock: boolean;
   product_id: number;
   amount: number;
   amount_aggregated: number;
