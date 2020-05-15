@@ -1,0 +1,26 @@
+<StackLayout class="bottomSheet_frame">
+  <Label
+    [text]='stockItem.product.name'
+    class='bottomSheet_title bottomSheet_title-primary'
+    ></Label>
+  <StackLayout
+    orientation='horizontal'>
+  <Button
+    class="consume_one button_wrapper"
+    >
+    <FormattedString>
+      <Span text="&#xf564;" class="fas button_icon"></Span>
+      <Span text="Consume One"></Span>
+    </FormattedString>
+  </Button>
+  <Button
+    class="consume_all button_wrapper"
+    >
+    <FormattedString>
+      <Span text="&#xf564;" class="fas button_icon"></Span>
+      <Span text="Consume All"></Span>
+    </FormattedString>
+  </Button>
+  </StackLayout>
+</StackLayout>
+

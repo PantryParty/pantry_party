@@ -8,9 +8,10 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/l
 import { StockFilterComponent } from "./stock-filter/stock-filter.component";
 import { NativeScriptFormsModule } from "nativescript-angular";
 import { ReactiveFormsModule } from "@angular/forms";
+import { StockActionSheetComponent } from "./stock-action-sheet/stock-action-sheet.component";
 
 @NgModule({
-  declarations: [CurrentStockComponent, StockFilterComponent],
+  declarations: [CurrentStockComponent, StockFilterComponent, StockActionSheetComponent],
   imports: [
     StockRoutingModule,
     NativeScriptCommonModule,
@@ -20,7 +21,8 @@ import { ReactiveFormsModule } from "@angular/forms";
     ReactiveFormsModule
   ],
   entryComponents: [
-    StockFilterComponent
+    StockFilterComponent,
+    StockActionSheetComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

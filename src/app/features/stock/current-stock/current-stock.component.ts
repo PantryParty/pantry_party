@@ -7,6 +7,8 @@ import { BottomSheetService, BottomSheetOptions } from "nativescript-material-bo
 import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { relativeDate } from "~/app/utilities/dateString";
+import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
+import { StockActionSheetComponent } from "../stock-action-sheet/stock-action-sheet.component";
 
 @Component({
   selector: "ns-current-stock",
@@ -152,5 +154,21 @@ export class CurrentStockComponent {
   searchUpdated($evt: any) {
     this.lastFilterData.productNameContains = ($evt.object as SearchBar).text;
     this.filterStock();
+  }
+
+  selectListEntry($event: ItemEventData) {
+    const options: BottomSheetOptions = {
+      viewContainerRef: this.containerRef,
+      animated: true,
+      dismissOnBackgroundTap: true,
+      dismissOnDraggingDownSheet: true
+    };
+
+    this.stateTransfer.setState({
+      type: "stockItemManager",
+      stockItem: this.filteredStockItems[$event.index]
+    });
+
+    this.bottomSheet.show(StockActionSheetComponent, options);
   }
 }

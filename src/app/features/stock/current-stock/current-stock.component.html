@@ -17,6 +17,7 @@
     <RadListView
       [items]="filteredStockItems"
       pullToRefresh="true"
+      (itemTap)="selectListEntry($event)"
       (pullToRefreshInitiated)="listPulled($event)"
       >
       <ng-template let-item="item" let-i="index">
