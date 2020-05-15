@@ -10,11 +10,12 @@ import {
   GrocyItemCreated,
   GrocyProductAPIReturn,
   GrocyStockAPIReturn,
-  GrocyStockEntry
+  GrocyStockEntry,
+  GrocyVolatileReturn
 } from "./grocy.interfaces";
 
-import { Observable, of } from "rxjs";
-import { map, exhaustMap, mapTo } from "rxjs/operators";
+import { Observable, of, forkJoin } from "rxjs";
+import { map, exhaustMap, mapTo, switchMap } from "rxjs/operators";
 import { dateStringParser } from "../utilities/dateStringParser";
 
 export interface OpenProductsParams {
@@ -271,7 +272,7 @@ export class GrocyService {
     );
   }
 
-  allStock(): Observable<GrocyStockEntry[]> {
+  inStockItems(): Observable<GrocyStockEntry[]> {
     return this.http.get<GrocyStockAPIReturn[]>(
       `${this.apiHost}/stock`,
       { headers: {"GROCY-API-KEY": this.apiKey} }
@@ -280,9 +281,50 @@ export class GrocyService {
         i => ({
           ...i,
           best_before_date: dateStringParser(i.best_before_date),
+          is_in_stock: true,
           product: this.convertProductApiToLocal(i.product)
         })
       ))
+    );
+  }
+
+  allStock(): Observable<GrocyStockEntry[]> {
+    return forkJoin(
+      this.inStockItems(),
+      this.outOfStockStock()
+    ).pipe(
+      map(i => [...i[0], ...i[1]])
+    );
+  }
+
+  outOfStockStock(): Observable<GrocyStockEntry[]> {
+    return this.http.get<GrocyVolatileReturn>(
+      `${this.apiHost}/stock/volatile?expiring_days=0`,
+        { headers: {"GROCY-API-KEY": this.apiKey} }
+    ).pipe(
+      map(
+        p => p.missing_products
+          .filter(d => d.is_partly_in_stock === "0")
+          .map(i => i.id)
+      ),
+      switchMap(
+        missingProductId => this.allProducts().pipe(
+          map(ps => ps.filter(p => missingProductId.indexOf(p.id) >= 0)),
+          map(products => products.map(
+            product => ({
+              product_id: Number(product.id),
+              amount: 0,
+              amount_aggregated: 0,
+              amount_opened: 0,
+              amount_opened_aggregated: 0,
+              best_before_date: new Date(),
+              is_aggregated_amount: false,
+              is_in_stock: false,
+              product
+            })
+          ))
+        )
+      )
     );
   }
 

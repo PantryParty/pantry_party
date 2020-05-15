@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ViewChild  } from "@angular/core";
 import { GrocyStockEntry } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ListViewEventData } from "nativescript-ui-listview";
-import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
+import { StockFilterComponent } from "../stock-filter/stock-filter.component";
 
 @Component({
   selector: "ns-current-stock",
@@ -10,6 +10,8 @@ import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
   styleUrls: ["./current-stock.component.scss"]
 })
 export class CurrentStockComponent {
+  @ViewChild(StockFilterComponent, { static: false }) stockFilter: StockFilterComponent;
+
   get lastSearch() {
     return this._lastSearch;
   }
@@ -52,22 +54,15 @@ export class CurrentStockComponent {
   }
 
   listPulled(evt: ListViewEventData) {
-    this.getNewStock().add(_ => {
-      evt.object.notifyPullToRefreshFinished();
-    });
+    this.getNewStock().add(_ => evt.object.notifyPullToRefreshFinished());
   }
 
   filterStock() {
-    this.filteredStockItems = this.allStock.filter(s => {
-      return s.product.name.toLowerCase().indexOf(this.lastSearch.toLowerCase()) > -1;
-    });
+    this.filteredStockItems = this.allStock.filter(s => this.stockFilter.stockItemMatches(s));
   }
 
   bestBeforeDate(item: GrocyStockEntry) {
     return item.best_before_date.toDateString();
   }
 
-  searchUpdated($evt: any) {
-    this.lastSearch = ($evt.object as SearchBar).text;
-  }
 }

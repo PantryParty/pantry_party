@@ -1,0 +1,62 @@
+<StackLayout class="filterWrapper">
+  <GridLayout height="50" columns="*, auto">
+    <TextField
+      col="0"
+      height="50"
+      class='filter_productName'
+      [formControl]="formControl('productNameContains')"
+      hint="Filter By Product Name"
+      >
+    </TextField>
+    <StackLayout
+      orientation="horizontal"
+      class="filterButton_wrapper"
+      col="1"
+      >
+      <Label
+        text='&#xf0b0;'
+        class='fas filterButton_icon'
+        ></Label>
+      <Label
+        class="filterButton_label"
+        (tap)="toggleFilters()"
+        [text]="filtersVisible ?  'Hide Filters' : 'More Filters'"></Label>
+    </StackLayout>
+  </GridLayout>
+  <ScrollView
+      class="moreFilter_wrappers"
+      *ngIf="filtersVisible"
+      >
+    <GridLayout
+      rows="auto, auto, auto"
+      cols="auto,auto">
+      <Label
+        row="0"
+        col="0"
+        class="filter_label"
+        text="Show Child Products"
+        ></Label>
+      <Switch
+        row="0"
+        col="1"
+        class="pull-right filter_action"
+        [formControl]="formControl('hideChildProducts')"
+        ></Switch>
+      <Label
+        row="1"
+        col="0"
+        class="filter_label"
+        text="Within days of expiry"
+        ></Label>
+      <TextField
+        row="1"
+        col="1"
+        width="70"
+        class="pull-right filter_action"
+        [formControl]="formControl('withinDaysOfExpiration')"
+        keyboardType="integer"
+        ></TextField>
+    </GridLayout>
+  </ScrollView>
+</StackLayout>
+

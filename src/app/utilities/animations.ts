@@ -1,4 +1,4 @@
-import { trigger, state, transition, style, animate, group } from "@angular/animations";
+import { trigger, state, transition, style, animate } from "@angular/animations";
 
 export const slideInOutDownAnimation = [
   trigger(
@@ -12,7 +12,7 @@ export const slideInOutDownAnimation = [
         opacity: 0,
         transform: "translateY(-20%) scaleY(0)"
       })),
-      transition("void => *", [animate("1600ms 700ms ease-out")]),
+      transition("void => *", [animate("500ms 200ms ease-out")]),
       transition("* => void", [animate("600ms ease-in")])
     ]
   )

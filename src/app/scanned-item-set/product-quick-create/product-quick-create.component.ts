@@ -51,7 +51,8 @@ const nullProduct: GrocyProduct = {
   default_best_before_days: 0,
   default_best_before_days_after_open: 0,
   default_best_before_days_after_thawing: 0,
-  default_best_before_days_after_freezing: 0
+  default_best_before_days_after_freezing: 0,
+  parent_product_id: null
 };
 
 @Component({

@@ -4,11 +4,9 @@
 </ActionBar>
 
 <StackLayout >
-  <SearchBar
-    hint="Filter By Product Name--"
-    (textChange)="searchUpdated($event)"
-    >
-  </SearchBar>
+  <ns-stock-filter
+    (filtersUpdated)="filterStock()"
+    ></ns-stock-filter>
 
   <GridLayout>
     <RadListView
@@ -30,6 +28,12 @@
 
             <Label
               [text]="'Next Best Before ' + bestBeforeDate(item)"
+              *ngIf="item.is_in_stock"
+              class="nextBestBefore"
+              ></Label>
+            <Label
+              text="Out of stock"
+              *ngIf="!item.is_in_stock"
               class="nextBestBefore"
               ></Label>
           </StackLayout>
