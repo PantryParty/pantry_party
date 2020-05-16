@@ -9,6 +9,7 @@ import { StockFilters } from "../features/stock/stock-filter/stock-filter.compon
 interface StockItemManageState {
   type: "stockItemManager";
   stockItem: GrocyStockEntry;
+  childStockItems: GrocyStockEntry[];
 }
 
 interface StockFiltersState {

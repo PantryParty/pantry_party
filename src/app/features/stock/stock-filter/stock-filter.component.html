@@ -1,8 +1,11 @@
 <StackLayout class="bottomSheet_frame">
-  <Label
-    text='Stock Filters'
-    class='bottomSheet_title bottomSheet_title-primary'
-    ></Label>
+  <StackLayout
+    class="bottomSheet_titleContainer bottomSheet_titleContainer-primary">
+    <Label
+      text='Stock Filters'
+      class='bottomSheet_title'
+      ></Label>
+  </StackLayout>
   <GridLayout
     rows="auto, auto, auto, auto, auto"
     cols="auto,auto"
@@ -12,7 +15,7 @@
       row="0"
       col="0"
       class="bottomSheet_filterLabel"
-      text="Show Child Products"
+      text="Show Sub-Products"
       ></Label>
     <Switch
       row="0"
@@ -64,7 +67,7 @@
       row="4"
       col="0"
       class="bottomSheet_filterLabel"
-      text="Within days of expiry"
+      text="Days until expiration"
       ></Label>
     <TextField
       row="4"

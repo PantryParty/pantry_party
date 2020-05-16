@@ -233,7 +233,7 @@ export class GrocyService {
 
   openProduct(openParams: OpenProductsParams) {
     return this.http.post<{id: string; stock_id: string}>(
-      `${this.apiHost}/stock/products/${openParams.productId}/consume`,
+      `${this.apiHost}/stock/products/${openParams.productId}/open`,
       {amount: openParams.quantity},
       { headers: {"GROCY-API-KEY": this.apiKey} }
     );

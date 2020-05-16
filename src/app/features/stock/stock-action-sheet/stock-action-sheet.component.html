@@ -1,26 +1,52 @@
 <StackLayout class="bottomSheet_frame">
-  <Label
-    [text]='stockItem.product.name'
-    class='bottomSheet_title bottomSheet_title-primary'
-    ></Label>
   <StackLayout
-    orientation='horizontal'>
-  <Button
-    class="consume_one button_wrapper"
+    class="bottomSheet_titleContainer bottomSheet_titleContainer-primary">
+    <Label
+      [text]='stockItem.product.name'
+      class='bottomSheet_title'
+      ></Label>
+    <Label
+      [text]='stockText(stockItem)'
+      class='bottomSheet_subTitle '
+      ></Label>
+  </StackLayout>
+  <ns-action-buttons
+    [stockItem]="stockItem"
+    [showMessageWhenNoActions]="childStockItems.length === 0"
+    (consumeOne)="consumeProduct(stockItem, 1)"
+    (consumeAll)="consumeAll(stockItem)"
+    (openOne)="openOne(stockItem)"
+    (spoilOne)="spoilOne(stockItem)"
+    ></ns-action-buttons>
+
+  <!-- Child Items -->
+  <StackLayout
+    class="childItems_wraper"
+    *ngIf="childStockItems.length > 0"
     >
-    <FormattedString>
-      <Span text="&#xf564;" class="fas button_icon"></Span>
-      <Span text="Consume One"></Span>
-    </FormattedString>
-  </Button>
-  <Button
-    class="consume_all button_wrapper"
-    >
-    <FormattedString>
-      <Span text="&#xf564;" class="fas button_icon"></Span>
-      <Span text="Consume All"></Span>
-    </FormattedString>
-  </Button>
+      <Label
+        text="SUB-ITEMS"
+        class="childItems_header"
+        ></Label>
+    <ng-container
+      *ngFor="let child of childStockItems"
+      >
+      <Label
+        [text]="child.product.name"
+        class="childItems_label"
+        ></Label>
+        <Label
+          [text]="stockText(child, false)"
+          class="childItems_subLabel"
+          ></Label>
+      <ns-action-buttons
+        [stockItem]="child"
+        (consumeOne)="consumeProduct(child, 1)"
+        (consumeAll)="consumeAll(child)"
+        (openOne)="openOne(child)"
+        (spoilOne)="spoilOne(child)"
+        ></ns-action-buttons>
+    </ng-container>
   </StackLayout>
 </StackLayout>
 

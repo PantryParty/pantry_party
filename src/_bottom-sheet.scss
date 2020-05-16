@@ -4,11 +4,7 @@
 .bottomSheet {
   &_frame {
   }
-
-  &_title {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0px;
+  &_titleContainer {
     background: #EEE;
     padding: 50px 30px 50px 30px;
 
@@ -16,6 +12,13 @@
       background: $complementary;
       color: $complementary-color;
     }
+  }
+
+  &_title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0px;
+
   }
 
   &_content {

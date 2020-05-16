@@ -156,6 +156,10 @@ export class CurrentStockComponent {
     this.filterStock();
   }
 
+  childrenOf(item: GrocyStockEntry) {
+    return this.allStock.filter(i => i.product.parent_product_id === item.product.id);
+  }
+
   selectListEntry($event: ItemEventData) {
     const options: BottomSheetOptions = {
       viewContainerRef: this.containerRef,
@@ -164,9 +168,11 @@ export class CurrentStockComponent {
       dismissOnDraggingDownSheet: true
     };
 
+    const item  = this.filteredStockItems[$event.index];
     this.stateTransfer.setState({
       type: "stockItemManager",
-      stockItem: this.filteredStockItems[$event.index]
+      stockItem: item,
+      childStockItems: this.childrenOf(item)
     });
 
     this.bottomSheet.show(StockActionSheetComponent, options);

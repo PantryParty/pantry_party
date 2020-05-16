@@ -32,4 +32,12 @@ pod 'MaterialComponents/schemes/Color'
 pod 'MaterialComponents/Ink+ColorThemer'
 
 # End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-material-button/platforms/ios/Podfile
+pod 'MaterialComponents/Buttons+ButtonThemer'
+# End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-feedback/platforms/ios/Podfile
+pod 'ISMessages', :git => 'https://github.com/EddyVerbruggen/ISMessages.git', :commit => '9cda6db2fcb11e62b0332eedb24dbefcbb69435f'
+# End Podfile
 end
