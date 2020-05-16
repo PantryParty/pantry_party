@@ -1,0 +1,26 @@
+/* Add mobile styles for the component here.  */
+
+.childItems {
+  &_wrapper {
+    margin-top: 25px;
+  }
+
+  &_header {
+    font-weight: bold;
+    color: #888;
+  }
+
+  &_label {
+    font-size: 15px;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+
+  &_subLabel {
+    font-size: 12px;
+    color: #888;
+    margin-top: 0px;
+    margin-left: 25px;
+  }
+}

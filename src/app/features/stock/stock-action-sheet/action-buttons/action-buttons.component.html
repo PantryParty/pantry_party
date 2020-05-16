@@ -1,0 +1,55 @@
+<ScrollView orientation="horizontal">
+  <StackLayout
+    orientation='horizontal'
+    *ngIf="canPerformActions()"
+    >
+    <MDButton
+      class="consume_one"
+      *ngIf="canConsume()"
+      (tap)="consumeOne.emit()"
+      rippleColor="blue" >
+      <FormattedString>
+        <Span text="&#xf564;" class="fas button_icon"></Span>
+        <Span text="  Consume One"></Span>
+      </FormattedString>
+    </MDButton>
+    <MDButton
+      rippleColor="blue"
+      class="consume_all"
+      (tap)="consumeAll.emit()"
+      *ngIf="canConsume()"
+      >
+      <FormattedString>
+        <Span text="&#xf2e7;" class="fas button_icon"></Span>
+        <Span text="  Consume All"></Span>
+      </FormattedString>
+    </MDButton>
+    <MDButton
+      rippleColor="blue"
+      *ngIf="canOpen()"
+      class="open_one"
+      (tap)="openOne.emit()"
+      >
+      <FormattedString>
+        <Span text="&#xf49e;" class="fas button_icon"></Span>
+        <Span text="  Open One"></Span>
+      </FormattedString>
+    </MDButton>
+    <MDButton
+      rippleColor="blue"
+      class="spoil_one"
+      *ngIf="canConsume()"
+      (tap)="spoilOne.emit()"
+      >
+      <FormattedString>
+        <Span text="&#xf2ed;" class="fas button_icon"></Span>
+        <Span text="  Spoil One"></Span>
+      </FormattedString>
+    </MDButton>
+  </StackLayout>
+  <Label
+    class="noActions"
+    text="Out of stock, no actions avaiable"
+    *ngIf="showMessageWhenNoActions && !canPerformActions()"
+    ></Label>
+</ScrollView>
