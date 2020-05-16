@@ -22,6 +22,7 @@ interface BaseGrocyProduct {
   id: string;
   name: string;
   description: string;
+  parent_product_id: null | string;
 }
 
 export interface GrocyProductAPIReturn extends BaseGrocyProduct {
@@ -62,12 +63,22 @@ export interface GrocyStockAPIReturn {
 }
 
 export interface GrocyStockEntry {
+  is_in_stock: boolean;
   product_id: number;
   amount: number;
   amount_aggregated: number;
   amount_opened: number;
   amount_opened_aggregated: number;
   best_before_date: Date;
-  is_aggregated_amount: true;
+  is_aggregated_amount: boolean;
   product: GrocyProduct;
+}
+
+export interface GrocyVolatileReturn {
+  missing_products: {
+    id: string;
+    name: string;
+    amount_missing: string;
+    is_partly_in_stock: "0" | "1";
+  }[];
 }

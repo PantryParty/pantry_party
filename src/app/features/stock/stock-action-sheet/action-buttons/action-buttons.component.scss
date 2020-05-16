@@ -1,0 +1,25 @@
+/* Add mobile styles for the component here.  */
+@import "~@nativescript/theme/blue";
+
+.consume_one {
+  color: #FFF;
+  background-color: color(aqua);
+}
+
+.consume_all {
+  color: #FFF;
+  background-color: color(error);
+}
+
+.open_one {
+  color: #FFF;
+}
+
+.spoil_one {
+  background-color: color(lime);
+}
+
+.noActions {
+  padding: 15px;
+  text-transform: capitalize;
+}

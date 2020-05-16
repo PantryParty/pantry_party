@@ -7,6 +7,7 @@ import { NativeScriptHttpClientModule, NativeScriptFormsModule } from "nativescr
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
 import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
+import { NativeScriptMaterialBottomSheetModule } from "nativescript-material-bottomsheet/angular";
 import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
@@ -20,11 +21,12 @@ import { ReactiveFormsModule } from "@angular/forms";
         NativeScriptHttpClientModule,
         NativeScriptAnimationsModule,
         ReactiveFormsModule,
-        NativeScriptFormsModule
+        NativeScriptFormsModule,
+        NativeScriptMaterialBottomSheetModule.forRoot()
     ],
     declarations: [
         AppComponent,
-        AppDrawerComponent,
+        AppDrawerComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

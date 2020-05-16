@@ -1,9 +1,22 @@
 import { Injectable } from "@angular/core";
-import { GrocyLocation, GrocyProduct } from "./grocy.interfaces";
+import { GrocyLocation, GrocyProduct, GrocyStockEntry } from "./grocy.interfaces";
 import { ProductSelectionResults } from "../features/product-managment/product-list/product-list.component";
 import { LocationSelectionResults } from "../features/location-managment/location-list/location-list.component";
 import { ScannedItem, ScannedItemManagerService } from "../scanned-item-set/services/scanned-item-manager.service";
 import { ScannedItemEditorCallback } from "../scanned-item-set/scanned-item-editor/scanned-item-editor.component";
+import { StockFilters } from "../features/stock/stock-filter/stock-filter.component";
+
+interface StockItemManageState {
+  type: "stockItemManager";
+  stockItem: GrocyStockEntry;
+  childStockItems: GrocyStockEntry[];
+}
+
+interface StockFiltersState {
+  type: "stockFilter";
+  currentFilters?: StockFilters;
+  callback: (f: StockFilters) => any;
+}
 
 interface LocationSelection {
   type: "locationSelection";
@@ -46,6 +59,8 @@ type AvailableTypes = null
   | ProductQuickCreate
   | ProductSelection
   | ScannedItemEditor
+  | StockFiltersState
+  | StockItemManageState
   ;
 
 @Injectable({

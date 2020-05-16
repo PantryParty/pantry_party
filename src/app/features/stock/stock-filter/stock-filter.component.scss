@@ -1,0 +1,34 @@
+/* Add mobile styles for the component here.  */
+
+.filterButton {
+  &_icon, &_label {
+    margin-top: 10px;
+    color: #666666;
+    font-size: 15px;
+  }
+  &_icon {
+    margin-left: 15px;
+  }
+
+  &_wrapper {
+    margin-right: 15px;
+  }
+}
+
+.filterWrapper {
+  border-bottom-width: 1;
+  border-bottom-color: #EEE;
+}
+
+.filter {
+  &_productName {
+    border-bottom-width: 0;
+    placeholder-color: #CCC;
+  }
+
+  &_label {
+    font-size: 15px;
+    margin-left: 13px;
+    padding: 5px;
+  }
+}

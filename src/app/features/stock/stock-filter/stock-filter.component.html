@@ -1,0 +1,82 @@
+<StackLayout class="bottomSheet_frame">
+  <StackLayout
+    class="bottomSheet_titleContainer bottomSheet_titleContainer-primary">
+    <Label
+      text='Stock Filters'
+      class='bottomSheet_title'
+      ></Label>
+  </StackLayout>
+  <GridLayout
+    rows="auto, auto, auto, auto, auto"
+    cols="auto,auto"
+    class='bottomSheet_content'
+    >
+    <Label
+      row="0"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Show Sub-Products"
+      ></Label>
+    <Switch
+      row="0"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('showChildProducts')"
+      ></Switch>
+
+    <Label
+      row="1"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Only Out of Stock"
+      ></Label>
+    <Switch
+      row="1"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('onlyShowOutOfStock')"
+      ></Switch>
+
+    <Label
+      row="2"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Only Stock below Min Quantity"
+      ></Label>
+    <Switch
+      row="2"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('belowMinQuantity')"
+      ></Switch>
+
+    <Label
+      row="3"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Count Opened As Consumed"
+      ></Label>
+    <Switch
+      row="3"
+      col="1"
+      class="pull-right filter_action"
+      [formControl]="formControl('includeOpenAsOutOfStock')"
+      ></Switch>
+
+    <Label
+      row="4"
+      col="0"
+      class="bottomSheet_filterLabel"
+      text="Days until expiration"
+      ></Label>
+    <TextField
+      row="4"
+      col="1"
+      width="70"
+      class="pull-right filter_action"
+      [formControl]="formControl('withinDaysOfExpiration')"
+      keyboardType="integer"
+      ></TextField>
+  </GridLayout>
+</StackLayout>
+

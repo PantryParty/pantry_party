@@ -21,4 +21,23 @@ pod 'MaterialComponents/Tabs', '~> 94.5'
 pod 'IQKeyboardManager', '~> 6.2.0'
 
 # End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-material-bottomsheet/platforms/ios/Podfile
+pod 'MaterialComponents/BottomSheet'
+
+# End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-material-core/platforms/ios/Podfile
+pod 'MaterialComponents/schemes/Color'
+pod 'MaterialComponents/Ink+ColorThemer'
+
+# End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-material-button/platforms/ios/Podfile
+pod 'MaterialComponents/Buttons+ButtonThemer'
+# End Podfile
+
+# Begin Podfile - /Users/brianmalinconico/workspace/PantryParty/node_modules/nativescript-feedback/platforms/ios/Podfile
+pod 'ISMessages', :git => 'https://github.com/EddyVerbruggen/ISMessages.git', :commit => '9cda6db2fcb11e62b0332eedb24dbefcbb69435f'
+# End Podfile
 end
