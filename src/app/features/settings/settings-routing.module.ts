@@ -6,6 +6,7 @@ import { SettingListComponent } from "./setting-list/setting-list.component";
 import { GrocyApiWrapperComponent } from "./grocy-api/grocy-api-wrapper.component";
 import { BarcodeSourcesWrapperComponent } from "./barcode-sources/barcode-sources-wrapper.component";
 import { PrivacySettingsWrapperComponent } from "./privacy-settings/privacy-settings-wrapper.component";
+import { ExternalScannerSettingsComponent } from "./external-scanner/component";
 
 const routes: Routes = [
   {
@@ -26,9 +27,11 @@ const routes: Routes = [
   },
   {
     path: "barcode-sources",
-    component: BarcodeSourcesWrapperComponent,
-    children: [
-    ]
+    component: BarcodeSourcesWrapperComponent
+  },
+  {
+    path: "external-scanner",
+    component: ExternalScannerSettingsComponent
   }
 ];
 

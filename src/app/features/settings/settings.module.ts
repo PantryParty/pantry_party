@@ -16,6 +16,7 @@ import { PrivacySettingsWrapperComponent } from "./privacy-settings/privacy-sett
 import { NativeScriptFormsModule } from "nativescript-angular";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-builder/pantry-party-form-builder.module";
+import { ExternalScannerSettingsComponent } from "./external-scanner/component";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-
     SettingListComponent,
     GrocyApiWrapperComponent,
     BarcodeSourcesWrapperComponent,
-    PrivacySettingsWrapperComponent
+    PrivacySettingsWrapperComponent,
+    ExternalScannerSettingsComponent
   ],
   imports: [
     SettingsRoutingModule,

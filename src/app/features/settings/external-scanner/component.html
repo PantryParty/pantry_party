@@ -1,0 +1,28 @@
+<ActionBar title="External Scanner">
+  <NavigationButton></NavigationButton>
+</ActionBar>
+
+<GridLayout>
+  <RadListView
+    [items]="settings"
+    >
+    <ng-template let-item="item">
+      <GridLayout height="120" columns="60,*">
+      <Switch
+        [checked]="externalScanner[item.key]"
+        (checkedChange)="switchChanged($event, item)"
+        col="0"
+        horizontalAlignment="center"></Switch>
+      <StackLayout col="1">
+      <Label
+        class="h2"
+        [text]="item.title" ></Label>
+      <Label
+        [text]="item.description"
+        textWrap="true"
+        ></Label>
+      </StackLayout>
+      </GridLayout>
+    </ng-template>
+  </RadListView>
+</GridLayout>
