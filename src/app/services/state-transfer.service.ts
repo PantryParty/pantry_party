@@ -6,6 +6,11 @@ import { ScannedItem, ScannedItemManagerService } from "../scanned-item-set/serv
 import { ScannedItemEditorCallback } from "../scanned-item-set/scanned-item-editor/scanned-item-editor.component";
 import { StockFilters } from "../features/stock/stock-filter/stock-filter.component";
 
+interface ExternalScannerState {
+  type: "externalScanner";
+  callback: (x: {text: string}) => any;
+}
+
 interface StockItemManageState {
   type: "stockItemManager";
   stockItem: GrocyStockEntry;
@@ -53,6 +58,7 @@ interface ProductQuickCreate {
 }
 
 type AvailableTypes = null
+  | ExternalScannerState
   | LocationCreation
   | LocationSelection
   | ProductCreation

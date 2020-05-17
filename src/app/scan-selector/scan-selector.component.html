@@ -21,18 +21,4 @@
       </StackLayout>
     </MDRipple>
   </ng-container>
-
-  <ns-external-scanner-capture
-    col="0"
-    *ngIf="enableExternalScanner"
-    (capturedData)="scanResults.emit($event)"
-    [capture]="enableExternalScanner"
-    ></ns-external-scanner-capture>
-    <Button
-      colSpan="2"
-      col="1"
-      *ngIf="enableExternalScanner"
-      class="-simple scanSelector_backFromExternalButton"
-      (tap)="stopScanning()"
-      text="Stop Scanning"> </Button>
 </GridLayout>

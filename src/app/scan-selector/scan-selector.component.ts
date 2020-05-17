@@ -1,7 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, ViewContainerRef } from "@angular/core";
 import { BarcodeScanner, ScanOptions, ScanResult } from "nativescript-barcodescanner";
 import { ExternalScannerService } from "../services/external-scanner.service";
 import { Page } from "tns-core-modules/ui/page/page";
+import { StateTransferService } from "../services/state-transfer.service";
+import { BottomSheetOptions, BottomSheetService } from "nativescript-material-bottomsheet/angular";
+import { ExternalCaptureSheetComponent } from "./external-capture-sheet/component";
 
 @Component({
   selector: "ns-scan-selector",
@@ -28,7 +31,9 @@ export class ScanSelectorComponent {
 
   constructor(
     public externalScannerService: ExternalScannerService,
-    private page: Page
+    private bottomSheet: BottomSheetService,
+    private containerRef: ViewContainerRef,
+    private stateTransfer: StateTransferService
   ) {}
 
   scanOnce(): void {
@@ -50,7 +55,20 @@ export class ScanSelectorComponent {
   }
 
   externalScanner() {
-    this.enableExternalScanner = true;
+    const options: BottomSheetOptions = {
+      viewContainerRef: this.containerRef,
+      animated: true,
+      dismissOnBackgroundTap: true,
+      dismissOnDraggingDownSheet: true,
+      transparent: true
+    };
+
+    this.stateTransfer.setState({
+      type: "externalScanner",
+      callback: r => this.scanResults.emit(r)
+    });
+
+    this.bottomSheet.show(ExternalCaptureSheetComponent, options);
   }
 
 }
