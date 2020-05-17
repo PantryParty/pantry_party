@@ -1,7 +1,6 @@
-import { Component } from "@angular/core";
-import { PrivacyService } from "~/app/services/privacy.service";
+import { Component, OnDestroy } from "@angular/core";
 import { Switch } from "tns-core-modules/ui/switch/switch";
-import { EventData } from "tns-core-modules/ui/page/page";
+import { EventData, Page } from "tns-core-modules/ui/page/page";
 import { ExternalScannerService } from "~/app/services/external-scanner.service";
 
 @Component({
@@ -11,20 +10,31 @@ import { ExternalScannerService } from "~/app/services/external-scanner.service"
 })
 export class ExternalScannerSettingsComponent {
 
-  settings = [
-    {
-      title: "Enable External Scanner",
-      description: "External scanners are better and faster at reading. Turn this on to enable this option.",
-      key: "enabled"
-    }
-  ];
+  results = [];
+  startScaning = false;
 
   constructor(
     public externalScanner: ExternalScannerService
   ) { }
 
-  switchChanged(evt: EventData, item: any) {
+  switchChanged(evt: EventData, item: string) {
     const sw = evt.object as Switch;
-    this.externalScanner[item.key] = sw.checked;
+    this.externalScanner[item] = sw.checked;
+  }
+
+  testScannerText() {
+    if (this.startScaning) {
+      return "Tap to stop scanner";
+    } else {
+      return "Tap to test scanner";
+    }
+  }
+
+  toggle() {
+    this.startScaning = !this.startScaning;
+  }
+
+  newScan({text}) {
+    this.results = [text].concat(this.results);
   }
 }

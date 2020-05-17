@@ -15,7 +15,7 @@ export class AppDrawerComponent {
 
   navigateTo(args: any) {
     this.navigatedAway.emit();
-    this.routerExtensions.navigate(args);
+    this.routerExtensions.navigate(args, {clearHistory: true});
   }
 
 }

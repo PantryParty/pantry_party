@@ -3,11 +3,15 @@
 @import "~@nativescript/theme/blue";
 
 GridLayout {
-  background-color: $grey-background;
-  margin-left: 15;
-  margin-right: 15;
-  color: $charcoal;
-  border-top-left-radius: 20;
-  border-top-right-radius: 20;
+  background-color: #EEE;
+  border-bottom-color: #DDD;
+  border-bottom-width: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  elevation: 2;
+}
+
+Button {
+  background-color: #EEE;
 }
 
