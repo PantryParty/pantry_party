@@ -5,14 +5,15 @@
 .scanSelector{
   &_wrappers {
     background-color: #EEE;
-    border-bottom-color: #DDD;
+    border-bottom-color: $grey-background;
     border-bottom-width: 1;
     padding-top: 10px;
     padding-bottom: 10px;
+    color: #000;
   }
 
   &_backFromExternalButton {
-    background-color: #EEE;
+    background-color: $grey;
     border: 0;
   }
 }
