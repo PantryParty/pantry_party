@@ -3,7 +3,7 @@
     [items]="settings"
     >
     <ng-template let-item="item">
-      <GridLayout height="120" columns="60,*">
+      <GridLayout height="120" columns="auto,*">
       <Switch
         [checked]="privacySettings[item.key]"
         (checkedChange)="switchChanged($event, item)"

@@ -41,6 +41,14 @@ export class ExternalScannerCaptureComponent {
     });
   }
 
+  returnPress() {
+   this.done();
+  }
+
+  blur() {
+    this.done();
+  }
+
   done() {
     const text = this.captureField.nativeElement.text;
     this.captureField.nativeElement.text = "";

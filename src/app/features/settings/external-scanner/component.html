@@ -3,7 +3,7 @@
 </ActionBar>
 
 <StackLayout>
-  <GridLayout height="120" columns="60,*">
+  <GridLayout height="120" columns="auto,*">
     <Switch
       [checked]="externalScanner['enabled']"
       (checkedChange)="switchChanged($event, 'enabled')"

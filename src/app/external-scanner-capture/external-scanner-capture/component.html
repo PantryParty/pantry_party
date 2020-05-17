@@ -1,6 +1,7 @@
 <TextField
-  class="hidden"
-  (returnPress)="done()"
-  (blur)="done()"
+  (returnPress)="returnPress()"
+  (blur)="blur()"
+  (textChange)="textChange($event)"
+  returnKeyType="send"
   #captureField
   ></TextField>

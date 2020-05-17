@@ -1,4 +1,4 @@
-<GridLayout [columns]="externalScannerService.enabled ? '*,*,*' : '*,*'" height="60">
+<GridLayout class="scanSelector_wrappers" [columns]="externalScannerService.enabled ? '*,*,*' : '*,*'" height="60">
   <ng-container *ngIf="!enableExternalScanner">
     <MDRipple rippleColor="darkgray" col="0">
       <StackLayout (tap)="scanContiniously()">
@@ -22,14 +22,17 @@
     </MDRipple>
   </ng-container>
 
-  <Button
-    *ngIf="enableExternalScanner"
-    colSpan="3"
-    (tap)="stopScanning()"
-    text="Stop Scanning"> </Button>
   <ns-external-scanner-capture
+    col="0"
     *ngIf="enableExternalScanner"
     (capturedData)="scanResults.emit($event)"
     [capture]="enableExternalScanner"
     ></ns-external-scanner-capture>
+    <Button
+      colSpan="2"
+      col="1"
+      *ngIf="enableExternalScanner"
+      class="-simple scanSelector_backFromExternalButton"
+      (tap)="stopScanning()"
+      text="Stop Scanning"> </Button>
 </GridLayout>

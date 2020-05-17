@@ -2,16 +2,17 @@
 @import "~@nativescript/theme/core";
 @import "~@nativescript/theme/blue";
 
-GridLayout {
-  background-color: #EEE;
-  border-bottom-color: #DDD;
-  border-bottom-width: 1;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  elevation: 2;
-}
+.scanSelector{
+  &_wrappers {
+    background-color: #EEE;
+    border-bottom-color: #DDD;
+    border-bottom-width: 1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 
-Button {
-  background-color: #EEE;
+  &_backFromExternalButton {
+    background-color: #EEE;
+    border: 0;
+  }
 }
-
