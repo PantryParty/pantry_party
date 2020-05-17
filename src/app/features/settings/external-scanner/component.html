@@ -1,0 +1,31 @@
+<ActionBar title="External Scanner">
+  <NavigationButton></NavigationButton>
+</ActionBar>
+
+<StackLayout>
+  <GridLayout height="120" columns="auto,*">
+    <Switch
+      [checked]="externalScanner['enabled']"
+      (checkedChange)="switchChanged($event, 'enabled')"
+      col="0"
+      horizontalAlignment="center"></Switch>
+    <StackLayout col="1">
+    <Label
+      class="h2"
+      text="Enable External Scanner" ></Label>
+    <Label
+      text="External scanners are better and faster at reading. Turn this on to enable this option."
+      textWrap="true"
+      ></Label>
+    </StackLayout>
+  </GridLayout>
+  <Button [text]="testScannerText()" (tap)="toggle()"></Button>
+  <ns-external-scanner-capture
+    (capturedData)="newScan($event)"
+    [capture]="startScaning"
+    ></ns-external-scanner-capture>
+    <Label
+      *ngFor="let result of results"
+      [text]="result"
+      ></Label>
+</StackLayout>

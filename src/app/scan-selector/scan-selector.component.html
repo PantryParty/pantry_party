@@ -1,11 +1,24 @@
-<GridLayout columns="*,*">
-  <StackLayout (tap)="scanContiniously()" col="0">
-    <Label horizontalAlignment="center" text="Rapid Scan"></Label>
-    <Image margin="5" horizontalAlignment="center" src="font://&#xf0e7;" class="fas"></Image>
-  </StackLayout>
+<GridLayout class="scanSelector_wrappers" [columns]="externalScannerService.enabled ? '*,*,*' : '*,*'" height="60">
+  <ng-container *ngIf="!enableExternalScanner">
+    <MDRipple rippleColor="darkgray" col="0">
+      <StackLayout (tap)="scanContiniously()">
+        <Label horizontalAlignment="center" text="Rapid Scan"></Label>
+        <Image margin="5" horizontalAlignment="center" src="font://&#xf0e7;" class="fas"></Image>
+      </StackLayout>
+    </MDRipple>
 
-  <StackLayout (tap)="scanOnce()" col="1">
-    <Label horizontalAlignment="center" text="Scan Item"></Label>
-    <Image margin="5" horizontalAlignment="center" src="font://&#xf02a;" class="fas"></Image>
-  </StackLayout>
+    <MDRipple rippleColor="darkgray" col="1">
+      <StackLayout (tap)="scanOnce()">
+        <Label horizontalAlignment="center" text="Scan Item"></Label>
+        <Image margin="5" horizontalAlignment="center" src="font://&#xf030;" class="fas"></Image>
+      </StackLayout>
+    </MDRipple>
+
+    <MDRipple rippleColor="darkgray" col="2" *ngIf="externalScannerService.enabled">
+      <StackLayout (tap)="externalScanner()">
+        <Label horizontalAlignment="center" text="External Scanner"></Label>
+        <Image margin="5" horizontalAlignment="center" src="font://&#xf02a;" class="fas"></Image>
+      </StackLayout>
+    </MDRipple>
+  </ng-container>
 </GridLayout>

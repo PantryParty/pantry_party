@@ -1,0 +1,24 @@
+<StackLayout class="bottomSheet_frame">
+  <GridLayout
+    class="bottomSheet_titleContainer bottomSheet_titleContainer-primary"
+    columns="*,auto"
+    orientation="horizontal"
+    >
+    <Label
+      text='Reading Barcodes'
+      class='bottomSheet_title'
+      col="0"
+      ></Label>
+    <ns-external-scanner-capture height="0"
+      col="0"
+      (capturedData)="capturedData($event)"
+      [capture]="true"
+      ></ns-external-scanner-capture>
+    <Label
+      col="1"
+      text='&#xf28d;'
+      class='far bottomSheet_titleIcon'
+      (tap)="close()"
+      ></Label>
+  </GridLayout>
+</StackLayout>
