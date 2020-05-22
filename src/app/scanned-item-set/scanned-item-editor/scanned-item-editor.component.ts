@@ -9,10 +9,9 @@ import { relativeDate, toDateString } from "~/app/utilities/dateString";
 import { FormBuilder, Validators } from "@angular/forms";
 import { dateStringParser } from "~/app/utilities/dateStringParser";
 
-export type ScannedItemUpdateOutput = Pick<
-  ScannedItem,
-  "quantity" | "location" | "bestBeforeDate" | "grocyProduct"
->;
+export type ScannedItemUpdateOutput =
+  Pick<ScannedItem, "quantity" | "location" | "bestBeforeDate" | "grocyProduct" >
+  ;
 
 interface EditorCallbackRemove {
   action: "remove";
@@ -50,7 +49,6 @@ export class ScannedItemEditorComponent {
     private ngZone: NgZone,
     private routedExtensions: RouterExtensions,
     private grocyService: GrocyService,
-    private changeRef: ChangeDetectorRef,
     private _fb: FormBuilder
   ) {
     this.grocyService.locations().subscribe(loc => this.locationsArr = loc);
@@ -116,19 +114,19 @@ export class ScannedItemEditorComponent {
   }
 
   save() {
-   const data: ScannedItemUpdateOutput = {
-     quantity: this.form.get("quantity").value,
-     location: this.form.get("location").value,
-     grocyProduct: this.form.get("product").value,
-     bestBeforeDate: toDateString(this.form.get("bestByDate").value)
-   };
+    const data: ScannedItemUpdateOutput = {
+      quantity: this.form.get("quantity").value,
+      location: this.form.get("location").value,
+      grocyProduct: this.form.get("product").value,
+      bestBeforeDate: toDateString(this.form.get("bestByDate").value)
+    };
 
-   if (this.selectionCallback) {
-     this.selectionCallback({
-       action: "update",
-       scannedItem: data
-     });
-     this.routedExtensions.back();
+    if (this.selectionCallback) {
+      this.selectionCallback({
+        action: "update",
+        scannedItem: data
+      });
+      this.routedExtensions.back();
    }
   }
 

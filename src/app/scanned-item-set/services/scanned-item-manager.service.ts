@@ -213,7 +213,7 @@ export class ScannedItemManagerService implements OnDestroy {
       }
     );
 
-    if (partialItem.location) {
+    if (partialItem.location && !partialItem.bestBeforeDate) {
       this.refreshBestBeforeDate(barcode);
     }
   }
