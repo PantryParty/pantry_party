@@ -112,8 +112,6 @@ export class CurrentStockComponent {
     ) { return false; }
 
     if (this.lastFilterData.withinDaysOfExpiration !== "") {
-      console.log("max days", this.lastFilterData.withinDaysOfExpiration);
-
       const maximumDate = relativeDate(Number(this.lastFilterData.withinDaysOfExpiration));
 
       if (item.best_before_date > maximumDate) {
