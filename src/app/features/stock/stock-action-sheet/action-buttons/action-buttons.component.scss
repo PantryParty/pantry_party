@@ -1,18 +1,27 @@
 /* Add mobile styles for the component here.  */
 @import "~@nativescript/theme/blue";
 
+.actionButton {
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .consume_one {
   color: #FFF;
   background-color: color(aqua);
 }
 
 .consume_all {
-  color: #FFF;
+  color: #fff;
   background-color: color(error);
+  font-weight: bold;
 }
 
 .open_one {
   color: #FFF;
+  background-color: color(purple);
 }
 
 .spoil_one {
