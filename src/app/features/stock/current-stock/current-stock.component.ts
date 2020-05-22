@@ -18,13 +18,6 @@ import { StockActionSheetComponent } from "../stock-action-sheet/stock-action-sh
 export class CurrentStockComponent {
   @ViewChild(StockFilterComponent, { static: false }) stockFilter: StockFilterComponent;
 
-  get lastSearch() {
-    return this._lastSearch;
-  }
-  set lastSearch(value) {
-    this.filterStock();
-  }
-
   get allStock(): GrocyStockEntry[] {
     return this._allStock;
   }
@@ -35,7 +28,6 @@ export class CurrentStockComponent {
 
   filteredStockItems: GrocyStockEntry[] = [];
 
-  private _lastSearch = "";
   private _allStock: GrocyStockEntry[] = [];
 
   private lastFilterData = {
