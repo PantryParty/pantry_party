@@ -12,7 +12,7 @@ export class ScannedItemDisplayComponent {
   @Input() scannedItem?: ScannedItem;
   @Input() savePaused = false;
   @Input() working = false;
-  @Input() respectsPurcahseFactor = false;
+  @Input() respectsPurchaseFactor = false;
   @Output() pausedToggled = new EventEmitter<boolean>();
   @Output() swipe = new EventEmitter<SwipeGestureEventData>();
 
@@ -51,7 +51,7 @@ export class ScannedItemDisplayComponent {
   }
 
   get displayPurchaseFactor() {
-    return this.respectsPurcahseFactor
+    return this.respectsPurchaseFactor
       && this.scannedItem
       && this.scannedItem.grocyProduct
       && this.scannedItem.grocyProduct.quantity_unit_factor_purchase_to_stock > 1

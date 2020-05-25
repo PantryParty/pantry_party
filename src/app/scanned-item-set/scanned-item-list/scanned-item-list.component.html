@@ -7,7 +7,7 @@
       [scannedItem]="item"
       [savePaused]="pausedItems[item.barcode]"
       [working]="workingItems[item.barcode]"
-      [respectsPurcahseFactor]="respectsPurcahseFactor"
+      [respectsPurchaseFactor]="respectsPurchaseFactor"
       (pausedToggled)="itemPauseToggled.emit(item)"
       (swipe)="onSwipe($event, item)"
       ></ns-scanned-item-display>
