@@ -18,7 +18,7 @@ export class ScannedItemListComponent {
   @Input() items: ScannedItem[] = [];
   @Input() pausedItems: Record<string, boolean> = {};
   @Input() workingItems: Record<string, boolean> = {};
-  @Input() respectsPurcahseFactor = false;
+  @Input() respectsPurchaseFactor = false;
 
   @Output() itemPauseToggled = new EventEmitter<ScannedItem>();
   @Output() itemTapped = new EventEmitter<ScannedItem>();

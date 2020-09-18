@@ -13,7 +13,7 @@
       [items]="scannedItemManager.updatedScannedItems | async"
       [pausedItems]="scannedItemManager.pausedItemBarcodes"
       [workingItems]="scannedItemManager.workingBarcodes"
-      [respectsPurcahseFactor]="scannedItemManager.respectsPurcahseFactor"
+      [respectsPurchaseFactor]="scannedItemManager.respectsPurchaseFactor"
       (itemPauseToggled)="handlePausedItem($event)"
       (itemTapped)="itemTapped($event)"
       (swipeOnItem)="swipeOnItem($event)"
