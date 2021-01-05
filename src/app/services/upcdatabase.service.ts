@@ -5,7 +5,7 @@ import { switchMap, catchError } from "rxjs/operators";
 
 import { convertToUpcAIfRequired } from "../utilities/upcConverter";
 import { ExternalProduct } from "./scanned-item-exernal-lookup.service";
-import { getBoolean, setBoolean, setString, getString } from "tns-core-modules/application-settings/application-settings";
+import { getBoolean, setBoolean, setString, getString } from "@nativescript/core/application-settings";
 
 @Injectable({
   providedIn: "root"

@@ -1,9 +1,8 @@
-import { Component, NgZone, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { Component, NgZone } from "@angular/core";
 import { ScannedItem } from "../services/scanned-item-manager.service";
-import { android as androidApplication  } from "tns-core-modules/application";
 import { GrocyLocation, GrocyProduct } from "~/app/services/grocy.interfaces";
 import { StateTransferService } from "~/app/services/state-transfer.service";
-import { RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "@nativescript/angular";
 import { GrocyService } from "~/app/services/grocy.service";
 import { relativeDate, toDateString } from "~/app/utilities/dateString";
 import { FormBuilder, Validators } from "@angular/forms";

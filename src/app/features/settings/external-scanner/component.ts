@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from "@angular/core";
-import { Switch } from "tns-core-modules/ui/switch/switch";
-import { EventData, Page } from "tns-core-modules/ui/page/page";
+import { Switch, EventData } from "@nativescript/core";
 import { ExternalScannerService } from "~/app/services/external-scanner.service";
 
 @Component({

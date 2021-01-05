@@ -1,8 +1,7 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
+import { Component, AfterViewInit} from "@angular/core";
 import * as Admob from "nativescript-admob";
 import { envConfig } from "../utilities/env";
-import { Placeholder } from "tns-core-modules/ui/placeholder/placeholder";
-import { screen } from "tns-core-modules/platform/platform";
+import { Screen } from "@nativescript/core";
 import { PrivacyService } from "../services/privacy.service";
 
 @Component({
@@ -22,9 +21,9 @@ export class AdWrapperComponent implements AfterViewInit {
   ) {
     if (!this.privacyService.showAds) {
       this.height = 0;
-    } else if (screen.mainScreen.heightDIPs <= 400) {
+    } else if (Screen.mainScreen.heightDIPs <= 400) {
       this.height = 32;
-    } else if (screen.mainScreen.heightDIPs <= 720) {
+    } else if (Screen.mainScreen.heightDIPs <= 720) {
       this.height = 50;
     } else {
       this.height = 90;

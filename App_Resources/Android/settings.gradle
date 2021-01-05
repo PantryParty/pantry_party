@@ -20,6 +20,9 @@ task replaceSettings {
         String settingsGradleTemplate = """android {
             defaultConfig {
                 applicationId = "__appId__"
+                if(__multiDexEnabled__) {
+                    multiDexEnabled = __multiDexEnabled__
+                }
 
                 if (__minSdkVersion__) {
                     minSdkVersion = __minSdkVersion__

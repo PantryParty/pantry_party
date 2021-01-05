@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { getString, setString } from "tns-core-modules/application-settings";
+import { getString } from "@nativescript/core/application-settings";
 
 import {
   GrocyProduct,

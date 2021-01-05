@@ -5,7 +5,7 @@ import { arrayMove } from "~/app/utilities/arrayMove";
 import { ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
 import { openUrl } from "@nativescript/core/utils/utils";
 import { Component } from "@angular/core";
-import { RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "@nativescript/angular";
 
 interface BarcodeServiceDef {
   name: string;

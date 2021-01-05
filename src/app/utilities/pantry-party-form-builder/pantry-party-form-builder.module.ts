@@ -1,8 +1,8 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptCommonModule } from "nativescript-angular/common";
+import { NativeScriptCommonModule } from "@nativescript/angular";
 import { TextInputComponent } from "./text-input/text-input.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { NativeScriptFormsModule } from "nativescript-angular";
+import { NativeScriptFormsModule } from "@nativescript/angular";
 import { FormErrorTextComponent } from "./form-error-text/form-error-text.component";
 import { NumberInputComponent } from "./number-input/component";
 import { SingleSelectInputComponent } from "./single-select-input/component";

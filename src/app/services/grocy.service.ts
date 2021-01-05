@@ -1,22 +1,17 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { getString, setString } from "tns-core-modules/application-settings";
+import { getString, setString } from "@nativescript/core/application-settings";
 
 import {
   GrocyProduct,
   GrocyLocation,
   GrocyQuantityUnit,
-  GrocyItemCreated,
-  GrocyProductAPIReturn,
-  GrocyStockAPIReturn,
   GrocyStockEntry,
-  GrocyVolatileReturn
 } from "./grocy.interfaces";
 
-import { Observable, of, forkJoin, BehaviorSubject } from "rxjs";
-import { map, exhaustMap, mapTo, switchMap, tap, filter } from "rxjs/operators";
-import { dateStringParser } from "../utilities/dateStringParser";
+import { Observable, BehaviorSubject } from "rxjs";
+import { map, switchMap, tap, filter } from "rxjs/operators";
 import {GrocyV2Service} from "./grocy-v2.service";
 import {GrocyV3Service} from "./grocy-v3.service";
 

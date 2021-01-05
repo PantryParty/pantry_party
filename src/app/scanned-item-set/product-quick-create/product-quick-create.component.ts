@@ -1,19 +1,19 @@
 import { Component } from "@angular/core";
-import { RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "@nativescript/angular";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { ScannedItemManagerService, ScannedItem } from "../services/scanned-item-manager.service";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyLocation, GrocyQuantityUnit, GrocyProduct } from "~/app/services/grocy.interfaces";
-import { EventData } from "tns-core-modules/ui/page/page";
-import { ListPicker } from "tns-core-modules/ui/list-picker";
-import { SwipeGestureEventData, SwipeDirection } from "@nativescript/core/ui/gestures/gestures";
+import { EventData } from "@nativescript/core";
+import { ListPicker } from "@nativescript/core";
+import { SwipeGestureEventData, SwipeDirection } from "@nativescript/core";
 import { slideOutLeftAnimation } from "~/app/utilities/animations";
-import { EMPTY, Observable, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { tap, catchError, mergeMap } from "rxjs/operators";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
 import { UPCItemDbService } from "~/app/services/upcitemdb.service";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
-import { HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { HttpErrorResponse } from "@angular/common/http";
 
 interface InprogresProduct {
   barcode: string;

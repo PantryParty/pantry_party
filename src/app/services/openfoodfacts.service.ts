@@ -3,8 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
-import { OpenFoodFactsProductResponse, ProductFound } from "./openfoodfacts.interface";
-import { getBoolean, setBoolean } from "tns-core-modules/application-settings/application-settings";
+import { OpenFoodFactsProductResponse } from "./openfoodfacts.interface";
+import { getBoolean, setBoolean } from "@nativescript/core/application-settings";
 import { ExternalProduct } from "./scanned-item-exernal-lookup.service";
 
 @Injectable({
