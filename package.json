@@ -6,15 +6,15 @@
     "lint": "tslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "@angular/animations": "^9.1.13",
-    "@angular/cli": "^9.1.13",
-    "@angular/common": "~9.1.13",
-    "@angular/compiler": "~9.1.13",
-    "@angular/core": "~9.1.13",
-    "@angular/forms": "~9.1.13",
-    "@angular/platform-browser": "~9.1.13",
-    "@angular/platform-browser-dynamic": "~9.1.13",
-    "@angular/router": "~9.1.13",
+    "@angular/animations": "^10.2.4",
+    "@angular/cli": "^10.2.1",
+    "@angular/common": "~10.2.4",
+    "@angular/compiler": "~10.2.4",
+    "@angular/core": "~10.2.4",
+    "@angular/forms": "~10.2.4",
+    "@angular/platform-browser": "~10.2.4",
+    "@angular/platform-browser-dynamic": "~10.2.4",
+    "@angular/router": "~10.2.4",
     "@nativescript/angular": "10.0.0",
     "@nativescript/core": "7.0.0",
     "@nativescript/theme": "~2.3.3",
@@ -35,7 +35,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "~9.1.13",
+    "@angular/compiler-cli": "~10.2.4",
     "@nativescript/android": "7.0.1",
     "@nativescript/schematics": "^1.0.0",
     "@nativescript/types": "7.0.0",
