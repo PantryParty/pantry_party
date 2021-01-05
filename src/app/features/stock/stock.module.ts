@@ -13,7 +13,12 @@ import { ActionButtonsComponent } from "./stock-action-sheet/action-buttons/acti
 import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
 
 @NgModule({
-  declarations: [CurrentStockComponent, StockFilterComponent, StockActionSheetComponent, ActionButtonsComponent],
+  declarations: [
+    CurrentStockComponent,
+    StockFilterComponent,
+    StockActionSheetComponent,
+    ActionButtonsComponent
+  ],
   imports: [
     StockRoutingModule,
     NativeScriptCommonModule,
