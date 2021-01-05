@@ -1,0 +1,15 @@
+/* Add mobile styles for the component here.  */
+
+StackLayout {
+  padding: 5em;
+}
+
+.h2 {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.description {
+  margin-bottom: 10em;
+}
+
