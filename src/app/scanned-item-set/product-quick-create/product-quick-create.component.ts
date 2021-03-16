@@ -9,7 +9,7 @@ import { ListPicker } from "@nativescript/core";
 import { SwipeGestureEventData, SwipeDirection } from "@nativescript/core";
 import { slideOutLeftAnimation } from "~/app/utilities/animations";
 import { Observable, of } from "rxjs";
-import { tap, catchError, mergeMap } from "rxjs/operators";
+import { tap, catchError, mergeMap, switchMap, mapTo } from "rxjs/operators";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
 import { UPCItemDbService } from "~/app/services/upcitemdb.service";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
@@ -42,7 +42,6 @@ const nullProduct: GrocyProduct = {
   id: "-1",
   name: "-- No Parent Product --",
   description: "",
-  barcodes: [],
   min_stock_amount: 0,
   quantity_unit_id_stock: -1,
   quantity_unit_id_purchase: -1,
@@ -385,8 +384,15 @@ export class ProductQuickCreateComponent {
       cumulate_min_stock_amount_of_sub_products: false,
       min_stock_amount: this.product.minStockAmount,
       parent_product_id: this.product.parent_product_id,
-      barcodes: [this.product.barcode]
-    });
+    }).pipe(
+      switchMap(r => this.grocyService.createProductBarcode({
+        product_id: r.id,
+        amount: `${this.product.quantityUnitFactor}`,
+        qu_id: this.product.purchaseQuantityUnits.id,
+        barcode: this.product.barcode,
+      }).pipe(mapTo(r))
+      )
+    );
   }
 
   hasParentProduct() {
@@ -458,7 +464,6 @@ export class ProductQuickCreateComponent {
       quantity_unit_id_purchase: Number(this.product.purchaseQuantityUnits.id),
       quantity_unit_id_stock: Number(this.product.consumeQuantityUnits.id),
       quantity_unit_factor_purchase_to_stock: this.product.quantityUnitFactor,
-      barcodes: [],
       default_best_before_days: this.product.goodForever ? -1 : this.product.bestBeforeDays,
       default_best_before_days_after_open: this.product.goodForeverAfterOpen ?
         -1 :

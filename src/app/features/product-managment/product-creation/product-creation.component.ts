@@ -83,7 +83,6 @@ export class ProductCreationComponent implements OnInit {
       quantity_unit_id_purchase: Number(this.formControl("quantityUnitPurchase").value.id),
       quantity_unit_id_stock: Number(this.formControl("quantityUnitConsume").value.id),
       quantity_unit_factor_purchase_to_stock: this.formControl("purchaseFactor").value,
-      barcodes: [],
       min_stock_amount: this.formControl("minStockAccmount").value,
       default_best_before_days: this.formControl("bestBeforeDays").value,
       default_best_before_days_after_open: this.formControl("bestBeforeDaysAfterOpen").value,
