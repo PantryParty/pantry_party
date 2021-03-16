@@ -1,9 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
-import { TextField } from "tns-core-modules/ui/text-field";
-import { EventData } from "tns-core-modules/ui/page/page";
-import { RouterExtensions } from "nativescript-angular";
-import { NavigationButton } from "tns-core-modules/ui/action-bar/action-bar";
+import {TextField, EventData} from "@nativescript/core";
+import { RouterExtensions } from "@nativescript/angular";
 
 @Component({
   selector: "ns-upc-database-config",

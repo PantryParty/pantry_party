@@ -1,11 +1,9 @@
 import { Component, Input, QueryList, ContentChildren, EventEmitter, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { DEFAULT_ERROR_MESSAGES } from "../error-messages";
 import { FormErrorTextComponent } from "../form-error-text/form-error-text.component";
-import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker";
-import { EventData } from "tns-core-modules/ui/page/page";
-import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
-import { Subscription } from "rxjs";
+import { ListPicker } from "@nativescript/core";
+import { EventData } from "@nativescript/core";
+import { SearchBar } from "@nativescript/core";
 
 @Component({
   selector: "ns-single-select-input",

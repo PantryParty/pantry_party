@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { PrivacyService } from "~/app/services/privacy.service";
-import { Switch } from "tns-core-modules/ui/switch/switch";
-import { EventData } from "tns-core-modules/ui/page/page";
+import { Switch } from "@nativescript/core";
+import { EventData } from "@nativescript/core";
 
 @Component({
   selector: "ns-privacy-settings",

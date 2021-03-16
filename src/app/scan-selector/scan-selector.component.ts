@@ -1,9 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, ViewContainerRef } from "@angular/core";
-import { BarcodeScanner, ScanOptions, ScanResult } from "nativescript-barcodescanner";
+import { Component, Output, EventEmitter, ViewContainerRef } from "@angular/core";
+import { BarcodeScanner, ScanOptions } from "nativescript-barcodescanner";
 import { ExternalScannerService } from "../services/external-scanner.service";
-import { Page } from "tns-core-modules/ui/page/page";
 import { StateTransferService } from "../services/state-transfer.service";
-import { BottomSheetOptions, BottomSheetService } from "nativescript-material-bottomsheet/angular";
+import { BottomSheetOptions, BottomSheetService } from '@nativescript-community/ui-material-bottomsheet/angular';
 import { ExternalCaptureSheetComponent } from "./external-capture-sheet/component";
 
 @Component({

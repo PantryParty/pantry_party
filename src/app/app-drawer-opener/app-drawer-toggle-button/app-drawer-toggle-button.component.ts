@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, HostListener } from "@angular/core";
-import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
+import {RadSideDrawerComponent} from "nativescript-ui-sidedrawer/angular";
 
 @Component({
   selector: "[drawerToggle]",

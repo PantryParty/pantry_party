@@ -4,7 +4,7 @@ import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
 import { map, takeUntil, finalize, take } from "rxjs/operators";
-import { OnDestroy, Input } from "@angular/core";
+import { OnDestroy, Input, Injectable, Component } from "@angular/core";
 import { ScannedAnnouncerService, FinalScanResults } from "~/app/services/scan-announcer";
 import { toDateString, relativeDate } from "~/app/utilities/dateString";
 
@@ -28,6 +28,9 @@ interface ReadyScannedItem extends BaseScannedItem {
   grocyProduct: GrocyProduct;
 }
 
+@Component({
+  template: ''
+})
 export class ScannedItemManagerService implements OnDestroy {
 
   get allPendingScannedItems() {
@@ -339,4 +342,11 @@ export class ScannedItemManagerService implements OnDestroy {
       this.pvtWorkingItemBarcodes[barcode] -= 1;
     }
   }
+}
+
+export const factory = (g: GrocyService, si: ScannedItemExernalLookupService) => new ScannedItemManagerService(g, si)
+export const ScannedItemManagerServiceProvider = {
+  provide: ScannedItemManagerService,
+  deps: [GrocyService, ScannedItemExernalLookupService],
+  useFactory: factory
 }

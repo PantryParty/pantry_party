@@ -1,18 +1,20 @@
 import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 
 import { ScanResult } from "nativescript-barcodescanner";
-import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
+import { ScannedItemManagerService, ScannedItemManagerServiceProvider } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, InventoryProductsParams } from "~/app/services/grocy.service";
 import { map, switchMap } from "rxjs/operators";
 import { StateTransferService } from "~/app/services/state-transfer.service";
-import { RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "@nativescript/angular";
 import { GrocyLocation } from "~/app/services/grocy.interfaces";
+import {ScannedItemExernalLookupService} from "~/app/services/scanned-item-exernal-lookup.service";
+
 
 @Component({
   selector: "Inventory",
   templateUrl: "./inventory.component.html",
   styleUrls: ["./inventory.component.scss"],
-  providers: [ScannedItemManagerService]
+  providers: [ScannedItemManagerServiceProvider]
 })
 export class InventoryComponent implements OnDestroy {
   get inventoryLocation(): GrocyLocation {

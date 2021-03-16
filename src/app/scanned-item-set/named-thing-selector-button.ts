@@ -1,4 +1,4 @@
-import { android as androidApplication  } from "tns-core-modules/application";
+import { android as androidApplication  } from "@nativescript/core/application";
 import { CustomPropertyEditor } from "nativescript-ui-dataform";
 import { EventRedirector } from "../utilities/buttonHelper";
 import { isNSDictionary } from "../utilities/isNSDictionary";

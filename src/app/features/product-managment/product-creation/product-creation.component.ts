@@ -1,7 +1,7 @@
 import { Component,  OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct, GrocyLocation, GrocyQuantityUnit } from "~/app/services/grocy.interfaces";
-import { RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "@nativescript/angular";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { map } from "rxjs/operators";

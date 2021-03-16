@@ -1,10 +1,7 @@
-import { screen } from "tns-core-modules/platform/platform";
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
-import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
+import { Component, OnDestroy } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { slideInOutDownAnimation } from "~/app/utilities/animations";
 import { debounceTime } from "rxjs/operators";
-import { GrocyStockEntry } from "~/app/services/grocy.interfaces";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 
 export interface StockFilters {

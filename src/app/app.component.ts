@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
+import { Component, ViewChild } from "@angular/core";
+import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
 
 @Component({
     selector: "ns-app",

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 
 import { ScanResult } from "nativescript-barcodescanner";
-import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
+import { ScannedItemManagerService, ScannedItemManagerServiceProvider } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, OpenProductsParams } from "~/app/services/grocy.service";
 import { map, switchMap } from "rxjs/operators";
 import { toDateString, relativeDate } from "~/app/utilities/dateString";
@@ -9,7 +9,7 @@ import { toDateString, relativeDate } from "~/app/utilities/dateString";
 @Component({
   selector: "Open",
   templateUrl: "./open.component.html",
-  providers: [ScannedItemManagerService]
+  providers: [ScannedItemManagerServiceProvider]
 })
 export class OpenComponent implements OnDestroy {
   destroyed = false;

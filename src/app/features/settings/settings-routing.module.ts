@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
-import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { NativeScriptRouterModule } from "@nativescript/angular";
 import { UpcDatabaseConfigComponent } from "./barcode-sources/upc-database-config/upc-database-config.component";
 import { SettingListComponent } from "./setting-list/setting-list.component";
 import { GrocyApiWrapperComponent } from "./grocy-api/grocy-api-wrapper.component";

@@ -1,14 +1,14 @@
 import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 
 import { ScanResult } from "nativescript-barcodescanner";
-import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
+import { ScannedItemManagerService, ScannedItemManagerServiceProvider } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, PurchaseProductsParams } from "~/app/services/grocy.service";
 import { map, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "Purchase",
   templateUrl: "./purchase.component.html",
-  providers: [ScannedItemManagerService]
+  providers: [ScannedItemManagerServiceProvider]
 })
 export class PurchaseComponent implements OnDestroy {
   destroyed = false;

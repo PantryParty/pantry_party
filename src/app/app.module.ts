@@ -1,13 +1,13 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptModule } from "nativescript-angular/nativescript.module";
+import { NativeScriptModule } from "@nativescript/angular";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { NativeScriptHttpClientModule, NativeScriptFormsModule } from "nativescript-angular";
+import { NativeScriptHttpClientModule, NativeScriptFormsModule } from "@nativescript/angular";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { AppDrawerComponent } from "./app-drawer/app-drawer.component";
-import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
-import { NativeScriptMaterialBottomSheetModule } from "nativescript-material-bottomsheet/angular";
+import { NativeScriptAnimationsModule } from "@nativescript/angular";
+import { NativeScriptMaterialBottomSheetModule} from "@nativescript-community/ui-material-bottomsheet/angular";
 import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({

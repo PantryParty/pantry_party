@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
+import { SwipeGestureEventData } from "@nativescript/core";
 import { ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
-import { SwipeGestureEventData } from "@nativescript/core/ui/gestures/gestures";
 
 @Component({
   selector: "ns-scanned-item-display",
