@@ -72,6 +72,10 @@ export class ScannedItemSetComponent {
    }
   }
 
+  showWarning() {
+    console.log(this.scannedItemManager.allPendingScannedItems.length > 0)
+    return this.scannedItemManager.allPendingScannedItems.length > 0;
+  }
   pendingItemWarningText() {
     const total = this.scannedItemManager.allPendingScannedItems.length;
 

@@ -276,7 +276,9 @@ export class ScannedItemManagerService implements OnDestroy {
     this.grocyService
     .searchForBarcode(item.barcode)
     .pipe(
-      finalize(() => this.setWorking(item.barcode, false))
+      finalize(() => {
+        this.setWorking(item.barcode, false)
+      })
     ).subscribe(r => {
       console.log("sending success");
       this.scanResults.next({status: "success", itemName: r.name});
@@ -294,7 +296,6 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   private foundExternalItem(item: ScannedItem, external: ExternalProduct) {
-    console.log("sending success");
     this.scanResults.next({ status: "success", itemName: external.name });
     this.updateScannedItem(item.barcode, { externalProduct: external });
   }
