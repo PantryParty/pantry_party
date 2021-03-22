@@ -12,11 +12,12 @@ import {
   GrocyStockAPIReturn,
   GrocyStockEntry,
   GrocyVolatileReturn,
-  GrocyProductBarcode
+  GrocyProductBarcode,
+  GrocyByBarcodeAPIReturn
 } from "./grocy.interfaces";
 
 import { Observable, of, forkJoin, BehaviorSubject } from "rxjs";
-import { map, exhaustMap, mapTo, switchMap, filter, tap } from "rxjs/operators";
+import { map, exhaustMap, mapTo, switchMap, filter, tap, catchError } from "rxjs/operators";
 import { dateStringParser } from "../utilities/dateStringParser";
 
 export interface OpenProductsParams {
@@ -103,12 +104,15 @@ export class GrocyService {
     private http: HttpClient
   ) { }
 
-  searchForBarcode(barcode: string): Observable<GrocyProduct> {
-    return this.http.get<{product: GrocyProductAPIReturn}>(
+  searchForBarcode(barcode: string) {
+    return this.http.get<GrocyByBarcodeAPIReturn>(
       `${this.apiHost}/stock/products/by-barcode/${barcode}`,
       { headers: {"GROCY-API-KEY": this.apiKey} }
     ).pipe(
-      map(i => this.convertProductApiToLocal(i.product))
+    map(i => ({
+      ...i,
+      product: this.convertProductApiToLocal(i.product),
+    }))
     );
   }
 
@@ -143,12 +147,21 @@ export class GrocyService {
   }
 
   addBarcodeToProduct(productId: string | number, newBarcode: string, amount: number = 1): Observable<boolean> {
-    return this.createProductBarcode({
-      product_id: `${productId}`,
-      barcode: newBarcode,
-      amount: `${amount}`,
-      qu_id: '',
-    }).pipe(mapTo(true))
+    return this.searchForBarcode(newBarcode).pipe(
+      mapTo(true),
+      catchError(e => {
+        if (e.status === 400) {
+          return this.createProductBarcode({
+            product_id: `${productId}`,
+            barcode: newBarcode,
+            amount: `${amount}`,
+            qu_id: '',
+          }).pipe(mapTo(true))
+        } else {
+          return of(false);
+        }
+      })
+    )
   }
 
   searchProducts(term: string): Observable<GrocyProduct[]> {
@@ -176,9 +189,10 @@ export class GrocyService {
         product_id: params.product_id,
         barcode: params.barcode,
         qu_id: params.qu_id,
-        ammount: params.amount,
+        amount: params.amount,
         shopping_location_id: ""
-      }
+      },
+      { headers: {"GROCY-API-KEY": this.apiKey} }
     )
   }
 

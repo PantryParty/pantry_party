@@ -345,7 +345,8 @@ export class ProductQuickCreateComponent {
     this.scannedItemManager.assignProductToBarcode(
       this.product.barcode,
       product,
-      location
+      0,
+      location,
     );
   }
 

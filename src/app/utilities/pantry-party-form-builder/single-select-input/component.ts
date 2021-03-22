@@ -37,6 +37,7 @@ export class SingleSelectInputComponent<T> {
   filteredItems: T[] = [];
 
   private _options: T[] = [];
+  optionNames = []
 
   startCreate() {
     this.closePicker();
@@ -52,10 +53,8 @@ export class SingleSelectInputComponent<T> {
     this.filteredItems = this.options.filter(
       i => i[this.textKey].toLowerCase().includes(this.lastSearch)
     );
-  }
 
-  optionNames() {
-    return this.filteredItems.map(o => o[this.textKey]);
+    this.optionNames = this.filteredItems.map(o => o[this.textKey]);
   }
 
   openPicker() {

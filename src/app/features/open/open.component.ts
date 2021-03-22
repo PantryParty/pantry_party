@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
-
 import { ScanResult } from "nativescript-barcodescanner";
 import { ScannedItemManagerService, ScannedItemManagerServiceProvider } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, OpenProductsParams } from "~/app/services/grocy.service";
@@ -19,7 +18,6 @@ export class OpenComponent implements OnDestroy {
     public scannedItemManager: ScannedItemManagerService,
     public grocyService: GrocyService
   ) {
-
     scannedItemManager.determineBestBeforeDate = i => {
       const product = i.grocyProduct;
 

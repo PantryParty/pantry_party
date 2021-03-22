@@ -20,6 +20,19 @@
     (tap)="openAPIKeyUrl()"
     ></Label>
 
+    <Label
+     text="Or scan the QR code"
+     textAlignment="center"
+     class="text-primary"
+     textWrap="true"
+    ></Label>
+
+    <Button (tap)="scanBarcode()" class="qrButton -primary -rounded-lg">
+      <FormattedString>
+        <Span text="&#xf029;" class="fas"></Span>
+      </FormattedString>
+    </Button>
+
    <Label
      *ngIf="lastHttpError"
      [text]="helpText"

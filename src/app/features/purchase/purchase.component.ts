@@ -20,13 +20,15 @@ export class PurchaseComponent implements OnDestroy {
     scannedItemManager.respectsPurchaseFactor = true;
     scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
 
-    setTimeout(
-      () => scannedItemManager.newScanResults({
-        text: "3017620422003",
-        format: "UPC_E"
-      }),
-      1000
-    );
+    // Example code to trigger a scan. Useful for debugging
+    //
+    // setTimeout(
+    //   () => scannedItemManager.newScanResults({
+    //     text: "1111",
+    //     format: "UPC_E"
+    //   }),
+    //   1000
+    // );
 
     scannedItemManager.saveCallback = i => {
       const purchaseProductProps: PurchaseProductsParams = {
@@ -39,10 +41,10 @@ export class PurchaseComponent implements OnDestroy {
         i.grocyProduct.id,
         i.barcode
       ).pipe(
-        switchMap(
-          () => this.grocyService.purchaseProduct(purchaseProductProps)
-        ),
-        map(r => r.id)
+      switchMap(
+        () => this.grocyService.purchaseProduct(purchaseProductProps)
+      ),
+      map(r => r.id)
       );
     };
   }

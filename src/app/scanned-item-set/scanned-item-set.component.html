@@ -1,15 +1,12 @@
 <StackLayout>
-  <ng-container
-    *ngIf="showWarning()"
-    >
     <Label
       textAlignment="center"
       height="40"
       [text]="pendingItemWarningText()"
       class="pendingItemsWarning"
       (tap)="quickCreateProducts()"
+      *ngIf="showWarning"
       ></Label>
-  </ng-container>
   <GridLayout>
     <ns-scanned-item-list
       [items]="scannedItemManager.updatedScannedItems | async"

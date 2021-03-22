@@ -34,6 +34,11 @@ interface BaseGrocyProduct {
   parent_product_id: null | string;
 }
 
+export interface GrocyByBarcodeAPIReturn {
+  product: GrocyProductAPIReturn
+  product_barcodes: GrocyProductBarcode[]
+}
+
 export interface GrocyProductAPIReturn extends BaseGrocyProduct {
   min_stock_amount: string;
   qu_id_purchase: string;
