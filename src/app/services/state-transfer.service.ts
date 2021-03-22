@@ -4,7 +4,7 @@ import { ProductSelectionResults } from "../features/product-managment/product-l
 import { LocationSelectionResults } from "../features/location-managment/location-list/location-list.component";
 import { ScannedItem, ScannedItemManagerService } from "../scanned-item-set/services/scanned-item-manager.service";
 import { ScannedItemEditorCallback } from "../scanned-item-set/scanned-item-editor/scanned-item-editor.component";
-import { StockFilters } from "../features/stock/stock-filter/stock-filter.component";
+import {StockFilters} from "../features/stock/stock-filter/stock-filter.component.interface";
 
 interface ExternalScannerState {
   type: "externalScanner";

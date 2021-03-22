@@ -3,15 +3,7 @@ import { FormBuilder } from "@angular/forms";
 import { slideInOutDownAnimation } from "~/app/utilities/animations";
 import { debounceTime } from "rxjs/operators";
 import { StateTransferService } from "~/app/services/state-transfer.service";
-
-export interface StockFilters {
-  showChildProducts: boolean;
-  showOnlyBelowMinStock: boolean;
-  withinDaysOfExpiration: string;
-  includeOpenAsOutOfStock: boolean;
-  onlyShowOutOfStock: boolean;
-  belowMinQuantity: boolean;
-}
+import {StockFilters} from "./stock-filter.component.interface";
 
 @Component({
   selector: "ns-stock-filter",

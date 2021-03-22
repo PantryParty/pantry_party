@@ -1,4 +1,4 @@
-import { Feedback, FeedbackType, FeedbackPosition } from "nativescript-feedback";
+import { Feedback, FeedbackType } from "nativescript-feedback";
 import { Component } from "@angular/core";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { GrocyStockEntry } from "~/app/services/grocy.interfaces";
@@ -17,15 +17,15 @@ export class StockActionSheetComponent {
   private feedback = new Feedback();
 
   constructor(
-    stateTransfer: StateTransferService,
-    private grocyService: GrocyService
+    // stateTransfer: StateTransferService,
+    // private grocyService: GrocyService
   ) {
-    const state = stateTransfer.readAndClearState();
+    // const state = stateTransfer.readAndClearState();
 
-    if (state.type === "stockItemManager") {
-      this.stockItem = state.stockItem;
-      this.childStockItems = state.childStockItems;
-    }
+    // if (state.type === "stockItemManager") {
+    //   this.stockItem = state.stockItem;
+    //   this.childStockItems = state.childStockItems;
+    // }
   }
 
   consumeAll(entry: GrocyStockEntry) {
@@ -37,93 +37,93 @@ export class StockActionSheetComponent {
   }
 
   openOne(entry: GrocyStockEntry) {
-    this.grocyService.openProduct({
-      productId: entry.product.id,
-      quantity: 1
-    }).subscribe(_ => {
-      this.adjustForOpen(entry.product.id, 1);
-      this.feedback.show({
-        title: `Consumed`,
-        message: `Successfully opened 1 ${entry.product.name}`,
-        type: FeedbackType.Success
-      });
-    },
-    e => this.feedback.show({
-        title: `Error Consuming Product`,
-        message: e.message,
-        type: FeedbackType.Error
-    }));
+    // this.grocyService.openProduct({
+    //   productId: entry.product.id,
+    //   quantity: 1
+    // }).subscribe(_ => {
+    //   this.adjustForOpen(entry.product.id, 1);
+    //   this.feedback.show({
+    //     title: `Consumed`,
+    //     message: `Successfully opened 1 ${entry.product.name}`,
+    //     type: FeedbackType.Success
+    //   });
+    // },
+    // e => this.feedback.show({
+    //     title: `Error Consuming Product`,
+    //     message: e.message,
+    //     type: FeedbackType.Error
+    // }));
   }
 
   consumeProduct(entry: GrocyStockEntry, quantity: number, spoiled = false) {
-    this.grocyService.consumeProduct({
-      productId: entry.product.id,
-      quantity,
-      spoiled
-    }).subscribe(_ => {
-      this.reduceAmount(entry.product.id, quantity);
-      this.feedback.show({
-        title: `Consumed`,
-        message: `Successfully ${spoiled ? "spoiled" : "consumed"} ${quantity} of ${entry.product.name}`,
-        type: FeedbackType.Success
-      });
-    },
-    e => this.feedback.show({
-        title: `Error Consuming Product`,
-        message: e.message,
-        type: FeedbackType.Error
-    }));
+    // this.grocyService.consumeProduct({
+    //   productId: entry.product.id,
+    //   quantity,
+    //   spoiled
+    // }).subscribe(_ => {
+    //   this.reduceAmount(entry.product.id, quantity);
+    //   this.feedback.show({
+    //     title: `Consumed`,
+    //     message: `Successfully ${spoiled ? "spoiled" : "consumed"} ${quantity} of ${entry.product.name}`,
+    //     type: FeedbackType.Success
+    //   });
+    // },
+    // e => this.feedback.show({
+    //     title: `Error Consuming Product`,
+    //     message: e.message,
+    //     type: FeedbackType.Error
+    // }));
   }
 
   adjustForOpen(productId, quantity) {
-    if (this.stockItem.product.id === productId) {
-      this.stockItem = {
-        ...this.stockItem,
-        amount_opened: this.stockItem.amount_opened + quantity,
-        amount_opened_aggregated: this.stockItem.amount_opened_aggregated + quantity
-      };
-    }
+    // if (this.stockItem.product.id === productId) {
+    //   this.stockItem = {
+    //     ...this.stockItem,
+    //     amount_opened: this.stockItem.amount_opened + quantity,
+    //     amount_opened_aggregated: this.stockItem.amount_opened_aggregated + quantity
+    //   };
+    // }
 
-    const childProductIdx = this.childStockItems.findIndex(i => i.product.id);
-    if (childProductIdx >= 0) {
-      const item = this.childStockItems[childProductIdx];
-      this.childStockItems[childProductIdx] = {
-        ...item,
-        amount_opened: item.amount_opened + quantity
-      };
+    // const childProductIdx = this.childStockItems.findIndex(i => i.product.id);
+    // if (childProductIdx >= 0) {
+    //   const item = this.childStockItems[childProductIdx];
+    //   this.childStockItems[childProductIdx] = {
+    //     ...item,
+    //     amount_opened: item.amount_opened + quantity
+    //   };
 
-      this.stockItem = {
-        ...this.stockItem,
-        amount_opened_aggregated:  this.stockItem.amount_opened_aggregated + quantity
-      };
-    }
+    //   this.stockItem = {
+    //     ...this.stockItem,
+    //     amount_opened_aggregated:  this.stockItem.amount_opened_aggregated + quantity
+    //   };
+    // }
   }
   reduceAmount(productId, quantity) {
-    if (this.stockItem.product.id === productId) {
-      this.stockItem = {
-        ...this.stockItem,
-        amount: this.stockItem.amount - quantity,
-        amount_aggregated: this.stockItem.amount_aggregated - quantity,
-        amount_opened: Math.max(0, this.stockItem.amount_opened - quantity),
-        amount_opened_aggregated: Math.max(0, this.stockItem.amount_opened_aggregated - quantity)
-      };
-    }
+    // if (this.stockItem.product.id === productId) {
+    //   this.stockItem = {
+    //     ...this.stockItem,
+    //     amount: this.stockItem.amount - quantity,
+    //     amount_aggregated: this.stockItem.amount_aggregated - quantity,
+    //     amount_opened: Math.max(0, this.stockItem.amount_opened - quantity),
+    //     amount_opened_aggregated: Math.max(0, this.stockItem.amount_opened_aggregated - quantity)
+    //   };
+    // }
 
-    const childProductIdx = this.childStockItems.findIndex(i => i.product.id);
-    if (childProductIdx >= 0) {
-      const item = this.childStockItems[childProductIdx];
-      this.childStockItems[childProductIdx] = {
-        ...item,
-        amount: item.amount - quantity,
-        amount_opened: Math.max(0, item.amount_opened - quantity)
-      };
+    // const childProductIdx = this.childStockItems.findIndex(i => i.product.id);
+    // if (childProductIdx >= 0) {
+    //   const item = this.childStockItems[childProductIdx];
+    //   this.childStockItems[childProductIdx] = {
+    //     ...item,
+    //     amount: item.amount - quantity,
+    //     amount_opened: Math.max(0, item.amount_opened - quantity)
+    //   };
 
-      this.stockItem = {
-        ...this.stockItem,
-        amount_aggregated: this.stockItem.amount_aggregated - quantity,
-        amount_opened_aggregated: Math.max(0, this.stockItem.amount_opened_aggregated - quantity)
-      };
-    }
+    //   this.stockItem = {
+    //     ...this.stockItem,
+    //     amount_aggregated: this.stockItem.amount_aggregated - quantity,
+    //     amount_opened_aggregated: Math.max(0, this.stockItem.amount_opened_aggregated - quantity)
+    //   };
+    // }
   }
 
   stockText(item: GrocyStockEntry, showChildItems = true) {
