@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { RouterExtensions } from "nativescript-angular";
-import { setBoolean } from "tns-core-modules/application-settings/application-settings";
+import { setBoolean } from "@nativescript/core/application-settings";
+import { RouterExtensions } from "@nativescript/angular";
 
 @Component({
   selector: "ns-privacy",

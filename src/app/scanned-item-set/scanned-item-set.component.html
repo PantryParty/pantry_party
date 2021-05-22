@@ -1,13 +1,12 @@
 <StackLayout>
-  <Label
-    [@slideInOut]="'in'"
-    textAlignment="center"
-    height="40"
-    [text]="pendingItemWarningText()"
-    class="pendingItemsWarning"
-    (tap)="quickCreateProducts()"
-    *ngIf="scannedItemManager.allPendingScannedItems.length"
-    ></Label>
+    <Label
+      textAlignment="center"
+      height="40"
+      [text]="pendingItemWarningText()"
+      class="pendingItemsWarning"
+      (tap)="quickCreateProducts()"
+      *ngIf="showWarning"
+      ></Label>
   <GridLayout>
     <ns-scanned-item-list
       [items]="scannedItemManager.updatedScannedItems | async"

@@ -1,14 +1,14 @@
 import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 
 import { ScanResult } from "nativescript-barcodescanner";
-import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
+import { ScannedItemManagerService, ScannedItemManagerServiceProvider } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, PurchaseProductsParams } from "~/app/services/grocy.service";
 import { map, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "Purchase",
   templateUrl: "./purchase.component.html",
-  providers: [ScannedItemManagerService]
+  providers: [ScannedItemManagerServiceProvider]
 })
 export class PurchaseComponent implements OnDestroy {
   destroyed = false;
@@ -19,6 +19,16 @@ export class PurchaseComponent implements OnDestroy {
   ) {
     scannedItemManager.respectsPurchaseFactor = true;
     scannedItemManager.undoCallback = i => this.grocyService.undoBooking(i);
+
+    // Example code to trigger a scan. Useful for debugging
+    //
+    setTimeout(
+      () => scannedItemManager.newScanResults({
+        text: "1111",
+        format: "UPC_E"
+      }),
+      1000
+    );
 
     scannedItemManager.saveCallback = i => {
       const purchaseProductProps: PurchaseProductsParams = {
@@ -31,10 +41,10 @@ export class PurchaseComponent implements OnDestroy {
         i.grocyProduct.id,
         i.barcode
       ).pipe(
-        switchMap(
-          () => this.grocyService.purchaseProduct(purchaseProductProps)
-        ),
-        map(r => r.id)
+      switchMap(
+        () => this.grocyService.purchaseProduct(purchaseProductProps)
+      ),
+      map(r => r.id)
       );
     };
   }

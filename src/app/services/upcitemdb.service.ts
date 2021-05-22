@@ -5,7 +5,7 @@ import { switchMap, catchError } from "rxjs/operators";
 
 import { convertToUpcAIfRequired } from "../utilities/upcConverter";
 import { ExternalProduct } from "./scanned-item-exernal-lookup.service";
-import { getBoolean, setBoolean } from "tns-core-modules/application-settings/application-settings";
+import { getBoolean, setBoolean } from "@nativescript/core/application-settings";
 
 interface ItemLookupResponse {
   items: {

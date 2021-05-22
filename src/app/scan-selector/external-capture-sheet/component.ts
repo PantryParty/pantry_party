@@ -1,7 +1,6 @@
 import { Component  } from "@angular/core";
-import { RouterExtensions } from "nativescript-angular";
 import { StateTransferService } from "~/app/services/state-transfer.service";
-import { BottomSheetParams } from "nativescript-material-bottomsheet/angular";
+import { BottomSheetParams } from "@nativescript-community/ui-material-bottomsheet/angular";
 
 @Component({
   selector: "ns-external-capture-sheet",

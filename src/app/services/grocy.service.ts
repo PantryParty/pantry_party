@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { getString, setString } from "tns-core-modules/application-settings";
+import { getString, setString } from "@nativescript/core/application-settings";
 
 import {
   GrocyProduct,
@@ -11,11 +11,13 @@ import {
   GrocyProductAPIReturn,
   GrocyStockAPIReturn,
   GrocyStockEntry,
-  GrocyVolatileReturn
+  GrocyVolatileReturn,
+  GrocyProductBarcode,
+  GrocyByBarcodeAPIReturn
 } from "./grocy.interfaces";
 
-import { Observable, of, forkJoin } from "rxjs";
-import { map, exhaustMap, mapTo, switchMap } from "rxjs/operators";
+import { Observable, of, forkJoin, BehaviorSubject } from "rxjs";
+import { map, exhaustMap, mapTo, switchMap, filter, tap, catchError } from "rxjs/operators";
 import { dateStringParser } from "../utilities/dateStringParser";
 
 export interface OpenProductsParams {
@@ -30,6 +32,13 @@ export interface ConsumeProductsParams {
   locationId?: string | number;
 }
 
+interface CreateProductBarcodeParams {
+  product_id: string;
+  barcode: string;
+  qu_id: string | null;
+  amount: string;
+}
+
 interface CreateProductParams {
   name: string;
   description: string;
@@ -37,7 +46,6 @@ interface CreateProductParams {
   quantity_unit_id_purchase: number;
   quantity_unit_id_stock: number;
   quantity_unit_factor_purchase_to_stock: number;
-  barcodes: string[];
   min_stock_amount: number;
   default_best_before_days: number;
   default_best_before_days_after_open: number;
@@ -64,10 +72,20 @@ export interface InventoryProductsParams  {
   location_id: string | number;
 }
 
+interface Version {
+  major: number;
+  minor: number;
+  patch: number;
+}
+
+const defaultVersion = {major: 0, minor: 0, patch: 0};
+
 @Injectable({
   providedIn: "root"
 })
 export class GrocyService {
+  apiVersion: BehaviorSubject<Version> = new BehaviorSubject(defaultVersion);
+
   get apiHost() {
     return getString("grocy.apiHost", "");
   }
@@ -86,19 +104,15 @@ export class GrocyService {
     private http: HttpClient
   ) { }
 
-  getSystemInfo(host = this.apiHost, key = this.apiKey) {
-    return this.http.get<GrocySystemInfoResponse>(
-      `${host}/system/info`,
-      { headers: {"GROCY-API-KEY": key} }
-    );
-  }
-
-  searchForBarcode(barcode: string): Observable<GrocyProduct> {
-    return this.http.get<{product: GrocyProductAPIReturn}>(
+  searchForBarcode(barcode: string) {
+    return this.http.get<GrocyByBarcodeAPIReturn>(
       `${this.apiHost}/stock/products/by-barcode/${barcode}`,
       { headers: {"GROCY-API-KEY": this.apiKey} }
     ).pipe(
-      map(i => this.convertProductApiToLocal(i.product))
+    map(i => ({
+      ...i,
+      product: this.convertProductApiToLocal(i.product),
+    }))
     );
   }
 
@@ -132,20 +146,22 @@ export class GrocyService {
     );
   }
 
-  addBarcodeToProduct(productId: string | number, newBarcode: string): Observable<boolean> {
-    return this.getProduct(productId).pipe(
-      exhaustMap(product => {
-        if (product.barcodes.indexOf(newBarcode) > -1) {
-          return of(true);
+  addBarcodeToProduct(productId: string | number, newBarcode: string, amount: number = 1): Observable<boolean> {
+    return this.searchForBarcode(newBarcode).pipe(
+      mapTo(true),
+      catchError(e => {
+        if (e.status === 400) {
+          return this.createProductBarcode({
+            product_id: `${productId}`,
+            barcode: newBarcode,
+            amount: `${amount}`,
+            qu_id: '',
+          }).pipe(mapTo(true))
         } else {
-          return this.http.put(
-            `${this.apiHost}/objects/products/${productId}`,
-            { barcode:  product.barcodes.concat([newBarcode]).join(",")},
-            { headers: {"GROCY-API-KEY": this.apiKey} }
-          ).pipe(mapTo(true));
+          return of(false);
         }
       })
-    );
+    )
   }
 
   searchProducts(term: string): Observable<GrocyProduct[]> {
@@ -166,6 +182,20 @@ export class GrocyService {
     );
   }
 
+  createProductBarcode(params: CreateProductBarcodeParams) {
+    return this.http.post<GrocyProductBarcode>(
+      `${this.apiHost}/objects/product_barcodes`,
+      {
+        product_id: params.product_id,
+        barcode: params.barcode,
+        qu_id: params.qu_id,
+        amount: params.amount,
+        shopping_location_id: ""
+      },
+      { headers: {"GROCY-API-KEY": this.apiKey} }
+    )
+  }
+
   createProduct(productParams: CreateProductParams): Observable<GrocyProduct> {
     return this.http.post<GrocyItemCreated>(
       `${this.apiHost}/objects/products`,
@@ -176,7 +206,6 @@ export class GrocyService {
         qu_id_purchase: productParams.quantity_unit_id_purchase,
         qu_id_stock: productParams.quantity_unit_id_stock,
         qu_factor_purchase_to_stock: productParams.quantity_unit_factor_purchase_to_stock,
-        barcode: productParams.barcodes.join(","),
         min_stock_amount: productParams.min_stock_amount,
         default_best_before_days: productParams.default_best_before_days,
         default_best_before_days_after_open: productParams.default_best_before_days_after_open,
@@ -329,10 +358,39 @@ export class GrocyService {
     );
   }
 
+  getSystemInfo(host = this.apiHost, key = this.apiKey) {
+    return this.http.get<GrocySystemInfoResponse>(
+      `${host}/system/info`,
+      { headers: {"GROCY-API-KEY": key} }
+    );
+  }
+
+  version() {
+    return this.apiVersion.pipe(
+      tap(r => {
+        if (r === defaultVersion) {
+          this.updateVersion();
+        }
+      }),
+      filter(r => r !== defaultVersion)
+    );
+  }
+
+  updateVersion() {
+    this.getSystemInfo().pipe(
+      map(r => r.grocy_version.Version),
+      map(r => {
+        const parts = r.split(".");
+
+        return {major: +parts[0], minor: +parts[1], patch: +parts[2]};
+      })
+    ).subscribe(r => this.apiVersion.next(r));
+  }
+
+
   private convertProductApiToLocal(data: GrocyProductAPIReturn): GrocyProduct {
     return {
       ...data,
-      barcodes: data.barcode.split(","),
       quantity_unit_id_purchase: Number(data.qu_id_purchase),
       quantity_unit_id_stock: Number(data.qu_id_stock),
       quantity_unit_factor_purchase_to_stock: Number(data.qu_factor_purchase_to_stock),

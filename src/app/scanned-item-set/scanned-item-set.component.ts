@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
 import { ScannedItemManagerService, ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
-import {  RouterExtensions } from "nativescript-angular";
+import {  RouterExtensions } from "@nativescript/angular";
 import { SwipeOnItemData } from "./scanned-item-list/scanned-item-list.component";
-import { SwipeDirection } from "@nativescript/core/ui/gestures/gestures";
+import { SwipeDirection } from "@nativescript/core";
 import { ActivatedRoute } from "@angular/router";
 import { StateTransferService } from "../services/state-transfer.service";
 import { slideInOutDownAnimation } from "../utilities/animations";
@@ -72,6 +72,9 @@ export class ScannedItemSetComponent {
    }
   }
 
+  get showWarning() {
+    return this.scannedItemManager.allPendingScannedItems.length > 0;
+  }
   pendingItemWarningText() {
     const total = this.scannedItemManager.allPendingScannedItems.length;
 

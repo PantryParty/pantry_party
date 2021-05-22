@@ -1,13 +1,4 @@
 {
-  "nativescript": {
-    "id": "org.nativescript.PantryParty",
-    "tns-ios": {
-      "version": "6.5.0"
-    },
-    "tns-android": {
-      "version": "6.5.0"
-    }
-  },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
@@ -15,43 +6,50 @@
     "lint": "tslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "@angular/animations": "^8.2.14",
-    "@angular/common": "~8.2.0",
-    "@angular/compiler": "~8.2.0",
-    "@angular/core": "~8.2.0",
-    "@angular/forms": "~8.2.0",
-    "@angular/platform-browser": "~8.2.0",
-    "@angular/platform-browser-dynamic": "~8.2.0",
-    "@angular/router": "~8.2.0",
-    "@nativescript/theme": "~2.3.3",
+    "@angular/animations": "^11.0.5",
+    "@angular/cli": "^11.0.5",
+    "@angular/common": "~11.0.5",
+    "@angular/compiler": "~11.0.5",
+    "@angular/core": "~11.0.5",
+    "@angular/forms": "~11.0.5",
+    "@angular/platform-browser": "~11.0.5",
+    "@angular/platform-browser-dynamic": "~11.0.5",
+    "@angular/router": "~11.0.5",
+    "@nativescript-community/texttospeech": "^3.0.3",
+    "@nativescript-community/ui-material-bottomsheet": "^5.1.16",
+    "@nativescript-community/ui-material-button": "^5.1.16",
+    "@nativescript-community/ui-material-ripple": "^5.1.16",
+    "@nativescript/angular": "~11.0.0",
+    "@nativescript/core": "~7.3.0",
+    "@nativescript/theme": "~3.0.0",
     "nativescript-admob": "^4.0.2",
-    "nativescript-angular": "~8.21.0",
     "nativescript-barcodescanner": "^3.4.2",
     "nativescript-feedback": "^1.3.12",
     "nativescript-iqkeyboardmanager": "^1.5.1",
-    "nativescript-material-bottomsheet": "^3.2.3",
-    "nativescript-material-button": "^3.2.3",
-    "nativescript-material-ripple": "^3.2.3",
-    "nativescript-ui-dataform": "^6.0.0",
-    "nativescript-ui-listview": "^8.1.2",
-    "nativescript-ui-sidedrawer": "^8.0.1",
+    "nativescript-ui-dataform": "^7.0.0",
+    "nativescript-ui-listview": "^9.1.0",
+    "nativescript-ui-sidedrawer": "^9.0.3",
+    "raw-loader": "1.0.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "^6.4.0",
-    "tns-core-modules": "~6.5.0",
-    "tns-platform-declarations": "^6.5.1",
-    "zone.js": "~0.9.1"
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "~8.2.0",
+    "@angular/compiler-cli": "~11.0.5",
+    "@nativescript/android": "7.0.1",
+    "@nativescript/ios": "6.5.4",
     "@nativescript/schematics": "^1.0.0",
+    "@nativescript/types": "7.3.0",
+    "@nativescript/webpack": "~4.0.0",
     "@ngtools/webpack": "~8.2.0",
     "@schematics/angular": "^9.1.3",
-    "codelyzer": "~4.5.0",
-    "nativescript-dev-webpack": "~1.5.1",
+    "codelyzer": "^5.1.2",
     "node-sass": "^4.14.0",
-    "tslint": "~5.19.0",
-    "typescript": "~3.5.3"
+    "typescript": "4.0.5",
+    "nativescript": "~7.2.0"
   },
   "gitHead": "2250137db8c1e0bd0eb543e8e4563cb71480c00d",
-  "readme": "NativeScript Application"
+  "readme": "NativeScript Application",
+  "main": "main.js"
 }

@@ -1,8 +1,6 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from "@angular/core";
-import { TextField } from "tns-core-modules/ui/text-field/text-field";
-import * as utils from "tns-core-modules/utils/utils";
-import { isIOS, isAndroid } from "tns-core-modules/platform";
-import { Page } from "tns-core-modules/ui/page/page";
+import { Component, Input, ViewChild, Output, EventEmitter } from "@angular/core";
+import { TextField } from "@nativescript/core";
+import { Page } from "@nativescript/core";
 
 @Component({
   selector: "ns-external-scanner-capture",

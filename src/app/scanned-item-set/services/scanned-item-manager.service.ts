@@ -1,10 +1,10 @@
 import { ScanResult } from "nativescript-barcodescanner";
 import { BehaviorSubject, interval, ReplaySubject, Observable, concat, empty, of, Subject, EMPTY } from "rxjs";
-import { GrocyProduct, GrocyLocation } from "~/app/services/grocy.interfaces";
+import { GrocyProduct, GrocyLocation, GrocyProductBarcode } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ExternalProduct, ScannedItemExernalLookupService } from "~/app/services/scanned-item-exernal-lookup.service";
 import { map, takeUntil, finalize, take } from "rxjs/operators";
-import { OnDestroy, Input } from "@angular/core";
+import { OnDestroy, Input, Injectable, Component } from "@angular/core";
 import { ScannedAnnouncerService, FinalScanResults } from "~/app/services/scan-announcer";
 import { toDateString, relativeDate } from "~/app/utilities/dateString";
 
@@ -28,6 +28,9 @@ interface ReadyScannedItem extends BaseScannedItem {
   grocyProduct: GrocyProduct;
 }
 
+@Component({
+  template: ''
+})
 export class ScannedItemManagerService implements OnDestroy {
 
   get allPendingScannedItems() {
@@ -66,6 +69,7 @@ export class ScannedItemManagerService implements OnDestroy {
   private pvtWorkingItemBarcodes: Record<string, number | undefined> = {};
   private pvtUndoKey: Record<string, string> = {};
   private ngUnsubscribe = new ReplaySubject<true>();
+  private foundBarcodes: Record<string, GrocyProductBarcode | undefined> = {}
 
   private timerTick = interval(1000).pipe(
     takeUntil(this.ngUnsubscribe),
@@ -144,11 +148,12 @@ export class ScannedItemManagerService implements OnDestroy {
 
   newScanResults(r: ScanResult) {
     if (this.indexOfBarcode(r.text) > -1) {
-      this.changeQuantityBy(r.text, 1);
+      const quantity = this.foundBarcodes[r.text]?.amount;
+      this.changeQuantityBy(r.text, +quantity || 1);
     } else {
       const newItem: ScannedItem = {
         barcode: r.text,
-        quantity: 1,
+        quantity: 0,
         currentVersion: this.generateVersion(),
         lastSavedVersion: "",
         autoSave: true,
@@ -230,10 +235,12 @@ export class ScannedItemManagerService implements OnDestroy {
     };
   }
 
-  assignProductToBarcode(barcode: string, product: GrocyProduct, location?: GrocyLocation) {
+  assignProductToBarcode(barcode: string, product: GrocyProduct, quantity = 1, location?: GrocyLocation) {
     const update: Partial<ScannedItem> = { grocyProduct: product, location };
 
     this.updateScannedItem(barcode, update);
+
+    this.changeQuantityBy(barcode, quantity);
 
     const currentItem = this.itemByBarcode(barcode);
     if (!currentItem.location) {
@@ -273,13 +280,20 @@ export class ScannedItemManagerService implements OnDestroy {
     this.grocyService
     .searchForBarcode(item.barcode)
     .pipe(
-      finalize(() => this.setWorking(item.barcode, false))
-    ).subscribe(r => {
+      finalize(() => {
+        this.setWorking(item.barcode, false)
+      })
+    ).subscribe(ret => {
       console.log("sending success");
-      this.scanResults.next({status: "success", itemName: r.name});
-      this.assignProductToBarcode(item.barcode, r);
+      this.scanResults.next({status: "success", itemName: ret.product.name});
+      ret.product_barcodes.forEach( b => this.foundBarcodes[b.barcode] = b )
+      const quantity = +this.foundBarcodes[`${item.barcode}`]?.amount || 1
+      console.log(this.foundBarcodes, item.barcode);
+
+      this.assignProductToBarcode(item.barcode, ret.product, quantity);
     }, e => {
       if (e.status === 400) {
+        this.changeQuantityBy(item.barcode, 1);
         this.searchForItemExternally(item);
       } else {
         console.log("received error fetching grocy product", e);
@@ -291,7 +305,6 @@ export class ScannedItemManagerService implements OnDestroy {
   }
 
   private foundExternalItem(item: ScannedItem, external: ExternalProduct) {
-    console.log("sending success");
     this.scanResults.next({ status: "success", itemName: external.name });
     this.updateScannedItem(item.barcode, { externalProduct: external });
   }
@@ -339,4 +352,11 @@ export class ScannedItemManagerService implements OnDestroy {
       this.pvtWorkingItemBarcodes[barcode] -= 1;
     }
   }
+}
+
+export const factory = (g: GrocyService, si: ScannedItemExernalLookupService) => new ScannedItemManagerService(g, si)
+export const ScannedItemManagerServiceProvider = {
+  provide: ScannedItemManagerService,
+  deps: [GrocyService, ScannedItemExernalLookupService],
+  useFactory: factory
 }

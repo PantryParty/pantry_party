@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyLocation } from "~/app/services/grocy.interfaces";
-import { SearchBar } from "tns-core-modules/ui/search-bar";
-import { RouterExtensions } from "nativescript-angular";
-import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
+import { SearchBar } from "@nativescript/core";
+import { RouterExtensions } from "@nativescript/angular";
+import { ItemEventData } from "@nativescript/core";
 import { ListViewEventData } from "nativescript-ui-listview";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 

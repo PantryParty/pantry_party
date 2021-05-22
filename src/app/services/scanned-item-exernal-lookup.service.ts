@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { Observable, concat, throwError } from "rxjs";
 import { OpenFoodFactsService } from "~/app/services/openfoodfacts.service";
 import { UPCDatabaseService } from "~/app/services/upcdatabase.service";
-import { map, take } from "rxjs/operators";
+import { take } from "rxjs/operators";
 import { UPCItemDbService } from "./upcitemdb.service";
-import { setString, getString } from "tns-core-modules/application-settings/application-settings";
+import { getString, setString } from "@nativescript/core/application-settings";
 
 export interface ExternalProduct {
   name: string;

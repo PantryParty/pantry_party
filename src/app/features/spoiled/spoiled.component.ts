@@ -4,11 +4,18 @@ import { ScanResult } from "nativescript-barcodescanner";
 import { ScannedItemManagerService } from "~/app/scanned-item-set/services/scanned-item-manager.service";
 import { GrocyService, ConsumeProductsParams } from "~/app/services/grocy.service";
 import { map, switchMap } from "rxjs/operators";
+import {ScannedItemExernalLookupService} from "~/app/services/scanned-item-exernal-lookup.service";
+
+export const factory = (g: GrocyService, si: ScannedItemExernalLookupService) => new ScannedItemManagerService(g, si)
 
 @Component({
   selector: "Spoiled",
   templateUrl: "./spoiled.component.html",
-  providers: [ScannedItemManagerService]
+  providers: [{
+    provide: ScannedItemManagerService,
+    deps: [GrocyService, ScannedItemExernalLookupService],
+    useFactory: factory
+  }]
 })
 export class SpoiledComponent implements OnDestroy {
   destroyed = false;

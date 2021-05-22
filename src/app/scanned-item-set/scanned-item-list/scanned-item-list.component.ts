@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from "@angular/core";
 import { ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
-import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
-import { SwipeGestureEventData } from "@nativescript/core/ui/gestures/gestures";
+import { ItemEventData } from "@nativescript/core";
+import { SwipeGestureEventData } from "@nativescript/core";
 
 export interface SwipeOnItemData {
   item: ScannedItem;

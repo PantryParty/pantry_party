@@ -5,6 +5,7 @@ import { debounceTime, filter, switchMap, catchError, map, tap, takeUntil } from
 import { GrocyService, GrocySystemInfoResponse } from "~/app/services/grocy.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormBuilder, Validators } from "@angular/forms";
+import {BarcodeScanner} from "nativescript-barcodescanner";
 
 type responseRender =
     {result: "success", resp: GrocySystemInfoResponse }
@@ -134,4 +135,25 @@ export class GrocyApiComponent implements OnInit, OnDestroy {
      this.grocyService.apiKey = this.formControl("apiKey").value;
      this.grocyService.apiHost = this.formControl("url").value;
   }
+  scanBarcode() {
+    const barcodeScanner = new BarcodeScanner();
+
+    barcodeScanner.scan({
+      formats: "QR_CODE",
+      beepOnScan: true,
+      reportDuplicates: false,
+      preferFrontCamera: true,
+      showTorchButton: true,
+      showFlipCameraButton: true,
+      resultDisplayDuration: 0
+    })
+    .then(r => {
+      console.log('Received value', r);
+      const data = r.text.split('|')
+      this.formControl("url").setValue(data[0])
+      this.formControl("apiKey").setValue(data[1])
+    })
+    .catch(error => console.log(error));
+  }
+
 }

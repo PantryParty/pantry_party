@@ -1,3 +1,12 @@
+export interface GrocyProductBarcode {
+    id: string;
+    product_id: string;
+    barcode: string;
+    qu_id: string | null;
+    amount: string;
+    shopping_location_id: string
+}
+
 export interface GrocyLocation {
   id: string;
   name: string;
@@ -25,8 +34,12 @@ interface BaseGrocyProduct {
   parent_product_id: null | string;
 }
 
+export interface GrocyByBarcodeAPIReturn {
+  product: GrocyProductAPIReturn
+  product_barcodes: GrocyProductBarcode[]
+}
+
 export interface GrocyProductAPIReturn extends BaseGrocyProduct {
-  barcode: string;
   min_stock_amount: string;
   qu_id_purchase: string;
   qu_id_stock: string;
@@ -39,7 +52,6 @@ export interface GrocyProductAPIReturn extends BaseGrocyProduct {
 }
 
 export interface GrocyProduct extends BaseGrocyProduct {
-  barcodes: string[];
   min_stock_amount: number;
   quantity_unit_id_purchase: number;
   quantity_unit_id_stock: number;
@@ -52,14 +64,14 @@ export interface GrocyProduct extends BaseGrocyProduct {
 }
 
 export interface GrocyStockAPIReturn {
-    product_id: number;
-    amount: number;
-    amount_aggregated: number;
-    amount_opened: number;
-    amount_opened_aggregated: number;
-    best_before_date: string;
-    is_aggregated_amount: true;
-    product: GrocyProductAPIReturn;
+  product_id: number;
+  amount: number;
+  amount_aggregated: number;
+  amount_opened: number;
+  amount_opened_aggregated: number;
+  best_before_date: string;
+  is_aggregated_amount: true;
+  product: GrocyProductAPIReturn;
 }
 
 export interface GrocyStockEntry {

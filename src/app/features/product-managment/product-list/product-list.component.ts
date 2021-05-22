@@ -1,12 +1,12 @@
 import { Component, OnInit} from "@angular/core";
 import { GrocyService } from "~/app/services/grocy.service";
 import { GrocyProduct } from "~/app/services/grocy.interfaces";
-import { SearchBar } from "tns-core-modules/ui/search-bar";
-import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
+import { SearchBar } from "@nativescript/core";
+import { ItemEventData } from "@nativescript/core";
 import { ListViewEventData } from "nativescript-ui-listview";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { ScannedItem } from "~/app/scanned-item-set/services/scanned-item-manager.service";
-import { RouterExtensions } from "nativescript-angular";
+import { RouterExtensions } from "@nativescript/angular";
 
 export interface ProductSelectionResults {
   created: boolean;

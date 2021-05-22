@@ -3,11 +3,11 @@ import { GrocyStockEntry } from "~/app/services/grocy.interfaces";
 import { GrocyService } from "~/app/services/grocy.service";
 import { ListViewEventData } from "nativescript-ui-listview";
 import { StockFilterComponent } from "../stock-filter/stock-filter.component";
-import { BottomSheetService, BottomSheetOptions } from "nativescript-material-bottomsheet/angular";
-import { SearchBar } from "tns-core-modules/ui/search-bar/search-bar";
+import { SearchBar } from "@nativescript/core";
 import { StateTransferService } from "~/app/services/state-transfer.service";
 import { relativeDate } from "~/app/utilities/dateString";
-import { ItemEventData } from "tns-core-modules/ui/list-view/list-view";
+import { ItemEventData } from "@nativescript/core";
+import { BottomSheetOptions, BottomSheetService } from '@nativescript-community/ui-material-bottomsheet/angular';
 import { StockActionSheetComponent } from "../stock-action-sheet/stock-action-sheet.component";
 
 @Component({

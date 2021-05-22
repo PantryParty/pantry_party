@@ -1,9 +1,8 @@
-import { android as androidApplication  } from "tns-core-modules/application";
+import { android as androidApplication  } from "@nativescript/core/application";
 import { Observable, ReplaySubject } from "rxjs";
-import { OnDestroy } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { takeUntil, concatMap } from "rxjs/operators";
-import { TNSTextToSpeech  } from "../utilities/text-to-speech";
-import { SpeakOptions } from "../utilities/text-to-speech/interfaces";
+import { TNSTextToSpeech, SpeakOptions } from '@nativescript-community/texttospeech';
 
 interface ScanSuccess {
   status: "success";
@@ -16,6 +15,9 @@ interface ScanFailure {
 
 export type FinalScanResults = ScanSuccess | ScanFailure;
 
+@Component({
+  template: ''
+})
 export class ScannedAnnouncerService implements OnDestroy {
   private ngUnsubscribe = new ReplaySubject<true>();
 
