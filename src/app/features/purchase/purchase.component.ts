@@ -22,13 +22,13 @@ export class PurchaseComponent implements OnDestroy {
 
     // Example code to trigger a scan. Useful for debugging
     //
-    // setTimeout(
-    //   () => scannedItemManager.newScanResults({
-    //     text: "1111",
-    //     format: "UPC_E"
-    //   }),
-    //   1000
-    // );
+    setTimeout(
+      () => scannedItemManager.newScanResults({
+        text: "1111",
+        format: "UPC_E"
+      }),
+      1000
+    );
 
     scannedItemManager.saveCallback = i => {
       const purchaseProductProps: PurchaseProductsParams = {

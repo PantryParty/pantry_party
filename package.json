@@ -38,6 +38,7 @@
   "devDependencies": {
     "@angular/compiler-cli": "~11.0.5",
     "@nativescript/android": "7.0.1",
+    "@nativescript/ios": "6.5.4",
     "@nativescript/schematics": "^1.0.0",
     "@nativescript/types": "7.3.0",
     "@nativescript/webpack": "~4.0.0",
@@ -45,7 +46,8 @@
     "@schematics/angular": "^9.1.3",
     "codelyzer": "^5.1.2",
     "node-sass": "^4.14.0",
-    "typescript": "4.0.5"
+    "typescript": "4.0.5",
+    "nativescript": "~7.2.0"
   },
   "gitHead": "2250137db8c1e0bd0eb543e8e4563cb71480c00d",
   "readme": "NativeScript Application",
