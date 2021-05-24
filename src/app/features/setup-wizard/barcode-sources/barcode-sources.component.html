@@ -2,7 +2,7 @@
   <NavigationButton></NavigationButton>
   <ActionItem
     ios.position="right"
-    [nsRouterLink]="['../privacy']"
+    (tap)="completeStep()"
     >
     <StackLayout orientation="horizontal">
       <Label text="Next" ></Label>

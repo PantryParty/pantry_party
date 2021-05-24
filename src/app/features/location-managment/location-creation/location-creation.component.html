@@ -10,25 +10,23 @@
     ></ActionItem>
 </ActionBar>
 
-<ns-ad-wrapper>
-  <ScrollView>
-    <StackLayout>
-      <ns-text-input
-        [control]="formControl('name')"
-        label="Location Name">
-        <ns-form-error-text validator="valueExists" message="Location name already exists"> </ns-form-error-text>
-      </ns-text-input>
-      <ns-text-input
-        [control]="formControl('description')"
-        label="Description"></ns-text-input>
-      <ns-switch-input
-        [control]="formControl('isFreezer')"
-        label="Is Freezer?"></ns-switch-input>
-      <Button
-        (tap)="create()"
-        [isEnabled]="form.valid"
-        text="Create Location"
-        class="-outline"></Button>
-    </StackLayout>
-  </ScrollView>
-</ns-ad-wrapper>
+<ScrollView>
+  <StackLayout>
+    <ns-text-input
+      [control]="formControl('name')"
+      label="Location Name">
+      <ns-form-error-text validator="valueExists" message="Location name already exists"> </ns-form-error-text>
+    </ns-text-input>
+    <ns-text-input
+      [control]="formControl('description')"
+      label="Description"></ns-text-input>
+    <ns-switch-input
+      [control]="formControl('isFreezer')"
+      label="Is Freezer?"></ns-switch-input>
+    <Button
+      (tap)="create()"
+      [isEnabled]="form.valid"
+      text="Create Location"
+      class="-outline"></Button>
+  </StackLayout>
+</ScrollView>

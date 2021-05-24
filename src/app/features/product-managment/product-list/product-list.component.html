@@ -10,24 +10,22 @@
   <ActionItem drawerToggle> </ActionItem>
 </ActionBar>
 
-<ns-ad-wrapper>
-  <StackLayout >
-    <SearchBar
-      hint="Filter products"
-      (textChange)="searchUpdated($event)">
-    </SearchBar>
+<StackLayout >
+  <SearchBar
+    hint="Filter products"
+    (textChange)="searchUpdated($event)">
+  </SearchBar>
 
   <GridLayout>
-    <RadListView
-      [items]="filteredProducts"
-      (itemTap)="selectListEntry($event)"
-      pullToRefresh="true"
-      (pullToRefreshInitiated)="listPulled($event)"
-    >
-        <ng-template let-item="item" let-i="index">
-          <Label [text]='item.name'></Label>
-        </ng-template>
-    </RadListView>
-    </GridLayout>
-  </StackLayout>
-</ns-ad-wrapper>
+  <RadListView
+    [items]="filteredProducts"
+    (itemTap)="selectListEntry($event)"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="listPulled($event)"
+  >
+      <ng-template let-item="item" let-i="index">
+        <Label [text]='item.name'></Label>
+      </ng-template>
+  </RadListView>
+  </GridLayout>
+</StackLayout>

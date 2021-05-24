@@ -6,14 +6,12 @@ import { GrocySetupComponent } from "./grocy-setup/grocy-setup.component";
 import { SettingsModule } from "../settings/settings.module";
 import { BarcodeSourcesComponent } from "./barcode-sources/barcode-sources.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
-import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
     GrocySetupComponent,
     BarcodeSourcesComponent,
     WelcomeComponent,
-    PrivacyComponent
   ],
   imports: [
     SetupWizardRoutingModule,

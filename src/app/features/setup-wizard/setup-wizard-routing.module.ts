@@ -5,7 +5,6 @@ import { GrocySetupComponent } from "./grocy-setup/grocy-setup.component";
 import { BarcodeSourcesComponent } from "./barcode-sources/barcode-sources.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
 import { UpcDatabaseConfigComponent } from "../settings/barcode-sources/upc-database-config/upc-database-config.component";
-import { PrivacyComponent } from "./privacy/privacy.component";
 
 const routes: Routes = [
   { path: "welcome", component: WelcomeComponent },
@@ -20,7 +19,6 @@ const routes: Routes = [
       }
     ]
   },
-  { path: "privacy", component: PrivacyComponent },
   { path: "",   redirectTo: "welcome", pathMatch: "full" }
 ];
 

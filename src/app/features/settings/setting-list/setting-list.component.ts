@@ -21,11 +21,6 @@ export class SettingListComponent {
       title: "External Scanner",
       description: "Have a barcode scanner?",
       link: ["external-scanner"]
-    },
-    {
-      title: "Privacy Settings",
-      description: "Control your privacy in this app",
-      link: ["privacy"]
     }
   ];
 }

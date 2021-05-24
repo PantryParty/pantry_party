@@ -1,32 +1,18 @@
 <StackLayout class="control-wrapper" *ngIf="control">
-    <Label
-      [text]="label"
-      *ngIf="label.length > 0"
-      class="field-label"
-      ></Label>
-    <ng-container *ngIf="pickerVisible">
-      <DatePicker
-        (doubleTap)="closePicker()"
-        [formControl]="control"
-        class="field"
-        ></DatePicker>
-    </ng-container>
-
-  <ng-container
-    *ngIf="!pickerVisible"
+ <Label
+   [text]="label"
+   *ngIf="label.length > 0"
+   class="field-label"
+   ></Label>
+ <DatePickerField
+   (doubleTap)="closePicker()"
+   [formControl]="control"
+   class="field"
+   ></DatePickerField>
+  <ns-field-errors
+    *ngIf="control.dirty && control.invalid"
+    [errors]="errors()"
+    [errorMessages]="errorMessages"
     >
-    <Button
-      [text]="displayText()"
-      (tap)="openPicker()"
-      class="-primary"
-      ></Button>
-
-    <ns-field-errors
-      *ngIf="control.dirty && control.invalid"
-      [errors]="errors()"
-      [errorMessages]="errorMessages"
-      >
-    </ns-field-errors>
-  </ng-container>
-
+  </ns-field-errors>
 </StackLayout>

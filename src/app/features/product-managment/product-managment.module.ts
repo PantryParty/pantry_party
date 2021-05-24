@@ -7,7 +7,6 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { AppDrawerOpenerModule } from "~/app/app-drawer-opener/app-drawer-opener.module";
 import { PantryPartyFormBuilderModule } from "~/app/utilities/pantry-party-form-builder/pantry-party-form-builder.module";
-import { AdWrapperModule } from "~/app/ad-wrapper/ad-wrapper.module";
 import { NativeScriptCommonModule } from "@nativescript/angular";
 
 @NgModule({
@@ -21,8 +20,7 @@ import { NativeScriptCommonModule } from "@nativescript/angular";
     NativeScriptUIListViewModule,
     NativeScriptUIDataFormModule,
     PantryPartyFormBuilderModule,
-    AppDrawerOpenerModule,
-    AdWrapperModule
+    AppDrawerOpenerModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

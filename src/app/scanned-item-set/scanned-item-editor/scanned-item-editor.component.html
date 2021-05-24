@@ -17,36 +17,34 @@
     ></ActionItem>
 </ActionBar>
 
-<ns-ad-wrapper>
-  <ScrollView>
-    <StackLayout>
-      <ns-number-input
-        [control]="formControl('quantity')"
-        label="Quantity"></ns-number-input>
-      <ns-single-select-input
-        [options]="productsArr"
-        allowsCreate=true
-        (createTriggerd)="createNewProduct()"
-        (changed)="productUpdated()"
-        nounName='Product'
-        [control]="formControl('product')"
-        label="Default Product"></ns-single-select-input>
-      <ns-single-select-input
-        [options]="locationsArr"
-        allowsCreate=true
-        (changed)="updateDate()"
-        (createTriggerd)="createNewLocation()"
-        nounName='Location'
-        [control]="formControl('location')"
-        label="Default Location"></ns-single-select-input>
-      <ns-date-select-input
-        [control]="formControl('bestByDate')"
-        label="Best By Date"></ns-date-select-input>
-      <Button
-        text="Save"
-        class="-outline"
-        (tap)="save()"
-        ></Button>
-    </StackLayout>
-  </ScrollView>
-</ns-ad-wrapper>
+<ScrollView>
+  <StackLayout>
+    <ns-number-input
+      [control]="formControl('quantity')"
+      label="Quantity"></ns-number-input>
+    <ns-single-select-input
+      [options]="productsArr"
+      allowsCreate=true
+      (createTriggerd)="createNewProduct()"
+      (changed)="productUpdated()"
+      nounName='Product'
+      [control]="formControl('product')"
+      label="Default Product"></ns-single-select-input>
+    <ns-single-select-input
+      [options]="locationsArr"
+      allowsCreate=true
+      (changed)="updateDate()"
+      (createTriggerd)="createNewLocation()"
+      nounName='Location'
+      [control]="formControl('location')"
+      label="Default Location"></ns-single-select-input>
+    <ns-date-select-input
+      [control]="formControl('bestByDate')"
+      label="Best By Date"></ns-date-select-input>
+    <Button
+      text="Save"
+      class="-outline"
+      (tap)="save()"
+      ></Button>
+  </StackLayout>
+</ScrollView>

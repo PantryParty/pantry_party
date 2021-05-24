@@ -9,6 +9,7 @@ import { SingleSelectInputComponent } from "./single-select-input/component";
 import { FieldErrorsDisplayComponent } from "./field-errors-display/field-errors-display.component";
 import { SwitchInputComponent } from "./switch-input/component";
 import { DateSelectComponent } from "./date-select-input/component";
+import { NativeScriptDateTimePickerModule } from "@nativescript/datetimepicker/angular";
 
 const allComponents = [
   TextInputComponent,
@@ -28,7 +29,8 @@ const allComponents = [
   imports: [
     NativeScriptCommonModule,
     ReactiveFormsModule,
-    NativeScriptFormsModule
+    NativeScriptFormsModule,
+    NativeScriptDateTimePickerModule,
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })
