@@ -16,7 +16,7 @@ export class ScanSelectorComponent {
 
   enableExternalScanner = false;
   scannerSettings: ScanOptions = {
-      formats: "QR_CODE, EAN_13, UPC_A, UPC_E",
+      formats: "QR_CODE, EAN_13, UPC_A, UPC_E, DATA_MATRIX",
       beepOnScan: true,
       reportDuplicates: true,
       preferFrontCamera: false,
